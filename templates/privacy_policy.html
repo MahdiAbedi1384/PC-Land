@@ -1,0 +1,235 @@
+{% extends "_base.html" %}
+{% block page_title %}{{ page_name }}{% endblock page_title %}
+{% block styles %}
+        .hero-section {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+        }
+        .policy-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+        }
+        .policy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .section-title {
+            position: relative;
+            margin-bottom: 40px;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: #0d6efd;
+            border-radius: 2px;
+        }
+        {% endblock styles %}
+
+{% block content %}
+<!-- صفحه حریم خصوصی -->
+<section class="hero-section">
+    <div class="container">
+        <h1 class="display-4 fw-bold mb-3">حریم خصوصی</h1>
+        <p class="lead" style="direction: rtl">سیاست حریم خصوصی فروشگاه لپ‌تاپ و کامپیوتر LaptopStore</p>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="section-title">
+            <h2 class="text-center">مقدمه</h2>
+        </div>
+
+        <div class="card policy-card">
+            <div class="card-body">
+                <p class="lead" style="direction: rtl">در فروشگاه لپ‌تاپ و کامپیوتر LaptopStore، حریم خصوصی شما برای ما بسیار مهم است. این سیاست حریم خصوصی به شما کمک می‌کند تا بدانید چگونه اطلاعات شما جمع‌آوری، استفاده و حفظ می‌شود.</p>
+                <p>این سیاست حریم خصوصی در تاریخ 1399/01/01 به‌روزرسانی شد و در تمامی فعالیت‌های ما اعمال می‌شود.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="section-title">
+            <h2 class="text-center">اطلاعاتی که جمع‌آوری می‌کنیم</h2>
+        </div>
+
+        <div class="row" >
+            <div class="col-md-6 mb-4">
+                <div class="card policy-card">
+                    <div class="card-body">
+                        <h3 class="card-title"><i class="fas fa-user me-2 text-primary"></i> اطلاعات شخصی</h3>
+                        <p style="direction: rtl">شامل نام، آدرس ایمیل، شماره تماس و آدرس تحویل خرید.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-4">
+                <div class="card policy-card">
+                    <div class="card-body">
+                        <h3 class="card-title"><i class="fas fa-shopping-cart me-2 text-primary"></i> اطلاعات خرید</h3>
+                        <p style="direction: rtl">شامل محصولات خریداری شده، تاریخ خرید و روش پرداخت.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card policy-card">
+                    <div class="card-body">
+                        <h3 class="card-title"><i class="fas fa-cookie me-2 text-primary"></i> کوکی‌ها</h3>
+                        <p style="direction: rtl">برای بهبود تجربه کاربری و تحلیل رفتار کاربران.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-4">
+                <div class="card policy-card">
+                    <div class="card-body">
+                        <h3 class="card-title"><i class="fas fa-lock me-2 text-primary"></i> اطلاعات امنیتی</h3>
+                        <p style="direction: rtl">شامل اطلاعات امنیتی مانند رمز عبور و اطلاعات پرداخت.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="section-title">
+            <h2 class="text-center">چگونه از اطلاعات شما استفاده می‌کنیم</h2>
+        </div>
+
+        <div class="card policy-card" style="direction: rtl">
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                        <div>ارسال اطلاعات خرید و تأیید سفارش</div>
+                    </li>
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                        <div>ارسال خبرنامه و تخفیف‌های ویژه</div>
+                    </li>
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                        <div>تحلیل رفتار کاربران برای بهبود خدمات</div>
+                    </li>
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                        <div>ارائه پشتیبانی فنی و خدمات پس از فروش</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="section-title">
+            <h2 class="text-center">اشتراک اطلاعات با سازمان‌ها</h2>
+        </div>
+
+        <div class="card policy-card" style="direction: rtl">
+            <div class="card-body">
+                <p>ما اطلاعات شما را فقط در موارد زیر با سازمان‌های مرتبط اشتراک می‌دهیم:</p>
+
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                        <div>شرکت‌های حمل و نقل برای ارسال سفارشات</div>
+                    </li>
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                        <div>شرکت‌های پرداخت الکترونیکی برای تأیید پرداخت</div>
+                    </li>
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                        <div>مراجع قانونی در صورت درخواست قانونی</div>
+                    </li>
+                </ul>
+
+                <p class="mt-4"><strong>توجه:</strong> ما اطلاعات شما را به سازمان‌های خارج از ایران اشتراک نمی‌دهیم.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="section-title">
+            <h2 class="text-center">امنیت اطلاعات</h2>
+        </div>
+
+        <div class="card policy-card" style="direction: rtl">
+            <div class="card-body">
+                <p>ما از اقدامات فنی و سازمانی پیشرفته برای حفاظت از اطلاعات شما استفاده می‌کنیم، از جمله:</p>
+
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="fas fa-lock me-2 text-primary"></i>
+                        <div>استفاده از فناوری SSL برای امنیت اتصالات</div>
+                    </li>
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="fas fa-shield-alt me-2 text-primary"></i>
+                        <div>محدود کردن دسترسی به اطلاعات به کارکنان مجاز</div>
+                    </li>
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="fas fa-user-secret me-2 text-primary"></i>
+                        <div>بررسی منظم امنیتی و به‌روزرسانی سیستم‌ها</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="section-title">
+            <h2 class="text-center">حقوق شما</h2>
+        </div>
+
+        <div class="card policy-card"  style="direction: rtl">
+            <div class="card-body">
+                <p>شما می‌توانید در هر زمان:</p>
+
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="fas fa-eye me-2 text-primary"></i>
+                        <div>اطلاعات خود را مشاهده و ویرایش کنید</div>
+                    </li>
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="fas fa-trash-alt me-2 text-primary"></i>
+                        <div>اطلاعات خود را حذف کنید</div>
+                    </li>
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="fas fa-bell me-2 text-primary"></i>
+                        <div>اشتراک خبرنامه را لغو کنید</div>
+                    </li>
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="fas fa-exclamation-circle me-2 text-primary"></i>
+                        <div>درخواست اطلاعات بیشتر درباره نحوه استفاده از اطلاعات خود را ارسال کنید</div>
+                    </li>
+                </ul>
+
+                <p class="mt-4"><strong>روش ارسال درخواست:</strong> از طریق ایمیل به info@laptopstore.ir</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

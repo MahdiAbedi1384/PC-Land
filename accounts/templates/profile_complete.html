@@ -1,0 +1,82 @@
+{% extends "_base.html" %}
+{% load i18n %}
+{% block page_title %}{% trans "profile complete" %}{% endblock page_title %}
+{% block styles %}
+.profile-card {
+border: none;
+border-radius: 15px;
+box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+overflow: hidden;
+}
+.profile-card-header {
+background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+color: white;
+}
+.form-label {
+font-weight: 500;
+}
+.btn-primary {
+background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+border: none;
+}
+.btn-primary:hover {
+background: linear-gradient(135deg, #0b5ed7 0%, #0d6efd 100%);
+}
+{% endblock styles %}
+
+{% block content %}
+<!-- صفحه پروفایل -->
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card profile-card">
+                    <div class="card-header profile-card-header text-center">
+                        <h3 class="fw-bold">پروفایل کاربری</h3>
+                    </div>
+                    <div class="card-body p-5">
+                        {% if error %}
+                            <div class="alert alert-danger">{{ error }}</div>
+                        {% endif %}
+                        <form method="POST" action="{% url 'complete_profile' %}">
+                            {% csrf_token %}
+                            <div class="mb-4">
+                                <label for="first_name" class="form-label">نام</label>
+                                <input type="text" class="form-control form-control-lg" id="firstname" name="first_name"
+                                       required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="last_name" class="form-label">نام خانوادگی</label>
+                                <input type="text" class="form-control form-control-lg" id="lastname" name="last_name"
+                                       required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="email" class="form-label">ایمیل</label>
+                                <input type="email" class="form-control form-control-lg" id="email" name="email"
+                                       placeholder="ali.ahmadi@example.com" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="phone" class="form-label">شماره تماس</label>
+                                <input type="tel" class="form-control form-control-lg" id="phone" name="phone_number"
+                                       placeholder="09123456789" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="gender" class="form-label">جنسیت</label>
+                                <select id="inputgender" name="gender" class="form-control" required>
+                                    <option value="M">مرد</option>
+                                    <option value="F">زن</option>
+                                </select>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg">ذخیره تغییرات</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
+

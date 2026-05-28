@@ -1,0 +1,149 @@
+{% load product_extras %}
+
+
+<div class="technical-details" style="direction: rtl">
+
+    <h5 class="tech-category">مشخصات فنی</h5>
+
+    <ul class="tech-specs">
+        <li><strong>وزن:</strong> {{ object.weight_kg }} کیلوگرم</li>
+        <li><strong>ابعاد:</strong> {{ object.dimensions_cm|default:"—" }} سانتی‌متر</li>
+    </ul>
+
+    <div id="fullTechSpecs" class="tech-specs hidden">
+
+        <!-- CPU -->
+        <h5 class="tech-category text-secondary">پردازنده</h5>
+        <ul class="tech-specs">
+        <li><strong>برند و مدل پردازنده:</strong> {{ object.cpu_model_name }}</li>
+        <li><strong>تعداد هسته:</strong> {{ object.cpu_cores }} هسته</li>
+        <li><strong>تعداد رشته:</strong> {{ object.cpu_threads }} رشته</li>
+        <li><strong>گرافیک مجتمع:</strong>
+            {% if object.integrated_graphics %} دارد {% else %} ندارد {% endif %}
+        </li>
+        </ul>
+        <!-- RAM + Storage -->
+        <h5 class="tech-category text-secondary">رم و حافظه ذخیره‌سازی</h5>
+        <ul class="tech-specs">
+        <li><strong>ظرفیت رم:</strong> {{ object.ram_capacity_gb }} گیگابایت</li>
+        <li><strong>نوع رم:</strong> {{ object.ram_type }}</li>
+        <li><strong>فرکانس رم:</strong> {{ object.ram_speed_mhz|default:"—" }} مگاهرتز</li>
+        <li><strong>تعداد ماژول:</strong>
+            {% if object.ram_modules_count %}
+            {{ object.ram_modules_count|ntpw }} کاناله
+            {% else %}
+            —
+            {% endif %}
+        </li>
+        <li><strong>نوع حافظه اصلی:</strong> {{ object.storage_type }}</li>
+        <li><strong>ظرفیت حافظه اصلی:</strong> {{ object.storage_capacity_gb }} گیگابایت</li>
+
+        {% if object.secondary_storage_type and object.secondary_storage_type != "None" %}
+        <li><strong>نوع حافظه دوم:</strong> {{ object.secondary_storage_type }}</li>
+        <li><strong>ظرفیت حافظه دوم:</strong> {{ object.secondary_storage_capacity_gb }} گیگابایت</li>
+        {% endif %}
+        </ul>
+        <!-- GPU -->
+        <h5 class="tech-category text-secondary">پردازنده گرافیکی</h5>
+        <ul class="tech-specs">
+        <li><strong>مدل پردازنده گرافیکی:</strong> {{ object.gpu_model_name|default:"—" }}</li>
+        <li><strong>حافظه اختصاصی پردازنده گرافیکی:</strong>
+            {% if object.gpu_vram_gb %}
+            {{ object.gpu_vram_gb }} گیگابایت
+            {% else %}
+            —
+            {% endif %}
+        </li>
+        </ul>
+
+        <!-- Display -->
+        <h5 class="tech-category text-secondary">صفحه‌نمایش</h5>
+        <ul class="tech-specs">
+        <li><strong>سایز صفحه:</strong>{{ object.screen_size_inches }} اینچ  </li>
+        <li><strong>نوع پنل:</strong> {{ object.screen_panel_type }}</li>
+        <li><strong>رزولوشن:</strong> {{ object.screen_resolution }}</li>
+        <li><strong>نرخ بروزرسانی:</strong> {{ object.screen_refresh_rate_hz }} هرتز</li>
+        <li><strong>نسبت تصویر:</strong> {{ object.aspect_ratio|default:"—" }}</li>
+        <li><strong>لمسی:</strong> {% if object.touchscreen %} دارد {% else %} ندارد {% endif %}</li>
+        </ul>
+        <!-- Battery -->
+        <h5 class="tech-category text-secondary">باتری</h5>
+        <ul class="tech-specs">
+        <li><strong>ظرفیت باتری:</strong> {{ object.battery_capacity_wh|default:"—" }}</li>
+        <li><strong>تعداد سلول:</strong> {{ object.battery_cells|ntpw|default:"—" }}</li>
+        <li><strong>توان آداپتور:</strong> {{ object.ac_adapter_watts|default:"—" }} وات</li>
+        </ul>
+        <!-- OS -->
+        <h5 class="tech-category text-secondary">سیستم‌عامل</h5>
+        <ul class="tech-specs">
+        <li><strong>سیستم‌عامل:</strong>
+            {% if object.operating_system_name %}
+            {{ object.operating_system_name }}
+            {% else %}
+            —
+            {% endif %}
+        </li>
+        <li><strong>نصب شده:</strong>
+            {% if object.os_preinstalled %} بله {% else %} خیر {% endif %}
+        </li>
+        </ul>
+        <!-- Ports -->
+        <h5 class="tech-category text-secondary">درگاه‌ها و اتصالات</h5>
+        <ul class="tech-specs">
+            <li><strong>درگاه USB-A:</strong> <span style="direction: ltr;text-align: left;display: inline-block;min-width: 2px;">{{ object.ports_usb_a }}</span></li>
+            <li><strong>درگاه USB-C:</strong> <span style="direction: ltr;text-align: left;display: inline-block;min-width: 2px;">{{ object.ports_usb_c }}</span></li>
+            <li><strong>درگاه Thunderbolt:</strong> <span style="direction: ltr;text-align: left;display: inline-block;min-width: 2px;">{{ object.ports_thunderbolt }}</span></li>
+        <li><strong>درگاه HDMI:</strong>
+            {% if object.ports_hdmi %} دارد {% else %} ندارد {% endif %}
+        </li>
+        <li><strong>Ethernet:</strong>
+            {% if object.ports_ethernet %} دارد {% else %} ندارد {% endif %}
+        </li>
+        <li><strong>جک 3.5:</strong>
+            {% if object.ports_audio_jack %} دارد {% else %} ندارد {% endif %}
+        </li>
+        <li><strong>کارت‌خوان SD:</strong>
+            {% if object.ports_sd_card_reader %} دارد {% else %} ندارد {% endif %}
+        </li>
+            <li><strong>شبکه بی سیم Wi‑Fi:</strong> <span style="direction: ltr;text-align: left;display: inline-block;min-width: 5px;"> {{ object.wireless_wifi|default:"—" }}</span></li>
+            <li><strong>نسخه Bluetooth:</strong> <span style="direction: ltr;text-align: left;display: inline-block;min-width: 2px;">{{ object.wireless_bluetooth_version|default:"—" }}</span></li>
+        </ul>
+        <!-- Input -->
+        <h5 class="tech-category text-secondary">ورودی‌ها</h5>
+        <ul class="tech-specs">
+        <li><strong>چیدمان کیبورد:</strong> {{ object.keyboard_layout }}</li>
+        <li><strong>نور پس‌زمینه:</strong>
+            {% if object.backlit_keyboard %} دارد {% else %} ندارد {% endif %}
+        </li>
+        <li><strong>کلید نامپد:</strong>
+            {% if object.numeric_keypad %} دارد {% else %} ندارد {% endif %}
+        </li>
+        <li><strong>نوع تاچ‌پد:</strong> {{ object.touchpad_type }}</li>
+
+        <!-- Audio + Camera -->
+        <h5 class="tech-category text-secondary">صدا و وب‌کم</h5>
+        <li><strong>وب‌کم:</strong>
+            {% if object.has_webcam %} {{ object.webcam_resolution|default:"—" }} {% else %} ندارد {% endif %}
+        </li>
+        <li><strong>ویژگی‌های صوتی:</strong> {{ object.audio_features|default:"—" }}</li>
+        </ul>
+        <!-- Build -->
+        <h5 class="tech-category text-secondary">ساختار و بدنه</h5>
+        <ul class="tech-specs">
+        <li><strong>جنس بدنه:</strong> {{ object.build_materials|default:"—" }}</li>
+        <li><strong>رنگ‌ها:</strong>
+            {% for c in object.colors_options.all %}
+            {{ c.title }}{% if not forloop.last %}، {% endif %}
+            {% empty %}
+            —
+            {% endfor %}
+        </li>
+        <li><strong>ویژگی‌های امنیتی:</strong> {{ object.security_features|default:"—" }}</li>
+        <li><strong>گارانتی:</strong> {{ object.warranty_years|default:"—" }} سال</li>
+        </ul>
+    </div>
+
+    <button id="toggleTechSpecs" class="expand-btn">
+        <i class="fas fa-chevron-down"></i> مشاهده جزئیات بیشتر
+    </button>
+</div>

@@ -1,0 +1,77 @@
+<div class="technical-details rtl">
+    {% load product_extras %}
+    <h5 class="tech-category">جزئیات فنی</h5>
+
+    <!-- مشخصات اصلی -->
+    <ul class="tech-specs">
+
+        <li>
+            <strong>وزن:</strong>
+            {{ object.weight|kg_to_g }} گرم
+        </li>
+
+        <li>
+            <strong>ظرفیت:</strong>
+            {{ object.capacity }}
+        </li>
+
+        <li>
+            <strong>رابط اتصال:</strong>
+            {{ object.get_interface_display }}
+        </li>
+
+        <li>
+            <strong>نوع حافظه:</strong>
+            {{ object.get_memory_type_display }}
+        </li>
+
+        <li>
+            <strong>سرعت خواندن:</strong>
+            {{ object.read_speed }} مگابایت بر ثانیه
+        </li>
+
+        <li>
+            <strong>سرعت نوشتن:</strong>
+            {{ object.write_speed }} مگابایت بر ثانیه
+        </li>
+    </ul>
+
+    <!-- بخش مخفی -->
+    <div id="fullTechSpecs" class="tech-specs hidden">
+
+        <li>
+            <strong>ضدضربه:</strong>
+            {% if object.shockproof %} بله {% else %} خیر {% endif %}
+        </li>
+
+        <li>
+            <strong>مقاوم در برابر آب:</strong>
+            {% if object.waterproof %} بله {% else %} خیر {% endif %}
+        </li>
+
+        <li>
+            <strong>گارانتی:</strong>
+            {{ object.warranty_months }} ماه
+        </li>
+
+        {% if object.materials %}
+        <li>
+            <strong>جنس بدنه:</strong>
+            {{ object.materials }}
+        </li>
+        {% endif %}
+
+        <li>
+            <strong>رنگ‌ها:</strong>
+            {% for color in object.colors.all %}
+            {{ color.title }}{% if not forloop.last %}، {% endif %}
+            {% endfor %}
+        </li>
+
+    </div>
+
+    <!-- دکمه باز/بستن -->
+    <button id="toggleTechSpecs" class="expand-btn mt-3">
+        <i class="fas fa-chevron-down"></i> مشاهده جزئیات بیشتر
+    </button>
+</div>

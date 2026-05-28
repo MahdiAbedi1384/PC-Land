@@ -1,0 +1,23 @@
+<div class="technical-details rtl">
+    {% load product_extras %}
+    <h5 class="tech-category">مشخصات فنی </h5>
+
+    <ul class="tech-specs">
+        <li><strong>وزن:</strong> {{ object.weight|kg_to_g }} گرم</li>
+        <li><strong>ظرفیت:</strong> {{ object.capacity_tb|floatformat:1 }} ترابایت</li>
+        <li><strong>سرعت چرخش:</strong> {{ object.get_rpm_display }}</li>
+        <li><strong>فرم فاکتور:</strong> {{ object.form_factor }}</li>
+        <li><strong>رابط:</strong> {{ object.interface }}</li>
+        <li><strong>حافظه کش:</strong> {{ object.cache_mb }} مگابایت</li>
+    </ul>
+
+    <div id="fullTechSpecs" class="tech-specs hidden">
+        <li><strong>مصرف برق:</strong> {{ object.power_consumption_watts|default:"-" }} وات</li>
+        <li><strong>دمای عملیاتی:</strong> {{ object.operating_temperature_celsius|default:"-" }}</li>
+        <li><strong>گارانتی:</strong> {{ object.warranty_years|default:"-" }} سال</li>
+    </div>
+
+    <button id="toggleTechSpecs" class="expand-btn mt-3">
+        <i class="fas fa-chevron-down"></i> مشاهده جزئیات بیشتر
+    </button>
+</div>

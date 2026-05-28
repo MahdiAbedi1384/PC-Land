@@ -1,0 +1,21 @@
+<div class="technical-details rtl">
+    {% load product_extras %}
+    <h5 class="tech-category">مشخصات فنی </h5>
+
+    <ul class="tech-specs">
+        <li><strong>وزن:</strong> {{ object.weight|kg_to_g }} گرم</li>
+        <li><strong>نسخه بلوتوث:</strong> {{ object.bluetooth_version|default:"-" }}</li>
+        <li><strong>حداکثر برد:</strong> {{ object.max_range }} متر</li>
+        <li><strong>نوع رابط:</strong> {{ object.interface_type|default:"USB" }}</li>
+    </ul>
+
+    <div id="fullTechSpecs" class="tech-specs hidden">
+        <li><strong>رنگ‌ها:</strong> {% for color in object.colors.all %}{{ color.title }}{% if not forloop.last %}، {%
+            endif %}{% endfor %}
+        </li>
+    </div>
+
+    <button id="toggleTechSpecs" class="expand-btn mt-3">
+        <i class="fas fa-chevron-down"></i> مشاهده جزئیات بیشتر
+    </button>
+</div>

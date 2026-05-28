@@ -1,0 +1,80 @@
+{% extends '_base.html' %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="container mt-5" dir="rtl">
+
+                <!-- دکمه بازگشت -->
+                <div class="mb-3">
+                    <a href="{% url 'ticket_list' %}" class="btn btn-sm btn-outline-dark">
+                        <i class="bi bi-arrow-right"></i> بازگشت به لیست تیکت‌ها
+                    </a>
+                </div>
+
+                <!-- بدنه اصلی تیکت (متن اولیه کاربر) -->
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 text-primary">تیکت #{{ ticket.id }} : {{ ticket.title }}</h5>
+                        <span class="badge bg-secondary">{{ ticket.get_status_display }}</span>
+                    </div>
+                    <div class="card-body bg-white">
+                        <p class="text-muted small mb-3 border-bottom pb-2">
+                            <i class="bi bi-person-circle"></i> ثبت شده توسط: <strong>{{ ticket.user.username
+                            }}</strong>
+                            در تاریخ {{ ticket.datetime_created|date:"Y/m/d - H:i" }}
+                        </p>
+                        <p class="mb-0" style="white-space: pre-line; line-height: 1.8;">{{ ticket.description }}</p>
+                    </div>
+                </div>
+
+                <!-- لیست پیام‌ها (چت‌ها) -->
+                <div class="mb-4">
+                    <h5 class="mb-3 text-secondary">تاریخچه گفتگو</h5>
+
+                    {% for message in messages %}
+                    <!-- بررسی می‌کنیم پیام برای خود کاربر است یا پشتیبان -->
+                    <div class="card mb-3 border-0 shadow-sm {% if message.sender == request.user %}ms-5 bg-white border-end border-primary border-4{% else %}me-5 bg-light border-start border-success border-4{% endif %}">
+                        <div class="card-body p-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <strong class="{% if message.sender == request.user %}text-primary{% else %}text-success{% endif %}">
+                                    {% if message.sender == request.user %}
+                                    شما
+                                    {% else %}
+                                    پشتیبانی ({{ message.sender.username }})
+                                    {% endif %}
+                                </strong>
+                                <small class="text-muted">{{ message.created_at|date:"Y/m/d - H:i" }}</small>
+                            </div>
+                            <p class="mb-0" style="white-space: pre-line; line-height: 1.8;">{{ message.content }}</p>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="alert alert-info text-center border-0 shadow-sm">
+                        هنوز پاسخی برای این تیکت ثبت نشده است. منتظر پاسخ پشتیبانی باشید.
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- فرم ارسال پیام جدید -->
+                <div class="card shadow-sm border-0 mb-5">
+                    <div class="card-header bg-dark text-white">
+                        <h6 class="mb-0">ارسال پاسخ جدید</h6>
+                    </div>
+                    <div class="card-body bg-white">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                {{ form.content }}
+                            </div>
+                            <button type="submit" class="btn btn-primary px-4">ارسال پیام</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

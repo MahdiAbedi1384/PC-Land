@@ -1,0 +1,192 @@
+{% extends "_base.html" %}
+{% load i18n %}
+{% block page_title %}{% trans "phone number confirm" %}{% endblock page_title %}
+{% block styles %}
+.auth-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .auth-card-header {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            color: white;
+        }
+        .otp-input {
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            text-align: center;
+            margin: 0 5px;
+            border-radius: 8px;
+            border: 2px solid #ced4da;
+            transition: border-color 0.3s;
+        }
+        .otp-input:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+        .resend-btn {
+            color: #0d6efd;
+            font-weight: 500;
+            text-decoration: none;
+        }
+        .resend-btn:hover {
+            text-decoration: underline;
+        }
+        .timer {
+            font-weight: 500;
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        .error-message {
+        background: #ffdddd;
+        color: #a40000;
+        padding: 10px;
+        border-radius: 6px;
+        margin-bottom: 15px;
+    }
+{% endblock styles %}
+
+{% block content %}
+<!-- صفحه تایید شماره تلفن -->
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card auth-card">
+                    <div class="card-header auth-card-header text-center">
+                        <h3 class="fw-bold">تایید شماره تلفن</h3>
+                    </div>
+                    {% if error %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endif %}
+                    <div class="card-body p-5">
+                        <div class="text-center mb-4">
+                            <i class="fas fa-mobile-alt fa-2x text-primary mb-3"></i>
+                            <p class="lead">کد تایید به شماره <strong>{{ phone }}</strong> ارسال شد</p>
+                            <p class="text-muted">لطفاً کد 6 رقمی را وارد کنید</p>
+                            <!-- تایمر 2 دقیقه‌ای -->
+                            <div class="timer" id="timer">02:00</div>
+                        </div>
+
+                        <form method="POST" action="{% url 'verify_otp' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="phone" value="{{ phone }}">
+                            <div class="d-flex justify-content-center mb-4">
+                                <input type="text" class="otp-input" maxlength="1" pattern="\d{1}" inputmode="numeric" name="otp1" required>
+                                <input type="text" class="otp-input" maxlength="1" pattern="\d{1}" inputmode="numeric" name="otp2" required>
+                                <input type="text" class="otp-input" maxlength="1" pattern="\d{1}" inputmode="numeric" name="otp3" required>
+                                <input type="text" class="otp-input" maxlength="1" pattern="\d{1}" inputmode="numeric" name="otp4" required>
+                                <input type="text" class="otp-input" maxlength="1" pattern="\d{1}" inputmode="numeric" name="otp5" required>
+                                <input type="text" class="otp-input" maxlength="1" pattern="\d{1}" inputmode="numeric" name="otp6" required>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100 btn-lg mb-3">تایید</button>
+
+                            <div class="text-center">
+                                <button type="button" class="resend-btn" id="resendBtn">
+                                    <i class="fas fa-redo me-1"></i> ارسال مجدد کد
+                                </button>
+                            </div>
+
+                            <div class="text-center mt-3">
+                                <a href="{% url "login" %}" class="text-primary">
+                                    <i class="fas fa-arrow-left me-1"></i> بازگشت به ورود
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+{% block scripts %}
+// ارسال مجدد کد با تایمر
+document.getElementById('resendBtn').addEventListener('click', function () {
+    fetch("{% url 'send_otp' %}", {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": "{{ csrf_token }}"
+        },
+        body: new URLSearchParams({
+            "phone_number": "{{ phone }}"
+        })
+    })
+    .then(() => {
+        // ریست تایمر
+        timeLeft = 120
+    })
+});
+
+    // تایمر 2 دقیقه‌ای
+    document.addEventListener('DOMContentLoaded', function() {
+        const timerElement = document.getElementById('timer');
+        const resendBtn = document.getElementById('resendBtn');
+        let timeLeft = 120; // 2 دقیقه = 120 ثانیه
+
+        // تابع به‌روزرسانی تایمر
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                resendBtn.disabled = false;
+                resendBtn.innerHTML = '<i class="fas fa-redo me-1"></i> ارسال مجدد کد';
+            }
+            timeLeft--;
+        }
+
+        // شروع تایمر
+        const timerInterval = setInterval(updateTimer, 1000);
+        resendBtn.disabled = true;
+        resendBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> در حال انتظار...';
+
+        // ارسال مجدد کد
+        resendBtn.addEventListener('click', function() {
+            this.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> در حال ارسال...';
+            this.disabled = true;
+
+            // ارسال درخواست ارسال مجدد (در واقعیت اینجا باید به سرور ارسال شود)
+            setTimeout(() => {
+                // بازنشانی تایمر
+                timeLeft = 120;
+                clearInterval(timerInterval);
+                updateTimer();
+                resendBtn.innerHTML = '<i class="fas fa-redo me-1"></i> ارسال مجدد کد';
+                resendBtn.disabled = true;
+            }, 3000);
+        });
+    });
+
+    // حرکت خودکار بین ورودی‌های کد (OTP)
+    const otpInputs = document.querySelectorAll('.otp-input');
+    otpInputs.forEach((input, index) => {
+        input.addEventListener('input', function () {
+            // اگر کاربر عدد وارد کرد، به ورودی بعدی برو
+            if (this.value.length > 0) {
+                if (index < otpInputs.length - 1) {
+                    otpInputs[index + 1].focus();
+                }
+            }
+            // اگر کاربر حذف کرد، به ورودی قبلی برو
+            else if (this.value.length === 0 && index > 0) {
+                otpInputs[index - 1].focus();
+            }
+        });
+
+        // جلوگیری از ورود حروف (فقط اعداد)
+        input.addEventListener('keypress', function (e) {
+            if (!/[0-9]/.test(e.key)) {
+                e.preventDefault();
+            }
+        });
+    });
+{% endblock scripts %}

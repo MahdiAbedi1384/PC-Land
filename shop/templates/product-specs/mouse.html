@@ -1,0 +1,90 @@
+{% load product_extras %}
+<div class="technical-details rtl">
+
+    <h5 class="tech-category">جزئیات فنی</h5>
+
+    <!-- مشخصات اصلی -->
+    <ul class="tech-specs">
+
+        <li>
+            <strong>وزن:</strong>
+            {{ object.weight|kg_to_g }} گرم
+        </li>
+
+        <li>
+            <strong>نوع اتصال:</strong>
+            {{ mouse.get_connection_type_display }}
+        </li>
+
+        <li>
+            <strong>نوع حسگر:</strong>
+            {{ mouse.get_sensor_type_display }}
+        </li>
+
+        {% if mouse.dpi_max %}
+        <li>
+            <strong>حداکثر DPI:</strong>
+            <span style="direction: ltr;text-align: left;display: inline-block;min-width: 2px;">{{ mouse.dpi_max }}</span>
+        </li>
+        {% endif %}
+
+        <li>
+            <strong>تعداد دکمه‌ها:</strong>
+            {{ mouse.button_count }}
+        </li>
+
+        <li>
+            <strong>اسکرول‌ویل:</strong>
+            {% if mouse.has_scroll_wheel %} دارد {% else %} ندارد {% endif %}
+        </li>
+
+        <li>
+            <strong>نورپردازی RGB:</strong>
+            {% if mouse.rgb_lighting %} دارد {% else %} ندارد {% endif %}
+        </li>
+
+        <li>
+            <strong>طراحی ارگونومیک:</strong>
+            {% if mouse.ergonomic_design %} بله {% else %} خیر {% endif %}
+        </li>
+
+        <li>
+            <strong>مناسب برای:</strong>
+            {{ mouse.get_hand_orientation_display }}
+        </li>
+
+    </ul>
+
+    <!-- بخش مخفی -->
+    <div id="fullTechSpecs" class="tech-specs hidden">
+        <ul class="tech-specs-full">
+        <li>
+            <strong>باتری قابل شارژ:</strong>
+            {% if mouse.rechargeable %} دارد {% else %} ندارد {% endif %}
+        </li>
+
+        {% if mouse.battery_life_hours %}
+        <li>
+            <strong>عمر باتری:</strong>
+            {{ mouse.battery_life_hours }} ساعت
+        </li>
+        {% endif %}
+
+        <li>
+            <strong>مقاوم در برابر آب:</strong>
+            {% if mouse.waterproof %} بله {% else %} خیر {% endif %}
+        </li>
+
+        <li>
+            <strong>گارانتی:</strong>
+            {{ mouse.warranty_months }} ماه
+        </li>
+        </ul>
+    </div>
+
+    <!-- دکمه نمایش -->
+    <button id="toggleTechSpecs" class="expand-btn mt-3">
+        <i class="fas fa-chevron-down"></i> مشاهده جزئیات بیشتر
+    </button>
+
+</div>

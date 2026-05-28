@@ -1,0 +1,22 @@
+<div class="technical-details rtl">
+    {% load product_extras %}
+    <h5 class="tech-category">مشخصات فنی </h5>
+
+    <ul class="tech-specs">
+        <li><strong>وزن:</strong> {{ object.weight|kg_to_g }} گرم</li>
+        <li><strong>تعداد پورت:</strong> {{ object.ports_count }}</li>
+        <li><strong>نوع رابط:</strong> {{ object.interfaces|default:"USB" }}</li>
+    </ul>
+
+    <div id="fullTechSpecs" class="tech-specs hidden">
+        <li><strong>ویژگی‌ها:</strong> {{ object.features|default:"-" }}</li>
+        <li><strong>قابلیت‌های USB HUB:</strong> {{ object.usb_hub_features|default:"-" }}</li>
+        <li><strong>سیستم‌عامل‌های سازگار:</strong> {% for os in object.compatible_operation_systems.all %}{{ os.title
+            }}{% if not forloop.last %}، {% endif %}{% endfor %}
+        </li>
+    </div>
+
+    <button id="toggleTechSpecs" class="expand-btn mt-3">
+        <i class="fas fa-chevron-down"></i> مشاهده جزئیات بیشتر
+    </button>
+</div>

@@ -1,0 +1,25 @@
+<div class="technical-details rtl">
+    {% load product_extras %}
+    <h5 class="tech-category">مشخصات فنی </h5>
+
+    <ul class="tech-specs">
+        <li><strong>وزن:</strong> {{ object.weight|kg_to_g }} گرم</li>
+        <li><strong>نوع حافظه:</strong> {{ object.memory_type.title }}</li>
+        <li><strong>ظرفیت کل:</strong> {{ object.memory_size }} گیگابایت</li>
+        <li><strong>ظرفیت هر ماژول:</strong> {{ object.memory_size_per_module }} گیگابایت</li>
+        <li><strong>فرکانس:</strong> {{ object.frequency }} مگاهرتز</li>
+        <li><strong>ولتاژ:</strong> {{ object.voltage }} ولت</li>
+        <li><strong>تعداد پین:</strong> {{ object.pins_count }}</li>
+    </ul>
+
+    <div id="fullTechSpecs" class="tech-specs hidden">
+        <li><strong>پیکربندی حافظه:</strong> {{ object.memory_configuration }}</li>
+        <li><strong>نوع ماژول:</strong> {{ object.module_type }}</li>
+        <li><strong>تایمینگ:</strong> {{ object.timing }}</li>
+        <li><strong>اطلاعات اضافی:</strong> {{ object.extra_info|default:"-" }}</li>
+    </div>
+
+    <button id="toggleTechSpecs" class="expand-btn mt-3">
+        <i class="fas fa-chevron-down"></i> مشاهده جزئیات بیشتر
+    </button>
+</div>

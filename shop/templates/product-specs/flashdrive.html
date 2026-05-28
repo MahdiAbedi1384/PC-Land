@@ -1,0 +1,74 @@
+{% load product_extras %}
+<div class="technical-details rtl">
+
+    <h5 class="tech-category">جزئیات فنی</h5>
+
+    <!-- مشخصات اصلی -->
+    <ul class="tech-specs">
+        <li>
+            <strong>وزن:</strong>
+            {{ object.weight|kg_to_g }}
+        </li>
+        <li>
+            <strong>ظرفیت:</strong>
+            {{ object.capacity }}
+        </li>
+
+        <li>
+            <strong>نوع اتصال:</strong>
+            {{ object.get_connection_type_display }}
+        </li>
+
+        {% if object.material %}
+        <li>
+            <strong>جنس بدنه:</strong>
+            {{ object.material }}
+        </li>
+        {% endif %}
+
+        {% if object.read_speed %}
+        <li>
+            <strong>سرعت خواندن:</strong>
+            {{ object.read_speed }} مگابایت بر ثانیه
+        </li>
+        {% endif %}
+
+        {% if object.write_speed %}
+        <li>
+            <strong>سرعت نوشتن:</strong>
+            {{ object.write_speed }} مگابایت بر ثانیه
+        </li>
+        {% endif %}
+
+    </ul>
+
+    <!-- بخش مخفی -->
+    <div id="fullTechSpecs" class="tech-specs hidden">
+
+        <li>
+            <strong>مقاوم در برابر آب:</strong>
+            {% if object.waterproof %} بله {% else %} خیر {% endif %}
+        </li>
+
+        <li>
+            <strong>ضدضربه:</strong>
+            {% if object.shockproof %} بله {% else %} خیر {% endif %}
+        </li>
+
+        <li>
+            <strong>پشتیبانی رمزنگاری سخت‌افزاری:</strong>
+            {% if object.hardware_encryption %} دارد {% else %} ندارد {% endif %}
+        </li>
+
+        <li>
+            <strong>گارانتی:</strong>
+            {{ object.warranty_months }} ماه
+        </li>
+
+    </div>
+
+    <!-- دکمه باز/بستن -->
+    <button id="toggleTechSpecs" class="expand-btn mt-3">
+        <i class="fas fa-chevron-down"></i> مشاهده جزئیات بیشتر
+    </button>
+</div>

@@ -1,0 +1,261 @@
+{% extends "_base.html" %}
+{% load madval_persian_translation %} {# برای جدا کردن سه رقم سه رقم اعداد #}
+{% load static %}
+
+{% block page_title %}تایید نهایی سفارش{% endblock page_title %}
+
+{% block styles %}
+<style>
+/* استایل‌های شما دقیقاً بدون تغییر باقی مانده است */
+.rtl { direction: rtl; text-align: right; }
+.profile-card { border: none; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; }
+.profile-card-header { background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%); color: white; }
+.profile-img { width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+.address-card { border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: all 0.3s; border: 1px solid #e9ecef; cursor: pointer; position: relative;}
+.address-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); border-color: #0d6efd; }
+.address-card.selected { border-color: #0d6efd; box-shadow: 0 8px 20px rgba(13, 110, 253, 0.2); }
+.address-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.address-actions { margin-top: 10px; }
+.address-btn { padding: 5px 10px; border-radius: 6px; transition: all 0.3s; }
+.address-btn:hover { transform: translateY(-2px); }
+.discount-section { background: #f8f9fa; border-radius: 10px; padding: 20px; margin-top: 25px; }
+.discount-input { display: flex; gap: 10px; }
+.discount-input input { flex: 1; }
+.discount-btn { background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%); border: none; color: white; padding: 8px 15px; border-radius: 8px; transition: all 0.3s; }
+.discount-btn:hover { background: linear-gradient(135deg, #0b5ed7 0%, #0d6efd 100%); transform: translateY(-2px); }
+.order-summary { background: #f8f9fa; border-radius: 10px; padding: 25px; margin-top: 25px; }
+.total-row { display: flex; justify-content: space-between; margin-bottom: 10px; }
+.total-row:last-child { margin-top: 15px; font-weight: 700; font-size: 1.2rem; color: #dc3545; }
+.checkout-btn { background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%); border: none; color: white; padding: 12px 25px; border-radius: 8px; font-weight: 600; transition: all 0.3s; width: 100%; margin-top: 15px; }
+.checkout-btn:hover { background: linear-gradient(135deg, #0b5ed7 0%, #0d6efd 100%); transform: translateY(-2px); }
+.continue-btn { background: #e9ecef; border: none; color: #0d6efd; padding: 12px 25px; border-radius: 8px; font-weight: 600; transition: all 0.3s; width: 100%; margin-top: 10px; text-decoration: none; display: inline-block; text-align: center; }
+.continue-btn:hover { background: #0d6efd; color: white; }
+.address-default { position: relative; }
+.address-default::after { content: "پیش‌فرض"; position: absolute; top: 10px; right: 10px; background: #28a745; color: white; font-size: 0.75rem; padding: 2px 8px; border-radius: 15px; }
+.discount-applied { background: #e6f7e6; border: 1px solid #28a745; border-radius: 8px; padding: 10px; margin-top: 10px; display: none; }
+.discount-applied span { color: #28a745; font-weight: 600; }
+/* مخفی کردن رادیو باتن‌های آدرس */
+.address-radio { display: none; }
+</style>
+{% endblock styles %}
+
+{% block content %}
+<!-- صفحه تسویه حساب -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <!-- سمت چپ: اطلاعات کاربری -->
+            <div class="col-md-4 rtl">
+            <div class="card profile-card">
+                <div class="card-header profile-card-header text-center">
+                <img src="{% static 'imgs/user.webp' %}" 
+                     alt="avatar"
+                     class="rounded-circle mx-auto d-block mb-3"
+                     style="width: 90px; height: 90px; object-fit: cover;">
+
+                <h5 class="fw-bold">{{ user.first_name }} {{ user.last_name }}</h5>
+
+                <p class="text-muted small">{{ user.email }}</p>
+                </div>
+                <hr>
+
+                <div class="card-body p-4 rtl">
+                        <div class="list-group">
+                            <a href="{% url "profile" %}" class="list-group-item list-group-item-action">
+                                <i class="fas fa-user fs-5"></i> پروفایل
+                            </a>
+                            <a href="{% url "orders:order_history" %}" class="list-group-item list-group-item-action">
+                                <i class="fas fa-history me-2"></i> تاریخچه خرید
+                            </a>
+                            <a href="{% url 'favorites' %}" class="list-group-item list-group-item-action ">
+                                <i class="fas fa-heart me-2"></i> علاقه‌مندی‌ها
+                            </a>
+                            <a href="{% url "manage_addresses" %}" class="list-group-item list-group-item-action">
+                                <i class="fas fa-map-marker-alt me-2"></i> آدرس‌ها
+                            </a>
+                            <a href="{% url "account_settings" %}" class="list-group-item list-group-item-action">
+                                <i class="fas fa-cog me-2"></i> تنظیمات
+                            </a>
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+            <!-- سمت راست: تسویه حساب -->
+            <div class="col-md-8 rtl">
+                <!-- فرم اصلی تسویه حساب -->
+                <form action="{% url 'orders:order_create' %}" method="post" id="checkoutForm">
+                    {% csrf_token %}
+                    
+                    <div class="card profile-card">
+                        <div class="card-header profile-card-header">
+                            <h3 class="fw-bold">تسویه حساب</h3>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="row">
+                                {% if addresses %}
+                                    {% for address in addresses %}
+                                        <div class="col-md-6 mb-3">
+                                            <!-- استفاده از کلاس‌های اصلی شما: کارت آدرس و حالت انتخاب شده برای پیش‌فرض -->
+                                            <div class="card address-card p-3 {% if address.is_default or forloop.first %}selected{% endif %}" data-address="address{{ address.id }}">
+                                                
+                                                <!-- این رادیو باتن مخفی است و توسط جاوااسکریپت خودتان مدیریت می‌شود -->
+                                                <input type="radio" name="address_id" value="{{ address.id }}" class="d-none" {% if address.is_default or forloop.first %}checked{% endif %}>
+                                                
+                                                <div class="address-card-header mb-2">
+                                                    <h6 class="mb-0 fw-bold">{{ address.full_name }}</h6>
+                                                    {% if address.is_default %}
+                                                        <span class="badge bg-success">پیش‌فرض</span>
+                                                    {% endif %}
+                                                </div>
+                                                
+                                                <!-- نمایش آدرس بر اساس فیلدهای مدل Addresses -->
+                                                <p class="text-muted mb-1 small">
+                                                    {{ address.province.name }}، {{ address.city.name }}، {{ address.full_address }}
+                                                </p>
+                                                
+                                                <!-- نمایش شماره تماس و کد پستی (در صورت وجود) با حفظ استایل -->
+                                                <p class="text-muted mb-0 small" dir="ltr" style="text-align: right;">
+                                                    {{ address.phone_number }}
+                                                </p>
+                                                
+                                                {% if address.postal_code %}
+                                                    <p class="text-muted mb-0 small mt-1">
+                                                        کد پستی: {{ address.postal_code }}
+                                                    </p>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="col-12">
+                                        <div class="alert alert-warning text-center">
+                                            هیچ آدرسی یافت نشد. لطفاً از پنل کاربری آدرس خود را ثبت کنید.
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+
+                                <!-- کد تخفیف -->
+                                <div class="col-md-12 mb-4">
+                                    <h5 class="fw-bold mb-3">کد تخفیف</h5>
+                                    <div class="discount-section">
+                                        <div class="discount-input">
+                                            <!-- اگر در جنگو سیستم کوپن رو با فرم جداگانه زدی، اینجا باید تغییر کنه -->
+                                            <input type="text" class="form-control" name="coupon_code" id="discountCode" placeholder="کد تخفیف خود را وارد کنید">
+                                            <button type="button" class="discount-btn" id="applyDiscountBtn">
+                                                <i class="fas fa-tag me-1"></i> اعمال
+                                            </button>
+                                        </div>
+                                        <div class="discount-applied" id="discountApplied">
+                                            <span id="discountMessage"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- خلاصه سفارش -->
+                                <div class="col-md-12">
+                                    <div class="order-summary">
+                                        <h5 class="fw-bold mb-3">خلاصه سفارش</h5>
+                                        <div class="total-row">
+                                            <span>جمع کل محصولات:</span>
+                                            <span>{{ cart.get_total_price|cspn }} تومان</span>
+                                        </div>
+                                        <div class="total-row">
+                                            <span>هزینه ارسال:</span>
+                                            <span>رایگان</span>
+                                        </div>
+                                        
+                                        <!-- اگر سیستم تخفیف جنگو داری، اینجا نمایش داده میشه -->
+                                        {% if cart.get_discount %}
+                                        <div class="total-row">
+                                            <span>تخفیف:</span>
+                                            <span id="discountAmount">{{ cart.get_discount|cspn }} تومان</span>
+                                        </div>
+                                        {% endif %}
+                                        
+                                        <div class="total-row">
+                                            <span>جمع کل:</span>
+                                            <span id="totalAmount">{{ cart.get_total_price|cspn }} تومان</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- دکمه‌های پرداخت -->
+                                <div class="col-md-12 mt-4">
+                                    <button type="submit" class="checkout-btn" id="checkoutBtn">
+                                        <i class="fas fa-credit-card me-1"></i> پرداخت و تکمیل خرید
+                                    </button>
+                                    <a href="{% url 'cart:detail' %}" class="continue-btn" id="continueBtn">
+                                        <i class="fas fa-arrow-left me-1"></i> بازگشت به سبد خرید
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // منطق انتخاب آدرس که تو فایل بحث کرده بودیم
+        const addressCards = document.querySelectorAll('.address-card');
+        
+        addressCards.forEach(card => {
+            card.addEventListener('click', function() {
+                // پاک کردن حالت انتخاب از همه کارت‌ها
+                addressCards.forEach(c => {
+                    c.classList.remove('selected');
+                    // غیرفعال کردن همه رادیو باتن‌ها
+                    const radio = c.querySelector('input[type="radio"]');
+                    if (radio) radio.checked = false;
+                });
+                
+                // اضافه کردن حالت انتخاب به کارت کلیک شده
+                this.classList.add('selected');
+                
+                // تیک زدن رادیو باتن کارت انتخاب شده برای ارسال فرم
+                const activeRadio = this.querySelector('input[type="radio"]');
+                if (activeRadio) activeRadio.checked = true;
+            });
+        });
+
+        // اعتبار سنجی فرم قبل از ارسال
+        const checkoutForm = document.getElementById('checkoutForm');
+        if (checkoutForm) {
+            checkoutForm.addEventListener('submit', function(e) {
+                const selectedAddress = document.querySelector('input[name="address_id"]:checked');
+                if (!selectedAddress) {
+                    e.preventDefault();
+                    alert('لطفاً یک آدرس را برای ارسال انتخاب کنید.');
+                }
+            });
+        }
+
+        // بخش اعمال کد تخفیف 
+        // نکته: در جنگو معمولا این بخش رو با درخواست Ajax به بک‌اند می‌فرستن.
+        // فعلاً کد ظاهری شما رو اینجا گذاشتم، اما باید به ویوی کوپن وصل بشه.
+        document.getElementById('applyDiscountBtn').addEventListener('click', function(e) {
+            e.preventDefault(); // جلوگیری از سابمیت شدن فرم اصلی
+            const discountCode = document.getElementById('discountCode').value.trim();
+
+            if (discountCode === '') {
+                alert('لطفاً کد تخفیف را وارد کنید.');
+                return;
+            }
+            
+            // اینجا باید با Fetch API یا jQuery Ajax به سرور درخواست بفرستید
+            // و بعد از تایید سرور، پیام موفقیت رو نشون بدید
+            // برای الان فقط پیام نمایشی میدیم:
+            alert('برای بررسی واقعی کد تخفیف، این بخش باید با Ajax به سرور متصل شود.');
+        });
+    });
+    
+</script>
+{% endblock scripts %}

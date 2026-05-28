@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>درخواست مرجوعی کالا - فروشگاه لپ‌تاپ و کامپیوتر</title>
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://lib.arvancloud.ir/font-awesome/6.3.0/css/all.min.css">
+    <style>
+        .profile-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .profile-card-header {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            color: white;
+        }
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .order-card {
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+        .order-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        .order-status {
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+        .status-processing {
+            background: #fff8e6;
+            color: #ffc107;
+        }
+        .status-delivered {
+            background: #e6f7e6;
+            color: #28a745;
+        }
+        .return-form {
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 25px;
+            background: #f8f9fa;
+        }
+        .return-step {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        .return-step::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 10px;
+            height: 100%;
+            width: 4px;
+            background: #0d6efd;
+            border-radius: 2px;
+        }
+        .return-step-number {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            background: #0d6efd;
+            color: white;
+            border-radius: 50%;
+            margin-left: -20px;
+            z-index: 1;
+        }
+        .return-step-title {
+            font-weight: 600;
+            margin-top: 5px;
+        }
+        .return-reason-option {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .return-reason-option:hover {
+            border-color: #0d6efd;
+            background: #eef2ff;
+        }
+        .return-reason-option.active {
+            border-color: #0d6efd;
+            background: #eef2ff;
+        }
+        .return-btn {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .return-btn:hover {
+            background: linear-gradient(135deg, #c82333 0%, #dc3545 100%);
+            transform: translateY(-2px);
+        }
+        .return-note {
+            background: #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        .image-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .image-preview-item {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e9ecef;
+        }
+        .image-preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .image-preview-item .remove-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .product-item {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+        .product-item:hover {
+            border-color: #0d6efd;
+            background: #eef2ff;
+        }
+        .product-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .product-quantity {
+            background: #e9ecef;
+            border-radius: 20px;
+            padding: 3px 10px;
+            font-size: 0.85rem;
+        }
+        .return-quantity {
+            max-width: 100px;
+        }
+        .quantity-label {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        .product-checkbox {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+<!-- تاپ بار (همان کد قبلی) -->
+<div class="top-bar">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center py-1">
+            <div>
+                <i class="fas fa-phone-alt me-2"></i> تماس: 021-12345678 |
+                <i class="fas fa-envelope-alt mx-2"></i> info@laptopstore.ir
+            </div>
+            <div>
+                <a href="#" class="text-white mx-2"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="text-white mx-2"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="text-white mx-2"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- نوار ناوبری (همان کد قبلی) -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#">
+            <i class="fas fa-laptop me-2 text-primary"></i>
+            LaptopStore
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#"><i class="fas fa-home me-1"></i> خانه</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="categoryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-list me-1"></i> دسته‌بندی‌ها
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#">لپ‌تاپ‌ها</a></li>
+                        <li><a class="dropdown-item" href="#">کامپیوترهای ایستاده</a></li>
+                        <li><a class="dropdown-item" href="#">قطعات کامپیوتر</a></li>
+                        <li><a class="dropdown-item" href="#">کیس</a></li>
+                        <li><a class="dropdown-item" href="#">مانیتور</a></li>
+                        <li><a class="dropdown-item" href="#">اکسسوری‌ها</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-headset me-1"></i> پشتیبانی</a>
+                </li>
+            </ul>
+            <!-- جستجو و سبد خرید -->
+            <form class="d-flex me-3">
+                <input class="form-control me-2" type="search" placeholder="جستجو..." aria-label="Search">
+                <button class="btn btn-outline-primary" type="submit">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+            <div class="d-flex align-items-center">
+                <a href="#" class="text-dark me-3 position-relative cart-icon">
+                    <i class="fas fa-shopping-cart fs-5"></i>
+                    <span class="cart-count">0</span>
+                </a>
+                <a href="#" class="text-dark">
+                    <i class="fas fa-user fs-5"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+<!-- صفحه مرجوعی کالا -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <!-- سمت چپ: اطلاعات کاربری -->
+            <div class="col-md-4 mb-4">
+                <div class="card profile-card">
+                    <div class="card-header profile-card-header text-center">
+                        <div class="position-relative">
+                            <img src="https://i.imgur.com/5XJzZ9l.png" alt="عکس پروفایل" class="profile-img mb-3">
+                            <button type="button" class="btn btn-primary btn-sm position-absolute bottom-0 end-0" style="right: 10px; bottom: 10px;">
+                                <i class="fas fa-camera"></i>
+                            </button>
+                        </div>
+                        <h4 class="fw-bold">علی احمدی</h4>
+                        <p class="text-muted mb-0">کاربر عادی</p>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="list-group">
+                            <a href="./orders_history.html" class="list-group-item list-group-item-action active">
+                                <i class="fas fa-history me-2"></i> تاریخچه خرید
+                            </a>
+                            <a href="./wishlist.html" class="list-group-item list-group-item-action">
+                                <i class="fas fa-heart me-2"></i> علاقه‌مندی‌ها
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <i class="fas fa-map-marker-alt me-2"></i> آدرس‌ها
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <i class="fas fa-cog me-2"></i> تنظیمات
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- سمت راست: درخواست مرجوعی -->
+            <div class="col-md-8">
+                <div class="card profile-card">
+                    <div class="card-header profile-card-header d-flex justify-content-between align-items-center">
+                        <h3 class="fw-bold">درخواست مرجوعی کالا</h3>
+                        <a href="./orders_history.html" class="btn btn-outline-primary">
+                            <i class="fas fa-arrow-left me-1"></i> بازگشت به تاریخچه
+                        </a>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="return-form">
+                            <div class="mb-4">
+                                <h5 class="fw-bold mb-3">اطلاعات سفارش</h5>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">شماره سفارش</label>
+                                        <input type="text" class="form-control" value="#ORD123456" readonly>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">تاریخ ثبت</label>
+                                        <input type="text" class="form-control" value="25 فروردین 1403" readonly>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">وضعیت سفارش</label>
+                                        <input type="text" class="form-control" value="تحویل شده" readonly>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">روش پرداخت</label>
+                                        <input type="text" class="form-control" value="کارت اعتباری (**** 1234)" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <h5 class="fw-bold mb-3">محصولات مورد نظر برای مرجوعی</h5>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="product-item">
+                                            <div class="product-item-header">
+                                                <h6 class="mb-0">لپ‌تاپ Dell XPS 15</h6>
+                                                <span class="product-quantity">تعداد سفارش: 3</span>
+                                            </div>
+                                            <p class="text-muted mb-0">قیمت: 25,000,000 تومان</p>
+                                            <div class="form-check mt-2">
+                                                <input class="form-check-input product-checkbox" type="checkbox" id="product1" checked>
+                                                <label class="form-check-label" for="product1">
+                                                    انتخاب برای مرجوعی
+                                                </label>
+                                            </div>
+                                            <div class="mt-2 return-quantity-container">
+                                                <label class="quantity-label" for="returnQuantity1">تعداد مرجوعی:</label>
+                                                <input type="number" class="form-control return-quantity" id="returnQuantity1" min="1" max="3" value="1" disabled>
+                                            </div>
+                                        </div>
+
+                                        <div class="product-item">
+                                            <div class="product-item-header">
+                                                <h6 class="mb-0">کیس کامپیوتر Cooler Master</h6>
+                                                <span class="product-quantity">تعداد سفارش: 1</span>
+                                            </div>
+                                            <p class="text-muted mb-0">قیمت: 850,000 تومان</p>
+                                            <div class="form-check mt-2">
+                                                <input class="form-check-input product-checkbox" type="checkbox" id="product2" checked>
+                                                <label class="form-check-label" for="product2">
+                                                    انتخاب برای مرجوعی
+                                                </label>
+                                            </div>
+                                            <div class="mt-2 return-quantity-container">
+                                                <label class="quantity-label" for="returnQuantity2">تعداد مرجوعی:</label>
+                                                <input type="number" class="form-control return-quantity" id="returnQuantity2" min="1" max="1" value="1" disabled>
+                                            </div>
+                                        </div>
+
+                                        <div class="product-item">
+                                            <div class="product-item-header">
+                                                <h6 class="mb-0">مانیتور LG UltraGear 27"</h6>
+                                                <span class="product-quantity">تعداد سفارش: 2</span>
+                                            </div>
+                                            <p class="text-muted mb-0">قیمت: 12,500,000 تومان</p>
+                                            <div class="form-check mt-2">
+                                                <input class="form-check-input product-checkbox" type="checkbox" id="product3">
+                                                <label class="form-check-label" for="product3">
+                                                    انتخاب برای مرجوعی
+                                                </label>
+                                            </div>
+                                            <div class="mt-2 return-quantity-container">
+                                                <label class="quantity-label" for="returnQuantity3">تعداد مرجوعی:</label>
+                                                <input type="number" class="form-control return-quantity" id="returnQuantity3" min="1" max="2" value="1" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <h5 class="fw-bold mb-3">دلیل مرجوعی</h5>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="return-reason-option active" data-reason="defect">
+                                            <div class="d-flex align-items-center">
+                                                <div class="return-step-number">1</div>
+                                                <div class="ms-3 return-step-title">خرابی</div>
+                                            </div>
+                                        </div>
+                                        <div class="return-reason-option" data-reason="wrong">
+                                            <div class="d-flex align-items-center">
+                                                <div class="return-step-number">2</div>
+                                                <div class="ms-3 return-step-title">ارسال اشتباه</div>
+                                            </div>
+                                        </div>
+                                        <div class="return-reason-option" data-reason="change">
+                                            <div class="d-flex align-items-center">
+                                                <div class="return-step-number">3</div>
+                                                <div class="ms-3 return-step-title">تغییر نظر</div>
+                                            </div>
+                                        </div>
+                                        <div class="return-reason-option" data-reason="packaging">
+                                            <div class="d-flex align-items-center">
+                                                <div class="return-step-number">4</div>
+                                                <div class="ms-3 return-step-title">بسته بندی آسیب دیده</div>
+                                            </div>
+                                        </div>
+                                        <div class="return-reason-option" data-reason="other">
+                                            <div class="d-flex align-items-center">
+                                                <div class="return-step-number">5</div>
+                                                <div class="ms-3 return-step-title">سایر دلایل</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <h5 class="fw-bold mb-3">توضیحات اضافی</h5>
+                                <textarea class="form-control" rows="4" placeholder="لطفاً دلیل مرجوعی را به طور کامل توضیح دهید..."></textarea>
+                            </div>
+
+                            <div class="mb-4">
+                                <h5 class="fw-bold mb-3">عکس‌های مربوط به مرجوعی (اختیاری)</h5>
+                                <input type="file" class="form-control mb-2" id="returnImages" multiple accept="image/*">
+                                <div class="text-muted mb-2">حداکثر 5 عکس با حداکثر 5 مگابایت هر کدام</div>
+                                <div class="image-preview" id="imagePreview"></div>
+                            </div>
+
+                            <div class="return-note">
+                                <h6 class="fw-bold mb-2"><i class="fas fa-exclamation-circle me-2 text-warning"></i> نکات مهم</h6>
+                                <ul class="mb-0">
+                                    <li>درخواست مرجوعی تا 7 روز پس از تحویل سفارش قابل ارسال است.</li>
+                                    <li>محصول باید در بسته‌بندی اصلی و بدون آسیب باشد.</li>
+                                    <li>هزینه حمل و نقل مرجوعی توسط مشتری پرداخت می‌شود.</li>
+                                    <li>پرداخت مبلغ پس از تأیید مرجوعی در حساب کاربری شما انجام می‌شود.</li>
+                                    <li>آپلود عکس‌های مربوط به خرابی یا آسیب بسته‌بندی می‌تواند فرآیند مرجوعی را سریع‌تر کند.</li>
+                                </ul>
+                            </div>
+
+                            <div class="d-flex justify-content-end mt-4">
+                                <button type="button" class="return-btn">
+                                    <i class="fas fa-paper-plane me-1"></i> ارسال درخواست مرجوعی
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- فوتر (همان کد قبلی) -->
+<footer class="bg-primary text-white py-5">
+    <div class="container">
+        <div class="row">
+            <!-- بخش درباره ما -->
+            <div class="col-md-3 mb-4">
+                <h5 class="fw-bold mb-4">درباره ما</h5>
+                <p class="mb-3">
+                    فروشگاه لپ‌تاپ و کامپیوتر <strong>LaptopStore</strong> با بیش از 10 سال تجربه، بهترین محصولات را با قیمت مناسب و گارانتی اصلی ارائه می‌دهد.
+                </p>
+                <div class="d-flex gap-3">
+                    <a href="#" class="text-white fs-4"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-white fs-4"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-white fs-4"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <!-- لینک‌های سریع -->
+            <div class="col-md-3 mb-4">
+                <h5 class="fw-bold mb-4">لینک‌های سریع</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">خانه</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">لپ‌تاپ‌ها</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">کامپیوترهای ایستاده</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">اکسسوری‌ها</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">پشتیبانی</a></li>
+                </ul>
+            </div>
+            <!-- اطلاعات تماس -->
+            <div class="col-md-3 mb-4">
+                <h5 class="fw-bold mb-4">اطلاعات تماس</h5>
+                <ul class="list-unstyled">
+                    <li class="d-flex align-items-start mb-2">
+                        <i class="fas fa-map-marker-alt me-2 mt-1"></i>
+                        <span>تهران، خیابان شهید بهشتی، پلاک 123</span>
+                    </li>
+                    <li class="d-flex align-items-start mb-2">
+                        <i class="fas fa-phone-alt me-2 mt-1"></i>
+                        <span>021-12345678</span>
+                    </li>
+                    <li class="d-flex align-items-start mb-2">
+                        <i class="fas fa-envelope me-2 mt-1"></i>
+                        <span>info@laptopstore.ir</span>
+                    </li>
+                    <li class="d-flex align-items-start mb-2">
+                        <i class="fas fa-clock me-2 mt-1"></i>
+                        <span>شنبه تا چهارشنبه: 9 صبح تا 9 شب</span>
+                    </li>
+                </ul>
+            </div>
+            <!-- خبرنامه -->
+            <div class="col-md-3 mb-4">
+                <h5 class="fw-bold mb-4">عضویت در خبرنامه</h5>
+                <p class="mb-3">برای دریافت تخفیف‌های ویژه و اخبار جدید، ایمیل خود را وارد کنید:</p>
+                <form class="d-flex">
+                    <input type="email" class="form-control me-2" placeholder="ایمیل شما" required>
+                    <button type="submit" class="btn btn-light">عضویت</button>
+                </form>
+                <div class="mt-4">
+                    <h6 class="mb-2">پرداخت امن</h6>
+                    <div class="d-flex gap-2">
+                        <img src="https://i.imgur.com/5XJzZ9l.png" alt="پرداخت امن" width="40">
+                        <img src="https://i.imgur.com/5XJzZ9l.png" alt="پرداخت امن" width="40">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- خط جداکننده و کپی‌رایت -->
+        <hr class="bg-light my-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <p class="mb-3 mb-md-0">&copy; 2024 LaptopStore. تمامی حقوق محفوظ است.</p>
+            <div>
+                <a href="about.html" class="text-white mx-2 text-decoration-none">درباره ما</a>
+                <a href="privacy.html" class="text-white mx-2 text-decoration-none">حریم خصوصی</a>
+                <a href="terms.html" class="text-white mx-2 text-decoration-none">شرایط استفاده</a>
+            </div>
+        </div>
+    </div>
+</footer>
+<script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://lib.arvancloud.ir/font-awesome/6.3.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    // انتخاب دلیل مرجوعی
+    document.querySelectorAll('.return-reason-option').forEach(option => {
+        option.addEventListener('click', function() {
+            document.querySelectorAll('.return-reason-option').forEach(opt => {
+                opt.classList.remove('active');
+            });
+            this.classList.add('active');
+        });
+    });
+
+    // آپلود عکس
+    document.getElementById('returnImages').addEventListener('change', function(e) {
+        const preview = document.getElementById('imagePreview');
+        preview.innerHTML = '';
+
+        for (let i = 0; i < e.target.files.length; i++) {
+            const file = e.target.files[i];
+            if (file && file.type.match('image.*')) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    const img = document.createElement('div');
+                    img.className = 'image-preview-item';
+                    img.innerHTML = `
+                        <img src="${e.target.result}" alt="عکس مرجوعی">
+                        <button class="remove-btn" title="حذف عکس"><i class="fas fa-times"></i></button>
+                    `;
+                    preview.appendChild(img);
+
+                    // افزودن امکان حذف عکس
+                    img.querySelector('.remove-btn').addEventListener('click', function() {
+                        img.remove();
+                    });
+                };
+
+                reader.readAsDataURL(file);
+            }
+        }
+    });
+
+    // فعال کردن/غیرفعال کردن فیلد تعداد بر اساس انتخاب محصول
+    document.querySelectorAll('.product-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            const quantityInput = this.closest('.product-item').querySelector('.return-quantity');
+            quantityInput.disabled = !this.checked;
+            if (!this.checked) {
+                quantityInput.value = 0;
+            }
+        });
+    });
+
+    // ارسال درخواست مرجوعی
+    document.querySelector('.return-btn').addEventListener('click', function() {
+        const reason = document.querySelector('.return-reason-option.active').dataset.reason;
+        const returnItems = [];
+
+        document.querySelectorAll('.product-item').forEach(item => {
+            const checkbox = item.querySelector('.product-checkbox');
+            const quantityInput = item.querySelector('.return-quantity');
+            const quantity = parseInt(quantityInput.value);
+
+            if (checkbox.checked && quantity > 0) {
+                const productName = item.querySelector('h6').textContent;
+                returnItems.push({
+                    name: productName,
+                    quantity: quantity
+                });
+            }
+        });
+
+        if (returnItems.length === 0) {
+            alert('لطفاً حداقل یک محصول را برای مرجوعی انتخاب کنید.');
+            return;
+        }
+
+        if (!reason) {
+            alert('لطفاً دلیل مرجوعی را انتخاب کنید.');
+            return;
+        }
+
+        let itemsList = returnItems.map(item => `${item.name} (${item.quantity} عدد)`).join(', ');
+        alert(`درخواست مرجوعی با موفقیت ارسال شد!\nمحصولات انتخاب شده: ${itemsList}\nلطفاً منتظر پاسخ پشتیبانی باشید.`);
+        // در اینجا می‌توانید کد ارسال درخواست به سرور را اضافه کنید
+    });
+</script>
+</body>
+</html>

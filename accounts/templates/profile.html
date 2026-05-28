@@ -1,0 +1,211 @@
+{% extends "_base.html" %}
+{% load static %}
+{% block page_title %}پروفایل کاربری -{{ user.first_name|add:" "|add:user.last_name }}{% endblock page_title %}
+
+{% block styles %}
+.profile-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .profile-card-header {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            color: white;
+        }
+
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .edit-btn {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .edit-btn:hover {
+            background: linear-gradient(135deg, #0b5ed7 0%, #0d6efd 100%);
+            transform: translateY(-2px);
+        }
+
+        .form-control {
+            border-radius: 8px;
+            padding: 10px 15px;
+            border: 1px solid #ced4da;
+        }
+
+        .form-control:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+
+        .order-card {
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+        }
+
+        .order-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .order-status {
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .status-processing {
+            background: #fff8e6;
+            color: #ffc107;
+        }
+
+        .status-delivered {
+            background: #e6f7e6;
+            color: #28a745;
+        }
+        .rtl { direction: rtl; text-align: right; }
+        .ltr { direction: ltr; text-align: left; }
+{% endblock styles %}
+
+{% block content %}
+<!-- صفحه پروفایل -->
+<section class="py-5">
+    <div class="container py-5">
+
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-4">
+            <div class="card profile-card">
+                <div class="card-header profile-card-header text-center">
+                <img src="{% static 'imgs/user.webp' %}" 
+                     alt="avatar"
+                     class="rounded-circle mx-auto d-block mb-3"
+                     style="width: 90px; height: 90px; object-fit: cover;">
+
+                <h5 class="fw-bold">{{ user.first_name }} {{ user.last_name }}</h5>
+
+                <p class="text-muted small">{{ user.email }}</p>
+                </div>
+                <hr>
+
+                <div class="card-body p-4 rtl">
+                        <div class="list-group">
+                            <a href="{% url "profile" %}" class="list-group-item list-group-item-action active">
+                                <i class="fas fa-user fs-5"></i> پروفایل
+                            </a>
+                            <a href="{% url "orders:order_history" %}" class="list-group-item list-group-item-action">
+                                <i class="fas fa-history me-2"></i> تاریخچه خرید
+                            </a>
+                            <a href="{% url 'favorites' %}" class="list-group-item list-group-item-action ">
+                                <i class="fas fa-heart me-2"></i> علاقه‌مندی‌ها
+                            </a>
+                            <a href="{% url "manage_addresses" %}" class="list-group-item list-group-item-action">
+                                <i class="fas fa-map-marker-alt me-2"></i> آدرس‌ها
+                            </a>
+                            <a href="{% url "account_settings" %}" class="list-group-item list-group-item-action">
+                                <i class="fas fa-cog me-2"></i> تنظیمات
+                            </a>
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+        <!-- Profile Form -->
+        <div class="col-md-8">
+            <div class="card p-4 shadow-sm">
+
+                <div class="d-flex justify-content-between align-items-center mb-4 rtl">
+                    <h4 class="fw-bold">پروفایل</h4>
+
+                    <button id="editProfileBtn" class="btn btn-primary">
+                        <i class="fas fa-edit me-1"></i>
+                        ویرایش
+                    </button>
+                </div>
+
+                <form id="profileForm" method="post" action="{% url 'profile_update' %}">
+                    {% csrf_token %}
+
+                    <!-- نام و نام خانوادگی -->
+                    <div class="mb-3 rtl">
+                        <label class="form-label">نام و نام خانوادگی</label>
+                        <input name="fullname"
+                               class="form-control"
+                               value="{{ user.first_name }} {{ user.last_name }}"
+                               disabled>
+                    </div>
+
+                    <!-- ایمیل -->
+                    <div class="mb-3 rtl">
+                        <label class="form-label">ایمیل</label>
+                        <input name="email"
+                               type="email"
+                               class="form-control ltr"
+                               value="{{ user.email }}"
+                               disabled>
+                    </div>
+
+                    <!-- شماره تلفن -->
+                    <div class="mb-3 rtl">
+                        <label class="form-label">شماره تلفن</label>
+                        <input name="phone_number"
+                               class="form-control ltr"
+                               value="{{ user.phone_number }}"
+                               disabled>
+                    </div>
+
+                    <!-- کد ملی -->
+                    <div class="mb-3 rtl">
+                        <label class="form-label">کد ملی</label>
+                        <input name="nat_code"
+                               class="form-control ltr"
+                               value="{{ user.nat_code }}"
+                               disabled>
+                    </div>
+                    <!-- دکمه ذخیره -->
+                    <div class="text-end rtl" id="saveBtnContainer" style="display:none;">
+                        <button type="submit" class="btn btn-success">
+                            ذخیره تغییرات
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+</section>
+{% endblock content %}
+
+{% block scripts %}
+// ویرایش پروفایل
+    document.getElementById('editProfileBtn').addEventListener('click', function () {
+    const btn = this;
+    const inputs = document.querySelectorAll('#profileForm input, #profileForm textarea');
+    const saving = btn.textContent.includes('ذخیره');
+
+    if (!saving) {
+        inputs.forEach(el => el.disabled = false);
+        btn.innerHTML = '<i class="fas fa-save me-1"></i> ذخیره';
+        document.getElementById('saveBtnContainer').style.display = 'block';
+    } else {
+        document.getElementById('profileForm').submit();
+    }
+});
+{% endblock scripts %}
+

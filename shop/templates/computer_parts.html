@@ -1,0 +1,692 @@
+{% extends "_base.html" %}
+{% load static %}
+{% load madval_persian_translation %}
+
+{% block page_title %}قطعات کامپیوتر{% endblock %}
+
+
+
+{% block styles %}
+.rtl { direction: rtl; text-align: right; }
+body{ font-family: sans-serif; }
+.product-card img { height: 160px; object-fit: contain; }
+.product-card {
+border-radius: 14px;
+box-shadow: 0 4px 10px rgba(25,118,210,.12);
+padding: 12px;
+background: #fff;
+}
+/* ==== تنظیمات عمومی بنر ==== */
+.hero-section {
+    width: 100%;
+    height: 380px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 16px;
+    margin: 40px 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.hero-section:hover {
+    transform: scale(1.02);
+}
+
+/* فیلتر شفاف روی تصویر برای خوانایی بهتر */
+.hero-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
+    z-index: 1;
+}
+
+/* ---- محتویات متن ---- */
+.hero-content {
+    position: relative;
+    z-index: 2;
+    color: #fff;
+    padding: 40px 50px;
+    max-width: 520px;
+    text-shadow: 0 2px 8px rgba(0,0,0,.3);
+}
+
+.hero-content h2 {
+    font-size: 34px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    line-height: 1.3;
+}
+
+.hero-content p {
+    font-size: 17px;
+    margin-bottom: 22px;
+    opacity: 0.9;
+}
+
+/* ---- دکمه CTA ---- */
+.cta-button {
+    display: inline-block;
+    background: linear-gradient(90deg, #00eaff, #00a2ff);
+    padding: 12px 28px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #000;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.cta-button:hover {
+    background: #fff;
+    color: #000;
+    transform: translateY(-2px);
+}
+
+/* ---- افکت رنگی برای هر مدل ---- */
+
+/* کامپیوتر و قطعات */
+.computer-ram::before { background: rgba(0, 38, 255, 0.45); }
+.computer-case::before { background: rgba(82, 0, 255, 0.45); }
+.motherboard::before { background: rgba(0, 150, 140, 0.45); }
+.cpu::before { background: rgba(255, 100, 0, 0.45); }
+.gpu::before { background: rgba(0, 255, 179, 0.45); }
+
+/* ذخیره‌سازی */
+.hdd::before { background: rgba(0, 0, 0, 0.55); }
+.ssd::before { background: rgba(0, 255, 255, 0.45); }
+.m2-ssd::before { background: rgba(0, 204, 255, 0.45); }
+
+/* رم لپ‌تاپ */
+.laptop-ram::before { background: rgba(255, 0, 144, 0.4); }
+
+/* ---- ریسپانسیو ---- */
+@media (max-width: 992px) {
+    .hero-section {
+        height: 300px;
+    }
+    .hero-content {
+        padding: 30px;
+    }
+    .hero-content h2 {
+        font-size: 26px;
+    }
+    .hero-content p {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 600px) {
+    .hero-section {
+        height: 240px;
+    }
+    .hero-content {
+        padding: 20px;
+    }
+    .cta-button {
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+}
+
+.dk-banner-wrapper {
+    width: 100%;
+    height: 220px; /* ارتفاع استاندارد بنر دیجی‌کالا */
+    overflow: hidden;
+    border-radius: 18px;
+    position: relative;
+}
+
+.dk-banner {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* کراپ حرفه‌ای */
+    object-position: center;
+    display: block;
+    border-radius: 18px;
+}
+
+/* نسخه موبایل */
+@media (max-width: 768px) {
+    .dk-banner-wrapper {
+        height: 160px;
+    }
+}
+
+.category-grid {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.category-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px;
+    background: #f5f5f5;
+    border-radius: 16px;
+    text-decoration: none;
+    transition: all .15s ease;
+    width: 140px;
+}
+
+.category-card:hover {
+    background: #ececec;
+    transform: translateY(-2px);
+}
+
+.category-card-image {
+    width: 85px;
+    height: 85px;
+    line-height: 0;
+}
+
+.category-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: inline-block;
+}
+
+.category-card-title {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: #4b4b4b;
+    line-height: 1.4;
+}
+
+
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <!-- HERO -->
+   <div class="row mb-4">
+    <div class="col-12">
+        <div class="dk-banner-wrapper">
+            <img src="{% static 'banner-pictures/parts.png' %}" class="dk-banner">
+        </div>
+    </div>
+</div>
+<!-- CTA 1 -->
+    <div class="row my-5 rtl">
+        <div class="col-12">
+            <div class="p-4 text-white rounded-4 shadow"
+                 style="background: linear-gradient(45deg,#1976d2,#0d47a1)">
+                <h3 class="mb-1">دسته بندی قطعات کامپیوتر</h3>
+            </div>
+        </div>
+    </div>
+<div class="category-grid rtl">
+
+    <a class="category-card" href="{% url "model-loader" model="MotherBoard" %}">
+        <div class="category-card-image">
+            <img src="https://dkstatics-public.digikala.com/digikala-products/fde98a0b7fa32b2db01dba24a2dc178caaeeacdd_1683543342.jpg?x-oss-process=image/resize,m_lfit,h_350,w_350/quality,q_60" alt="مادربرد">
+        </div>
+        <div class="category-card-title">مادربرد</div>
+    </a>
+
+    <a class="category-card" href="{% url "model-loader" model="CPUModel" %}">
+        <div class="category-card-image">
+            <img src="https://dkstatics-public.digikala.com/digikala-products/110d75a8ae9ac7572197237eb193eba4450c6cdd_1768600321.jpg?x-oss-process=image/resize,m_lfit,h_350,w_350/quality,q_60" alt="پردازنده">
+        </div>
+        <div class="category-card-title">پردازنده (CPU)</div>
+    </a>
+
+    <a class="category-card" href="{% url "model-loader" model="GraphicsCard" %}">
+        <div class="category-card-image">
+            <img src="https://dkstatics-public.digikala.com/digikala-products/903820df23781541d964cb1cc858872e1e1c566a_1618924808.jpg?x-oss-process=image/resize,m_lfit,h_350,w_350/quality,q_60" alt="کارت گرافیک">
+        </div>
+        <div class="category-card-title">کارت گرافیک</div>
+    </a>
+    <a class="category-card" href="{% url "model-loader" model="ComputerRAMModel" %}">
+        <div class="category-card-image">
+            <img src="https://dkstatics-public.digikala.com/digikala-products/82c8a36fc9a0944c3cfe190730e34e981aec8678_1762933057.jpg?x-oss-process=image/resize,m_lfit,h_350,w_350/quality,q_60" alt="رم کامپیوتر">
+        </div>
+        <div class="category-card-title">رم کامپیوتر</div>
+    </a>
+
+    <a class="category-card" href="{% url "model-loader" model="LapTopRAMModel" %}">
+        <div class="category-card-image">
+            <img src="{% static 'banner-pictures/laptop-ram.png' %}" alt="رم لپ تاپ">
+        </div>
+        <div class="category-card-title">رم لپ‌تاپ</div>
+    </a>
+
+    <a class="category-card" href="{% url "model-loader" model="SSD" %}">
+        <div class="category-card-image">
+            <img src="https://dkstatics-public.digikala.com/digikala-products/1601114.jpg?x-oss-process=image/resize,m_lfit,h_350,w_350/quality,q_60" alt="SSD">
+        </div>
+        <div class="category-card-title">حافظه SSD</div>
+    </a>
+
+    <a class="category-card" href="{% url "model-loader" model="M2SSD" %}">
+        <div class="category-card-image">
+            <img src="{% static 'banner-pictures/m2ssd.png' %}" alt="M.2 SSD">
+        </div>
+        <div class="category-card-title">حافظه M.2</div>
+    </a>
+
+    <a class="category-card" href="{% url "model-loader" model="InternalHDD" %}">
+        <div class="category-card-image">
+            <img src="https://dkstatics-public.digikala.com/digikala-products/d653527fa061167072d2a59e5ee53a19b421b41e_1701026990.jpg?x-oss-process=image/resize,m_lfit,h_350,w_350/quality,q_60" alt="هارد دیسک">
+        </div>
+        <div class="category-card-title">هارد دیسک HDD</div>
+    </a>
+
+    <a class="category-card" href="{% url "model-loader" model="ComputerCase" %}">
+        <div class="category-card-image">
+            <img src="https://dkstatics-public.digikala.com/digikala-products/1d14e5db4b2d99b764a43bf6802eba477f946ad5_1731913307.jpg?x-oss-process=image/resize,m_lfit,h_350,w_350/quality,q_60" alt="کیس کامپیوتر">
+        </div>
+        <div class="category-card-title">کیس کامپیوتر</div>
+    </a>
+
+</div>
+    <!-- CTA 1 -->
+    <div class="row my-5 rtl">
+        <div class="col-12">
+            <div class="p-4 text-white rounded-4 shadow"
+                 style="background: linear-gradient(45deg,#1976d2,#0d47a1)">
+                <h3 class="mb-1">قدرتمندترین قطعات کامپیوتر</h3>
+                <p class="mb-0">با پایین‌ترین قیمت بازار</p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ========== CPU ========== -->
+     <div class="hero-section cpu rtl" style="background-image: url('{% static "banner-pictures/cpu.png" %}')">
+    <div class="hero-content">
+        <h2>قوی‌ترین پردازنده‌های نسل جدید</h2>
+        <p>سرعت پردازش بالا برای حرفه‌ای‌ها.</p>
+        <a href="{% url 'model-loader' model='CPUModel' %}" class="cta-button">مشاهده پردازنده‌ها</a>
+    </div>
+    </div>
+
+    <div class="my-4 p-4 rounded-4 shadow bg-white rtl">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="text-primary m-0 fw-bold">پردازنده‌ها (CPU)</h4>
+            <a href="{% url "model-loader" model="CPUModel" %}" class="btn btn-primary">مشاهده بیشتر</a>
+        </div>
+
+        <div id="cpu-carousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row g-3">
+                        {% for cpu in cpus %}
+                        <div class="col-3">
+                            <div class="product-card text-center">
+                                <a href="{{ cpu.get_absolute_url }}"><img src="{{ cpu.main_image.url }}" class="w-100 mb-2"></a>
+                                <h6>{{ cpu.name|add:cpu.brand|add:cpu.model }}</h6>
+                                <p class="text-primary fw-bold">{{ cpu.price|cspn }} تومان</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#cpu-carousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#cpu-carousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+    </div>
+
+
+    <!-- ========== GPU ========== -->
+     <div class="hero-section gpu rtl" style="background-image: url('{% static "banner-pictures/graphicscard.png" %}')">
+    <div class="hero-content">
+        <h2>قدرت بی‌نظیر کارت‌های گرافیک</h2>
+        <p>تجربه بهترین عملکرد در بازی و طراحی.</p>
+        <a href="{% url 'model-loader' model='GraphicsCard' %}" class="cta-button">مشاهده کارت‌های گرافیک</a>
+    </div>
+    </div>
+
+    <div class="my-4 p-4 rounded-4 shadow bg-white rtl">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="text-primary m-0 fw-bold">کارت گرافیک (GPU)</h4>
+            <a href="{% url "model-loader" model="GraphicsCard" %}" class="btn btn-primary">مشاهده بیشتر</a>
+        </div>
+
+        <div id="gpu-carousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row g-3">
+                        {% for gpu in gpus %}
+                        <div class="col-3">
+                            <div class="product-card text-center">
+                                <a href="{{ gpu.get_absolute_url }}"><img src="{{ gpu.main_image.url }}" class="w-100 mb-2"></a>
+                                <h6>{{ gpu.name|add:gpu.brand|add:gpu.model }}</h6>
+                                <p class="text-primary fw-bold">{{ gpu.price|cspn }} تومان</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#gpu-carousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#gpu-carousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+    </div>
+
+
+    <!-- ========== Motherboard ========== -->
+    <div class="hero-section motherboard rtl" style="background-image: url('{% static "banner-pictures/motherboard.png" %}')">
+    <div class="hero-content">
+        <h2>قدرتمندترین مادربردهای نسل جدید</h2>
+        <p>پایداری، سرعت و قابلیت‌های پیشرفته برای هر سیستم.</p>
+        <a href="{% url 'model-loader' model='MotherBoard' %}" class="cta-button">مشاهده مادربردها</a>
+    </div>
+    </div>
+
+
+    <div class="my-4 p-4 rounded-4 shadow bg-white rtl">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="text-primary m-0 fw-bold">مادربرد</h4>
+            <a href="{% url "model-loader" model="Motherboard" %}" class="btn btn-primary">مشاهده بیشتر</a>
+        </div>
+
+        <div id="mobo-carousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row g-3">
+                        {% for item in motherboards %}
+                        <div class="col-3">
+                            <div class="product-card text-center">
+                                <a href="{{ item.get_absolute_url }}"><img src="{{ item.main_image.url }}" class="w-100 mb-2"></a>
+                                <h6>{{ item.name|add:item.brand|add:item.model }}</h6>
+                                <p class="text-primary fw-bold">{{ item.price|cspn }} تومان</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#mobo-carousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#mobo-carousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+    </div>
+    
+
+    <!-- ========== HDD ========== -->
+    <div class="hero-section hdd rtl" style="background-image: url('{% static "banner-pictures/hdd.png" %}')">
+            <div class="hero-content">
+                <h2>فضای ذخیره‌سازی بالا با هارد دیسک</h2>
+                <p>ظرفیت عظیم برای تمام نیازهای ذخیره‌سازی شما.</p>
+                <a href="{% url 'model-loader' model='InternalHDD' %}" class="cta-button">مشاهده HDD ها</a>
+            </div>
+        </div>
+
+    <div class="my-4 p-4 rounded-4 shadow bg-white rtl">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="text-primary m-0 fw-bold">هارد HDD</h4>
+            <a href="{% url "model-loader" model="InternalHDD" %}" class="btn btn-primary">مشاهده بیشتر</a>
+        </div>
+
+        <div id="hdd-carousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row g-3">
+                        {% for hdd in hdds %}
+                        <div class="col-3">
+                            <div class="product-card text-center">
+                                <a href="{{ hdd.get_absolute_url }}"><img src="{{ hdd.main_image.url }}" class="w-100 mb-2"></a>
+                                <h6>{{ hdd.name|add:hdd.brand|add:hdd.model }}</h6>
+                                <p class="text-primary fw-bold">{{ hdd.price|cspn }} تومان</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#hdd-carousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#hdd-carousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ========== SSD ========== -->
+     <div class="hero-section ssd rtl" style="background-image: url('{% static "banner-pictures/ssd.png" %}')">
+    <div class="hero-content">
+        <h2>سرعت بی‌نهایت با حافظه‌های SSD</h2>
+        <p>بارگذاری سریع و عملکرد فوق‌العاده.</p>
+        <a href="{% url 'model-loader' model='SSD' %}" class="cta-button">مشاهده SSD ها</a>
+    </div>
+    </div>
+
+    <div class="my-4 p-4 rounded-4 shadow bg-white rtl">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="text-primary m-0 fw-bold">هارد SSD</h4>
+            <a href="{% url "model-loader" model="SSD" %}" class="btn btn-primary">مشاهده بیشتر</a>
+        </div>
+
+        <div id="ssd-carousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row g-3">
+                        {% for ssd in ssds %}
+                        <div class="col-3">
+                            <div class="product-card text-center">
+                                <a href="{{ ssd.get_absolute_url }}"><img src="{{ ssd.main_image.url }}" class="w-100 mb-2"></a>
+                                <h6>{{ ssd.name|add:ssd.brand|add:ssd.model }}</h6>
+                                <p class="text-primary fw-bold">{{ ssd.price|cspn }} تومان</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#ssd-carousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#ssd-carousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ========== M.2 SSD ========== -->
+    <div class="hero-section m2-ssd rtl" style="background-image: url('{% static "banner-pictures/m2ssd.png" %}')">
+    <div class="hero-content">
+        <h2>حافظه‌های فوق سریع M.2</h2>
+        <p>کوچک، قدرتمند و ایده‌آل برای سیستم‌های مدرن.</p>
+        <a href="{% url 'model-loader' model='M2SSD' %}" class="cta-button">مشاهده M.2 SSD ها</a>
+    </div>
+    </div>
+
+
+    <div class="my-4 p-4 rounded-4 shadow bg-white rtl">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="text-primary m-0 fw-bold">حافظه M.2</h4>
+            <a href="{% url "model-loader" model="M2SSD" %}" class="btn btn-primary">مشاهده بیشتر</a>
+        </div>
+
+        <div id="m2-carousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row g-3">
+                        {% for m2 in m2ssds %}
+                        <div class="col-3">
+                            <div class="product-card text-center">
+                                <a href="{{ m2.get_absolute_url }}"><img src="{{ m2.main_image.url }}" class="w-100 mb-2"></a>
+                                <h6>{{ m2.name|add:m2.brand|add:m2.model }}</h6>
+                                <p class="text-primary fw-bold">{{ m2.price|cspn }} تومان</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#m2-carousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#m2-carousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+    </div>
+    <!-- ========== RAM: Desktop ========== -->
+     <div class="hero-section computer-ram rtl" style="background-image: url('{% static "banner-pictures/computer-ram.png" %}')">
+    <div class="hero-content">
+        <h2>قدرت بیشتر با رم‌های مخصوص کامپیوتر</h2>
+        <p>مناسب برای گیمینگ، طراحی و برنامه‌نویسی.</p>
+        <a href="{% url 'model-loader' model='ComputerRAMModel' %}" class="cta-button">مشاهده رم‌ها</a>
+    </div>
+    </div>
+
+    <div class="my-4 p-4 rounded-4 shadow bg-white rtl">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="text-primary m-0 fw-bold">رم کامپیوتر (Desktop RAM)</h4>
+            <a href="{% url "model-loader" model="ComputerRAMModel" %}" class="btn btn-primary">مشاهده بیشتر</a>
+        </div>
+
+        <div id="ram-carousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row g-3">
+                        {% for ram in rams %}
+                        <div class="col-3">
+                            <div class="product-card text-center">
+                                <a href="{{ ram.get_absolute_url }}"><img src="{{ ram.main_image.url }}" class="w-100 mb-2"></a>
+                                <h6>{{ ram.name|add:ram.brand|add:ram.model }}</h6>
+                                <p class="text-primary fw-bold">{{ ram.price|cspn }} تومان</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#ram-carousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#ram-carousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+    </div>
+    <!-- ========== RAM: Laptop ========== -->
+     <div class="hero-section laptop-ram rtl" style="background-image: url('{% static "banner-pictures/laptop-ram.png" %}')">
+    <div class="hero-content">
+        <h2>رم‌های لپ‌تاپ برای سرعت بیشتر</h2>
+        <p>بهینه‌سازی عملکرد سیستم شما.</p>
+        <a href="{% url 'model-loader' model='LapTopRAMModel' %}" class="cta-button">مشاهده رم لپ‌تاپ</a>
+    </div>
+    </div>
+
+    <div class="my-4 p-4 rounded-4 shadow bg-white rtl">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="text-primary m-0 fw-bold">رم لپ‌تاپ (Laptop RAM)</h4>
+            <a href="{% url "model-loader" model="LapTopRAMModel" %}" class="btn btn-primary">مشاهده بیشتر</a>
+        </div>
+
+        <div id="laptop-ram-carousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row g-3">
+                        {% for lram in laptop_rams %}
+                        <div class="col-3">
+                            <div class="product-card text-center">
+                                <a href="{{ lram.get_absolute_url }}"><img src="{{ lram.main_image.url }}" class="w-100 mb-2"></a>
+                                <h6>{{ lram.name|add:lram.brand|add:lram.model }}</h6>
+                                <p class="text-primary fw-bold">{{ lram.price|cspn }} تومان</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#laptop-ram-carousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#laptop-ram-carousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+    </div>
+    <!-- ========== Computer Case ========== -->
+    <div class="hero-section computer-case rtl" style="background-image: url('{% static "banner-pictures/case.png" %}')">
+    <div class="hero-content">
+        <h2>زیباترین و مقاوم‌ترین کیس‌های کامپیوتر</h2>
+        <p>ترکیبی از طراحی مدرن و جریان هوای عالی.</p>
+        <a href="{% url 'model-loader' model='ComputerCase' %}" class="cta-button">مشاهده کیس‌ها</a>
+    </div>
+    </div>
+
+
+    <div class="my-4 p-4 rounded-4 shadow bg-white rtl">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="text-primary m-0 fw-bold">کیس کامپیوتر (Case)</h4>
+            <a href="{% url "model-loader" model="ComputerCase" %}" class="btn btn-primary">مشاهده بیشتر</a>
+        </div>
+
+        <div id="case-carousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row g-3">
+                        {% for case in cases %}
+                        <div class="col-3">
+                            <div class="product-card text-center">
+                                <a href="{{ case.get_absolute_url }}"><img src="{{ case.main_image.url }}" class="w-100 mb-2"></a>
+                                <h6>{{ case.name|add:case.brand|add:case.model }}</h6>
+                                <p class="text-primary fw-bold">{{ case.price|cspn }} تومان</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#case-carousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#case-carousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+    </div>
+
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+document.querySelectorAll('.wishlist-btn').forEach(btn => {
+btn.addEventListener('click', function() {
+const icon = this.querySelector("i");
+icon.classList.toggle("far");
+icon.classList.toggle("fas");
+});
+});
+{% endblock %}

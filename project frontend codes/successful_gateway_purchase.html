@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پرداخت موفق - فروشگاه لپ‌تاپ و کامپیوتر</title>
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://lib.arvancloud.ir/font-awesome/6.3.0/css/all.min.css">
+    <style>
+        .profile-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .profile-card-header {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            color: white;
+        }
+        .success-icon {
+            font-size: 4rem;
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+        .order-details {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 25px;
+        }
+        .order-number {
+            font-weight: bold;
+            color: #0d6efd;
+        }
+        .btn-success {
+            background: linear-gradient(135deg, #28a745 0%, #218838 100%);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+            width: 100%;
+        }
+        .btn-success:hover {
+            background: linear-gradient(135deg, #218838 0%, #28a745 100%);
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: #e9ecef;
+            border: none;
+            color: #0d6efd;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 15px;
+        }
+        .btn-secondary:hover {
+            background: #0d6efd;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<!-- تاپ بار (همان کد قبلی) -->
+<div class="top-bar">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center py-1">
+            <div>
+                <i class="fas fa-phone-alt me-2"></i> تماس: 021-12345678 |
+                <i class="fas fa-envelope-alt mx-2"></i> info@laptopstore.ir
+            </div>
+            <div>
+                <a href="#" class="text-white mx-2"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="text-white mx-2"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="text-white mx-2"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- نوار ناوبری (همان کد قبلی) -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#">
+            <i class="fas fa-laptop me-2 text-primary"></i>
+            LaptopStore
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#"><i class="fas fa-home me-1"></i> خانه</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="categoryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-list me-1"></i> دسته‌بندی‌ها
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#">لپ‌تاپ‌ها</a></li>
+                        <li><a class="dropdown-item" href="#">کامپیوترهای ایستاده</a></li>
+                        <li><a class="dropdown-item" href="#">قطعات کامپیوتر</a></li>
+                        <li><a class="dropdown-item" href="#">کیس</a></li>
+                        <li><a class="dropdown-item" href="#">مانیتور</a></li>
+                        <li><a class="dropdown-item" href="#">اکسسوری‌ها</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-headset me-1"></i> پشتیبانی</a>
+                </li>
+            </ul>
+            <!-- جستجو و سبد خرید -->
+            <form class="d-flex me-3">
+                <input class="form-control me-2" type="search" placeholder="جستجو..." aria-label="Search">
+                <button class="btn btn-outline-primary" type="submit">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+            <div class="d-flex align-items-center">
+                <a href="#" class="text-dark me-3 position-relative cart-icon">
+                    <i class="fas fa-shopping-cart fs-5"></i>
+                    <span class="cart-count">3</span>
+                </a>
+                <a href="#" class="text-dark">
+                    <i class="fas fa-user fs-5"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+<!-- صفحه پرداخت موفق -->
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card profile-card">
+                    <div class="card-header profile-card-header text-center">
+                        <i class="fas fa-check-circle success-icon"></i>
+                        <h3 class="fw-bold">پرداخت موفق</h3>
+                    </div>
+                    <div class="card-body p-4 text-center">
+                        <p class="lead">پرداخت شما با موفقیت انجام شد.</p>
+                        <p class="text-muted">سفارش شما ثبت شده و در اسرع وقت ارسال می‌شود.</p>
+
+                        <div class="order-details">
+                            <h5 class="fw-bold mb-3">جزئیات سفارش</h5>
+                            <p>شماره سفارش: <span class="order-number">#ORD20260311001</span></p>
+                            <p>تاریخ سفارش: 2026-03-11</p>
+                            <p>مبلغ کل: <strong>38,350,000 تومان</strong></p>
+                            <p>روش پرداخت: درگاه بانکی</p>
+                        </div>
+
+                        <div class="mt-4">
+                            <a href="../shop/templates/index.html" class="btn btn-success">
+                                <i class="fas fa-home me-1"></i> صفحه اصلی
+                            </a>
+                            <a href="./orders_history.html" class="btn btn-secondary">
+                                <i class="fas fa-history me-1"></i> مشاهده سفارش‌ها
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div></section>
+<!-- فوتر (همان کد قبلی) -->
+<footer class="bg-primary text-white py-5">
+    <div class="container">
+        <div class="row">
+            <!-- بخش درباره ما -->
+            <div class="col-md-3 mb-4">
+                <h5 class="fw-bold mb-4">درباره ما</h5>
+                <p class="mb-3">
+                    فروشگاه لپ‌تاپ و کامپیوتر <strong>LaptopStore</strong> با بیش از 10 سال تجربه، بهترین محصولات را با قیمت مناسب و گارانتی اصلی ارائه می‌دهد.
+                </p>
+                <div class="d-flex gap-3">
+                    <a href="#" class="text-white fs-4"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-white fs-4"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-white fs-4"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <!-- لینک‌های سریع -->
+            <div class="col-md-3 mb-4">
+                <h5 class="fw-bold mb-4">لینک‌های سریع</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">خانه</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">لپ‌تاپ‌ها</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">کامپیوترهای ایستاده</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">اکسسوری‌ها</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">پشتیبانی</a></li>
+                </ul>
+            </div>
+            <!-- اطلاعات تماس -->
+            <div class="col-md-3 mb-4">
+                <h5 class="fw-bold mb-4">اطلاعات تماس</h5>
+                <ul class="list-unstyled">
+                    <li class="d-flex align-items-start mb-2">
+                        <i class="fas fa-map-marker-alt me-2 mt-1"></i>
+                        <span>تهران، خیابان شهید بهشتی، پلاک 123</span>
+                    </li>
+                    <li class="d-flex align-items-start mb-2">
+                        <i class="fas fa-phone-alt me-2 mt-1"></i>
+                        <span>021-12345678</span>
+                    </li>
+                    <li class="d-flex align-items-start mb-2">
+                        <i class="fas fa-envelope me-2 mt-1"></i>
+                        <span>info@laptopstore.ir</span>
+                    </li>
+                    <li class="d-flex align-items-start mb-2">
+                        <i class="fas fa-clock me-2 mt-1"></i>
+                        <span>شنبه تا چهارشنبه: 9 صبح تا 9 شب</span>
+                    </li>
+                </ul>
+            </div>
+            <!-- خبرنامه -->
+            <div class="col-md-3 mb-4">
+                <h5 class="fw-bold mb-4">عضویت در خبرنامه</h5>
+                <p class="mb-3">برای دریافت تخفیف‌های ویژه و اخبار جدید، ایمیل خود را وارد کنید:</p>
+                <form class="d-flex">
+                    <input type="email" class="form-control me-2" placeholder="ایمیل شما" required>
+                    <button type="submit" class="btn btn-light">عضویت</button>
+                </form>
+                <div class="mt-4">
+                    <h6 class="mb-2">پرداخت امن</h6>
+                    <div class="d-flex gap-2">
+                        <img src="https://i.imgur.com/5XJzZ9l.png" alt="پرداخت امن" width="40">
+                        <img src="https://i.imgur.com/5XJzZ9l.png" alt="پرداخت امن" width="40">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- خط جداکننده و کپی‌رایت -->
+        <hr class="bg-light my-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <p class="mb-3 mb-md-0">&copy; 2026 LaptopStore. تمامی حقوق محفوظ است.</p>
+            <div>
+                <a href="about.html" class="text-white mx-2 text-decoration-none">درباره ما</a>
+                <a href="privacy.html" class="text-white mx-2 text-decoration-none">حریم خصوصی</a>
+                <a href="terms.html" class="text-white mx-2 text-decoration-none">شرایط استفاده</a>
+            </div>
+        </div>
+    </div>
+</footer>
+<script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://lib.arvancloud.ir/font-awesome/6.3.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</body>
+</html>

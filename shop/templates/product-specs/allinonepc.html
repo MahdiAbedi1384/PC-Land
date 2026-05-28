@@ -1,0 +1,134 @@
+<div class="technical-details rtl">
+
+    <h5 class="tech-category">جزئیات فنی</h5>
+
+    <!-- مشخصات اولیه -->
+    <ul class="tech-specs">
+
+        <li>
+            <strong>اندازه نمایشگر:</strong>
+            {{ object.screen_size_inches }} اینچ
+        </li>
+
+        <li>
+            <strong>رزولوشن:</strong>
+            {{ object.screen_resolution }}
+        </li>
+
+        <li>
+            <strong>نوع پنل:</strong>
+            {{ object.screen_type }}
+        </li>
+
+        <li>
+            <strong>لمسی:</strong>
+            {% if object.touchscreen %} بله {% else %} خیر {% endif %}
+        </li>
+
+        <li>
+            <strong>نرخ نوسازی:</strong>
+            {{ object.refresh_rate_hz }} هرتز
+        </li>
+
+        <li>
+            <strong>پردازنده:</strong>
+            {{ object.cpu_model_name }}
+        </li>
+
+        <li>
+            <strong>ظرفیت رم:</strong>
+            {{ object.ram_capacity_gb }} گیگابایت
+        </li>
+
+        <li>
+            <strong>نوع رم:</strong>
+             {{ object.ram_type.title }}
+        </li>
+
+        <li>
+            <strong>ظرفیت حافظه داخلی:</strong>
+            {{ object.storage_capacity_gb }} گیگابایت
+        </li>
+        <li>
+            <strong>نوع حافظه داخلی:</strong>
+            {{ object.storage_type }}
+        </li>
+        {% if object.gpu_model_name %}
+        <li>
+            <strong>گرافیک:</strong>
+            {{ object.gpu_model_name }}
+        </li>
+        {% endif %}
+    </ul>
+
+    <!-- بخش مخفی -->
+    <div id="fullTechSpecs" class="tech-specs hidden">
+
+        {% if object.operating_system %}
+        <li>
+            <strong>سیستم‌عامل:</strong>
+            {{ object.operating_system.title }}
+        </li>
+        {% endif %}
+
+        {% if object.ports_description %}
+        <li>
+            <strong>درگاه‌ها:</strong>
+            {{ object.ports_description }}
+        </li>
+        {% endif %}
+
+        <li>
+            <strong>وبکم:</strong>
+            {% if object.has_webcam %} دارد {% else %} ندارد {% endif %}
+        </li>
+
+        {% if object.webcam_resolution %}
+        <li>
+            <strong>رزولوشن وبکم:</strong>
+            {{ object.webcam_resolution }}
+        </li>
+        {% endif %}
+
+        {% if object.audio_description %}
+        <li>
+            <strong>سیستم صوتی:</strong>
+            {{ object.audio_description }}
+        </li>
+        {% endif %}
+
+        {% if object.weight_kg %}
+        <li>
+            <strong>وزن:</strong>
+            {{ object.weight }} کیلوگرم
+        </li>
+        {% endif %}
+
+        {% if object.wireless_connectivity %}
+        <li>
+            <strong>اتصال بی‌سیم:</strong>
+            {{ object.wireless_connectivity }}
+        </li>
+        {% endif %}
+
+        {% if object.included_peripherals %}
+        <li>
+            <strong>لوازم جانبی همراه:</strong>
+            {{ object.included_peripherals }}
+        </li>
+        {% endif %}
+
+        <li>
+            <strong>رنگ‌ها:</strong>
+            {% for color in object.colors.all %}
+            {{ color.title }}{% if not forloop.last %}، {% endif %}
+            {% endfor %}
+        </li>
+
+    </div>
+
+    <!-- دکمه باز/بستن -->
+    <button id="toggleTechSpecs" class="expand-btn mt-3">
+        <i class="fas fa-chevron-down"></i> مشاهده جزئیات بیشتر
+    </button>
+</div>

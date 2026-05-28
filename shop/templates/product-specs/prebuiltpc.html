@@ -1,0 +1,35 @@
+<div class="technical-details rtl">
+    {% load product_extras %}
+    <h5 class="tech-category">مشخصات فنی </h5>
+
+    <ul class="tech-specs">
+        <li><strong>وزن:</strong> {{ object.weight|kg_to_g }} گرم</li>
+        <li><strong>پردازنده:</strong> {{ object.cpu.name }} ({{ object.cpu.brand }} {{ object.cpu.model }})</li>
+        <li><strong>مادربورد:</strong> {{ object.motherboard.brand }} {{ object.motherboard.model }}</li>
+        <li><strong>کارت گرافیک:</strong> {% if object.gpu %}{{ object.gpu.brand }} {{ object.gpu.model }}{% else %}
+            گرافیک مجتمع {% endif %}
+        </li>
+        <li><strong>رم:</strong> {{ object.ram_capacity_gb }} گیگابایت {{ object.ram_type.title }}</li>
+        <li><strong>کیس:</strong> {{ object.case.brand }} {{ object.case.model }}</li>
+        <li><strong>توان پاور:</strong> {{ object.power_supply_wattage }} وات</li>
+    </ul>
+
+    <div id="fullTechSpecs" class="tech-specs hidden">
+        <li><strong>SSD داخلی:</strong> {% if object.internal_ssd %}{{ object.internal_ssd.brand }} {{
+            object.internal_ssd.model }} {{ object.internal_ssd.capacity }}GB{% else %}ندارد{% endif %}
+        </li>
+        <li><strong>M.2 SSD:</strong> {% if object.internal_m2_ssd %}{{ object.internal_m2_ssd.brand }} {{
+            object.internal_m2_ssd.model }} {{ object.internal_m2_ssd.capacity }}GB{% else %}ندارد{% endif %}
+        </li>
+        <li><strong>هارد داخلی:</strong> {% if object.internal_hdd %}{{ object.internal_hdd.brand }} {{
+            object.internal_hdd.model }} {{ object.internal_hdd.capacity_tb }}TB{% else %}ندارد{% endif %}
+        </li>
+        <li><strong>سیستم‌عامل:</strong> {{ object.operating_system.title|default:"بدون سیستم‌عامل" }}</li>
+        <li><strong>فرم فاکتور:</strong> {{ object.form_factor|default:"-" }}</li>
+        <li><strong>مناسب برای:</strong> {{ object.target_audience|default:"-" }}</li>
+    </div>
+
+    <button id="toggleTechSpecs" class="expand-btn mt-3">
+        <i class="fas fa-chevron-down"></i> مشاهده جزئیات بیشتر
+    </button>
+</div>

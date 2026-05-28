@@ -1,0 +1,86 @@
+<div class="technical-details rtl">
+    {% load product_extras %}
+    <h5 class="tech-category">جزئیات فنی</h5>
+
+    <!-- مشخصات اصلی -->
+    <ul class="tech-specs">
+
+        <li>
+            <strong>وزن:</strong>
+            {{ object.weight|kg_to_g }} گرم
+        </li>
+
+        <li>
+            <strong>نوع اتصال:</strong>
+            {{ object.get_connection_type_display }}
+        </li>
+
+        <li>
+            <strong>نوع سوییچ:</strong>
+            {{ object.get_switch_type_display }}
+        </li>
+
+        <li>
+            <strong>نوع چینش کلیدها:</strong>
+            {{ object.get_layout_display }}
+        </li>
+
+        <li>
+            <strong>نورپردازی:</strong>
+            {{ object.get_backlight_display }}
+        </li>
+
+        <li>
+            <strong>صفحه‌کلید مکانیکی:</strong>
+            {% if object.is_mechanical %} بله {% else %} خیر {% endif %}
+        </li>
+
+        {% if object.key_count %}
+        <li>
+            <strong>تعداد کلیدها:</strong>
+            {{ object.key_count }}
+        </li>
+        {% endif %}
+
+        <li>
+            <strong>نام‌پد:</strong>
+            {% if object.has_numeric_pad %} دارد {% else %} ندارد {% endif %}
+        </li>
+
+    </ul>
+
+    <!-- بخش مخفی -->
+    <div id="fullTechSpecs" class="tech-specs hidden">
+
+        {% if object.interface %}
+        <li>
+            <strong>رابط اتصال:</strong>
+            {{ object.interface }}
+        </li>
+        {% endif %}
+
+        {% if object.battery_life_hours %}
+        <li>
+            <strong>عمر باتری:</strong>
+            {{ object.battery_life_hours }} ساعت
+        </li>
+        {% endif %}
+
+        <li>
+            <strong>مقاوم در برابر آب:</strong>
+            {% if object.waterproof %} بله {% else %} خیر {% endif %}
+        </li>
+
+        <li>
+            <strong>گارانتی:</strong>
+            {{ object.warranty_months }} ماه
+        </li>
+
+    </div>
+
+    <!-- دکمه باز/بستن -->
+    <button id="toggleTechSpecs" class="expand-btn mt-3">
+        <i class="fas fa-chevron-down"></i> مشاهده جزئیات بیشتر
+    </button>
+
+</div>

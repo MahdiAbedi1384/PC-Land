@@ -1,0 +1,235 @@
+{% extends "_base.html" %}
+{% block page_title %}{{ page_name }}{% endblock page_title %}
+{% block styles %}
+.hero-section {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+        }
+        .policy-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+        }
+        .policy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .section-title {
+            position: relative;
+            margin-bottom: 40px;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: #0d6efd;
+            border-radius: 2px;
+        }
+{% endblock styles %}
+{% block content %}
+<!-- صفحه شرایط استفاده -->
+<section class="hero-section">
+    <div class="container">
+        <h1 class="display-4 fw-bold mb-3">شرایط استفاده</h1>
+        <p class="lead" style="direction: rtl">شرایط استفاده از سایت فروشگاه لپ‌تاپ و کامپیوتر LaptopStore</p>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="section-title">
+            <h2 class="text-center">مقدمه</h2>
+        </div>
+
+        <div class="card policy-card">
+            <div class="card-body" style="direction: rtl">
+                <p class="lead">این صفحه شامل شرایط و ضوابط استفاده از سایت فروشگاه لپ‌تاپ و کامپیوتر LaptopStore است. با استفاده از این سایت، شما به‌طور خودکار موافقت می‌کنید که به تمامی این شرایط پایبند باشید.</p>
+                <p>این شرایط در تاریخ 1399/01/01 به‌روزرسانی شد و در تمامی فعالیت‌های سایت اعمال می‌شود.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="section-title">
+            <h2 class="text-center">پذیرش شرایط</h2>
+        </div>
+
+        <div class="card policy-card" style="direction: rtl">
+            <div class="card-body">
+                <p>استفاده از این سایت به معنای پذیرش کامل شرایط استفاده است. اگر با این شرایط موافقت نمی‌کنید، از استفاده از سایت خودداری کنید.</p>
+
+                <ul class="list-group list-group-flush mt-4">
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                        <div>استفاده از سایت برای اهداف غیرقانونی ممنوع است</div>
+                    </li>
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                        <div>ما حق داریم در هر زمان شرایط را تغییر دهیم</div>
+                    </li>
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                        <div>استفاده از سایت به معنای پذیرش این شرایط است</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="section-title">
+            <h2 class="text-center">ثبت‌نام و حساب کاربری</h2>
+        </div>
+
+        <div class="card policy-card" style="direction: rtl">
+            <div class="card-body">
+                <p>برای خرید محصولات، شما باید یک حساب کاربری ایجاد کنید. اطلاعات وارد شده باید دقیق و کامل باشند.</p>
+
+                <ul class="list-group list-group-flush mt-4">
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                        <div>شما مسئول حفظ رمز عبور خود هستید</div>
+                    </li>
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                        <div>ما حق داریم حساب‌های غیرفعال را حذف کنیم</div>
+                    </li>
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                        <div>استفاده از حساب کاربری برای اهداف تجاری ممنوع است</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="section-title">
+            <h2 class="text-center">خرید و پرداخت</h2>
+        </div>
+
+        <div class="card policy-card" style="direction: rtl">
+            <div class="card-body">
+                <p>همه قیمت‌ها به تومان و بدون مالیات ارائه می‌شوند. پرداخت‌ها از طریق روش‌های امن انجام می‌شود.</p>
+
+                <ul class="list-group list-group-flush mt-4">
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                        <div>قیمت‌ها ممکن است بدون اطلاع قبلی تغییر کنند</div>
+                    </li>
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                        <div>ما حق داریم سفارشات را در صورت عدم موجودی محصول لغو کنیم</div>
+                    </li>
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                        <div>پرداخت‌ها از طریق درگاه‌های امن انجام می‌شود</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="section-title">
+            <h2 class="text-center">بازگشت و بازپرداخت</h2>
+        </div>
+
+        <div class="card policy-card" style="direction: rtl">
+            <div class="card-body">
+                <p>محصولات می‌توانند در مدت 7 روز پس از تحویل بازگردانده شوند. شرایط بازگشت به شرح زیر است:</p>
+
+                <ul class="list-group list-group-flush mt-4">
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                        <div>محصولات باید در بسته‌بندی اصلی خود بازگردانده شوند</div>
+                    </li>
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                        <div>بازگشت محصولات خراب یا ناقص در مدت 30 روز امکان‌پذیر است</div>
+                    </li>
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                        <div>بازپرداخت در مدت 14 روز پس از دریافت محصول انجام می‌شود</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="section-title">
+            <h2 class="text-center">محدودیت مسئولیت</h2>
+        </div>
+
+        <div class="card policy-card" style="direction: rtl">
+            <div class="card-body">
+                <p>ما در صورت بروز مشکل در سایت یا محصولات، مسئولیتی نداریم. تمامی محصولات با گارانتی اصلی عرضه می‌شوند.</p>
+
+                <ul class="list-group list-group-flush mt-4">
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                        <div>ما مسئولیتی در قبال خرابی‌های ناشی از استفاده نادرست نداریم</div>
+                    </li>
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                        <div>ما مسئولیتی در قبال تاخیر در ارسال محصولات نداریم</div>
+                    </li>
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                        <div>ما مسئولیتی در قبال ارورهای سیستمی نداریم</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="section-title">
+            <h2 class="text-center">قوانین حاکم</h2>
+        </div>
+
+        <div class="card policy-card" style="direction: rtl">
+            <div class="card-body">
+                <p>این شرایط تحت قوانین جمهوری اسلامی ایران قرار دارند. هرگونه اختلاف قانونی باید در دادگاه‌های تهران حل شود.</p>
+
+                <ul class="list-group list-group-flush mt-4">
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                        <div>این شرایط به زبان فارسی تنظیم شده‌اند</div>
+                    </li>
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                        <div>هرگونه تغییر در این شرایط به‌روزرسانی شده و در سایت اعلام می‌شود</div>
+                    </li>
+                    <li class="list-group-item d-flex align-items-start">
+                        <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                        <div>استفاده از این سایت به معنای پذیرش این شرایط است</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+

@@ -1,0 +1,420 @@
+{% extends "_base.html" %}
+{% load static %}
+{% load madval_persian_translation %}
+
+{% block page_title %}اکسسوری و لوازم جانبی{% endblock %}
+
+{% block icon %}
+<link rel="icon" href="{% static "icons/favicon-64.icon" %}">
+{% endblock %}
+
+{% block styles %}
+.rtl { direction: rtl; text-align: right; }
+body { font-family: "Vazirmatn", sans-serif !important; }
+
+.product-card img { height: 160px; object-fit: contain; }
+.product-card {
+border-radius: 14px;
+box-shadow: 0 4px 10px rgba(25,118,210,.12);
+padding: 12px;
+background: #fff;
+}
+
+/* HERO style */
+.hero-section {
+width: 100%;
+height: 340px;
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+border-radius: 16px;
+margin: 40px 0;
+display: flex;
+align-items: center;
+justify-content: flex-start;
+position: relative;
+overflow: hidden;
+}
+
+.hero-section::before {
+content: "";
+position: absolute;
+inset: 0;
+background: rgba(0, 0, 0, 0.45);
+z-index: 1;
+}
+
+.hero-content {
+position: relative;
+z-index: 2;
+color: #fff;
+padding: 40px 50px;
+max-width: 520px;
+text-shadow: 0 2px 8px rgba(0,0,0,.3);
+}
+
+.hero-content h2 { font-size: 30px; font-weight: 700; margin-bottom: 14px; }
+.hero-content p { font-size: 17px; margin-bottom: 22px; opacity: 0.9; }
+
+.cta-button {
+display: inline-block;
+background: linear-gradient(90deg, #00eaff, #00a2ff);
+padding: 12px 28px;
+border-radius: 10px;
+font-size: 16px;
+font-weight: 600;
+color: #000;
+text-decoration: none;
+}
+@media (max-width: 992px) {
+    .hero-section {
+        height: 300px;
+    }
+    .hero-content {
+        padding: 30px;
+    }
+    .hero-content h2 {
+        font-size: 26px;
+    }
+    .hero-content p {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 600px) {
+    .hero-section {
+        height: 240px;
+    }
+    .hero-content {
+        padding: 20px;
+    }
+    .cta-button {
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+}
+
+.dk-banner-wrapper {
+    width: 100%;
+    height: 220px; /* ارتفاع استاندارد بنر دیجی‌کالا */
+    overflow: hidden;
+    border-radius: 18px;
+    position: relative;
+}
+
+.dk-banner {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* کراپ حرفه‌ای */
+    object-position: center;
+    display: block;
+    border-radius: 18px;
+}
+
+/* نسخه موبایل */
+@media (max-width: 768px) {
+    .dk-banner-wrapper {
+        height: 160px;
+    }
+}
+
+.category-grid {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.category-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px;
+    background: #f5f5f5;
+    border-radius: 16px;
+    text-decoration: none;
+    transition: all .15s ease;
+    width: 140px;
+}
+
+.category-card:hover {
+    background: #ececec;
+    transform: translateY(-2px);
+}
+
+.category-card-image {
+    width: 85px;
+    height: 85px;
+    line-height: 0;
+}
+
+.category-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: inline-block;
+}
+
+.category-card-title {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: #4b4b4b;
+    line-height: 1.4;
+}
+/* ---- دکمه CTA ---- */
+.cta-button {
+    display: inline-block;
+    background: linear-gradient(90deg, #00eaff, #00a2ff);
+    padding: 12px 28px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #000;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.cta-button:hover {
+    background: #fff;
+    color: #000;
+    transform: translateY(-2px);
+}
+{% endblock %}
+
+
+{% block content %}
+<div class="container mt-4">
+
+    <!-- MAIN BANNER -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="dk-banner-wrapper">
+                <img src="{% static 'banner-pictures/accessories-main.png' %}" class="dk-banner">
+            </div>
+        </div>
+    </div>
+
+    <!-- CATEGORY TITLE -->
+    <div class="row my-5 rtl">
+        <div class="col-12">
+            <div class="p-4 text-white rounded-4 shadow"
+                 style="background: linear-gradient(45deg,#1976d2,#0d47a1)">
+                <h3 class="mb-1">لوازم جانبی کامپیوتر</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- ======================= Bluetooth Dongle =============== -->
+    <!-- ======================================================== -->
+    <div class="hero-section rtl" style="background-image: url('{% static "banner-pictures/bluetoothdongle.png" %}')">
+    <div class="hero-content">
+        <h2>دانگل‌های بلوتوث</h2>
+        <p>اتصال سریع و پایدار بدون کابل</p>
+        <a href="{% url 'model-loader' model='BluetoothDongle' %}" class="cta-button">مشاهده دانگل‌ها</a>
+    </div>
+</div>
+
+<div class="my-4 p-4 rounded-4 shadow bg-white rtl">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="text-primary fw-bold">دانگل بلوتوث</h4>
+        <a href="{% url 'model-loader' model='BluetoothDongle' %}" class="btn btn-primary">مشاهده بیشتر</a>
+    </div>
+    <div class="row g-3">
+        {% for item in bluetoothdongles %}
+        <div class="col-3">
+            <div class="product-card text-center">
+                <a href="{{ item.get_absolute_url }}"><img src="{{ item.main_image.url }}" class="w-100 mb-2"></a>
+                <h6>{{ item.name|add:item.brand|add:item.model }}</h6>
+                <p class="text-primary fw-bold">{{ item.price|cspn }} تومان</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- ======================================================== -->
+<!-- ======================= USB HUB ======================== -->
+<!-- ======================================================== -->
+<div class="hero-section rtl" style="background-image: url('{% static "banner-pictures/usbhub.png" %}')">
+<div class="hero-content">
+    <h2>هاب‌های USB</h2>
+    <p>پورت‌های بیشتر برای کار راحت‌تر</p>
+    <a href="{% url 'model-loader' model='USBHUB' %}" class="cta-button">مشاهده هاب‌ها</a>
+</div>
+</div>
+
+<div class="my-4 p-4 rounded-4 shadow bg-white rtl">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="text-primary fw-bold">هاب USB</h4>
+        <a href="{% url 'model-loader' model='USBHUB' %}" class="btn btn-primary">مشاهده بیشتر</a>
+    </div>
+    <div class="row g-3">
+        {% for item in usbhubs %}
+        <div class="col-3">
+            <div class="product-card text-center">
+                <a href="{{ item.get_absolute_url }}"><img src="{{ item.main_image.url }}" class="w-100 mb-2"></a>
+                <h6>{{ item.name|add:item.brand|add:item.model }}</h6>
+                <p class="text-primary fw-bold">{{ item.price|cspn }} تومان</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+<!-- ======================================================== -->
+<!-- ================== External Hard Drive ================= -->
+<!-- ======================================================== -->
+<div class="hero-section rtl" style="background-image: url('{% static "banner-pictures/externalhdd.png" %}')">
+<div class="hero-content">
+    <h2>هارد اکسترنال</h2>
+    <p>فضای بیشتر، امنیت بیشتر</p>
+    <a href="{% url 'model-loader' model='ExternalHardDrive' %}" class="cta-button">مشاهده HDD اکسترنال</a>
+</div>
+</div>
+
+<div class="my-4 p-4 rounded-4 shadow bg-white rtl">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="text-primary fw-bold">هارد اکسترنال</h4>
+        <a href="{% url 'model-loader' model='ExternalHardDrive' %}" class="btn btn-primary">مشاهده بیشتر</a>
+    </div>
+    <div class="row g-3">
+        {% for item in externalhdds %}
+        <div class="col-3">
+            <div class="product-card text-center">
+                <a href="{{ item.get_absolute_url }}"><img src="{{ item.main_image.url }}" class="w-100 mb-2"></a>
+                <h6>{{ item.name|add:item.brand|add:item.model }}</h6>
+                <p class="text-primary fw-bold">{{ item.price|cspn }} تومان</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+<!-- ======================================================== -->
+<!-- =================== External SSD ======================= -->
+<!-- ======================================================== -->
+<div class="hero-section rtl" style="background-image: url('{% static "banner-pictures/externalssd.png" %}')">
+<div class="hero-content">
+    <h2>SSD اکسترنال</h2>
+    <p>سرعت عالی، طراحی کوچک و کاربردی</p>
+    <a href="{% url 'model-loader' model='ExternalSSD' %}" class="cta-button">مشاهده SSD اکسترنال</a>
+</div>
+</div>
+
+<div class="my-4 p-4 rounded-4 shadow bg-white rtl">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="text-primary fw-bold">SSD اکسترنال</h4>
+        <a href="{% url 'model-loader' model='ExternalSSD' %}" class="btn btn-primary">مشاهده بیشتر</a>
+    </div>
+    <div class="row g-3">
+        {% for item in externalssds %}
+        <div class="col-3">
+            <div class="product-card text-center">
+                <a href="{{ item.get_absolute_url }}"><img src="{{ item.main_image.url }}" class="w-100 mb-2"></a>
+                <h6>{{ item.name|add:item.brand|add:item.model }}</h6>
+                <p class="text-primary fw-bold">{{ item.price|cspn }} تومان</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+<!-- ======================================================== -->
+<!-- ======================= Flash Drive ==================== -->
+<!-- ======================================================== -->
+<div class="hero-section rtl" style="background-image: url('{% static "banner-pictures/flashdrive.png" %}')">
+<div class="hero-content">
+    <h2>فلش مموری</h2>
+    <p>ذخیره‌سازی سریع، حمل آسان</p>
+    <a href="{% url 'model-loader' model='FlashDrive' %}" class="cta-button">مشاهده فلش‌ها</a>
+</div>
+</div>
+
+<div class="my-4 p-4 rounded-4 shadow bg-white rtl">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="text-primary fw-bold">فلش مموری</h4>
+        <a href="{% url 'model-loader' model='FlashDrive' %}" class="btn btn-primary">مشاهده بیشتر</a>
+    </div>
+    <div class="row g-3">
+        {% for item in flashdrives %}
+        <div class="col-3">
+            <div class="product-card text-center">
+                <a href="{{ item.get_absolute_url }}"><img src="{{ item.main_image.url }}" class="w-100 mb-2"></a>
+                <h6>{{ item.name|add:item.brand|add:item.model }}</h6>
+                <p class="text-primary fw-bold">{{ item.price|cspn }} تومان</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+<!-- ======================================================== -->
+<!-- ======================= Keyboard ======================= -->
+<!-- ======================================================== -->
+<div class="hero-section rtl" style="background-image: url('{% static "banner-pictures/keyboard.png" %}')">
+<div class="hero-content">
+    <h2>کیبورد</h2>
+    <p>تایپ راحت، طراحی زیبا، عملکرد دقیق</p>
+    <a href="{% url 'model-loader' model='Keyboard' %}" class="cta-button">مشاهده کیبوردها</a>
+</div>
+</div>
+
+<div class="my-4 p-4 rounded-4 shadow bg-white rtl">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="text-primary fw-bold">کیبورد</h4>
+        <a href="{% url 'model-loader' model='Keyboard' %}" class="btn btn-primary">مشاهده بیشتر</a>
+    </div>
+    <div class="row g-3">
+        {% for item in keyboards %}
+        <div class="col-3">
+            <div class="product-card text-center">
+                <a href="{{ item.get_absolute_url }}"><img src="{{ item.main_image.url }}" class="w-100 mb-2"></a>
+                <h6>{{ item.name|add:item.brand|add:item.model }}</h6>
+                <p class="text-primary fw-bold">{{ item.price|cspn }} تومان</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+<!-- ======================================================== -->
+<!-- ======================== Mouse ========================= -->
+<!-- ======================================================== -->
+<div class="hero-section rtl" style="background-image: url('{% static "banner-pictures/mouse.png" %}')">
+<div class="hero-content">
+    <h2>ماوس</h2>
+    <p>دقت، سرعت و کنترل بهتر</p>
+    <a href="{% url 'model-loader' model='Mouse' %}" class="cta-button">مشاهده ماوس‌ها</a>
+</div>
+</div>
+
+<div class="my-4 p-4 rounded-4 shadow bg-white rtl">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="text-primary fw-bold">ماوس</h4>
+        <a href="{% url 'model-loader' model='Mouse' %}" class="btn btn-primary">مشاهده بیشتر</a>
+    </div>
+    <div class="row g-3">
+        {% for item in mice %}
+        <div class="col-3">
+            <div class="product-card text-center">
+                <a href="{{ item.get_absolute_url }}"><img src="{{ item.main_image.url }}" class="w-100 mb-2"></a>
+                <h6>{{ item.name|add:item.brand|add:item.model }}</h6>
+                <p class="text-primary fw-bold">{{ item.price|cspn }} تومان</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+</div>
+{% endblock %}

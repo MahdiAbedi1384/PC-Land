@@ -1,0 +1,219 @@
+{% extends "_base.html" %}
+{% load static %}
+{% load madval_persian_translation %}
+
+{% block page_title %}علاقه‌مندی‌ها - {{ user.first_name }} {{ user.last_name }}{% endblock %}
+
+{% block styles %}
+.rtl { direction: rtl; text-align: right; }
+.ltr { direction: ltr; text-align: left; }
+
+.favorite-card {
+    border-radius: 12px;
+    padding: 15px;
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.favorite-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.favorite-img {
+    width: 100%;
+    height: 180px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.favorite-title {
+    font-weight: 700;
+    font-size: 1.05rem;
+}
+
+.price-tag {
+    font-weight: 600;
+    color: #0d6efd;
+}
+
+.remove-btn {
+    border: none;
+    background: #ffeded;
+    color: #d9534f;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    transition: 0.3s;
+}
+
+.remove-btn:hover {
+    background: #d9534f;
+    color: white;
+}
+.profile-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .profile-card-header {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            color: white;
+        }
+
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .edit-btn {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .edit-btn:hover {
+            background: linear-gradient(135deg, #0b5ed7 0%, #0d6efd 100%);
+            transform: translateY(-2px);
+        }
+
+        .form-control {
+            border-radius: 8px;
+            padding: 10px 15px;
+            border: 1px solid #ced4da;
+        }
+
+        .form-control:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+
+        .order-card {
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+        }
+
+        .order-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .order-status {
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .status-processing {
+            background: #fff8e6;
+            color: #ffc107;
+        }
+
+        .status-delivered {
+            background: #e6f7e6;
+            color: #28a745;
+        }
+        .rtl { direction: rtl; text-align: right; }
+        .ltr { direction: ltr; text-align: left; }
+{% endblock styles %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container py-5">
+
+        <div class="row">
+
+            <!-- Sidebar -->
+             <div class="col-md-4">
+            <div class="card profile-card">
+                <div class="card-header profile-card-header text-center">
+                <img src="{% static 'imgs/user.webp' %}" 
+                     alt="avatar"
+                     class="rounded-circle mx-auto d-block mb-3"
+                     style="width: 90px; height: 90px; object-fit: cover;">
+
+                <h5 class="fw-bold">{{ user.first_name }} {{ user.last_name }}</h5>
+
+                <p class="text-muted small">{{ user.email }}</p>
+                </div>
+                <hr>
+
+                <div class="card-body p-4 rtl">
+                        <div class="list-group">
+                            <a href="{% url "profile" %}" class="list-group-item list-group-item-action">
+                                <i class="fas fa-user fs-5"></i> پروفایل
+                            </a>
+                            <a href="{% url "orders:order_history" %}" class="list-group-item list-group-item-action">
+                                <i class="fas fa-history me-2"></i> تاریخچه خرید
+                            </a>
+                            <a href="{% url 'favorites' %}" class="list-group-item list-group-item-action active">
+                                <i class="fas fa-heart me-2"></i> علاقه‌مندی‌ها
+                            </a>
+                            <a href="{% url "manage_addresses" %}" class="list-group-item list-group-item-action">
+                                <i class="fas fa-map-marker-alt me-2"></i> آدرس‌ها
+                            </a>
+                            <a href="{% url "account_settings" %}" class="list-group-item list-group-item-action">
+                                <i class="fas fa-cog me-2"></i> تنظیمات
+                            </a>
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+            <!-- Favorites List -->
+            <div class="col-md-8">
+                <div class="card p-4 shadow-sm rtl">
+
+                    <h4 class="fw-bold mb-4">علاقه‌مندی‌ها</h4>
+
+                    {% if favorites %}
+                        <div class="row g-4">
+                            {% for item in favorites %}
+                                <div class="col-md-6">
+                                    <div class="favorite-card">
+
+                                        <a href="{{ item.content_object.get_absolute_url }}" ><img src="{{ item.content_object.main_image.url }}" alt="" class="favorite-img mb-3"></a>
+
+                                        <div class="favorite-title mb-2">
+                                            {{ item.content_object.title }}
+                                        </div>
+
+                                        <div class="price-tag mb-3">
+                                            {{ item.content_object.price|cspn }} تومان
+                                        </div>
+
+                                        <form method="post" action="{% url 'remove_favorite' item.id %}">
+                                            {% csrf_token %}
+                                            <button class="remove-btn">
+                                                حذف از علاقه‌مندی‌ها
+                                            </button>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                    {% else %}
+                        <p class="text-muted">هنوز هیچ محصولی به علاقه‌مندی‌ها اضافه نشده است.</p>
+                    {% endif %}
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+{% endblock content %}

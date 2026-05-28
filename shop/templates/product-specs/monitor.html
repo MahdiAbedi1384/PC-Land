@@ -1,0 +1,84 @@
+<div class="technical-details rtl">
+
+    <h5 class="tech-category">جزئیات فنی</h5>
+
+    <!-- موارد اولیه -->
+    <ul class="tech-specs">
+        <li>
+            <strong>اندازه صفحه:</strong>
+            {{ object.screen_size_inches }} اینچ
+        </li>
+
+        <li>
+            <strong>رزولوشن:</strong>
+            {{ object.resolution }}
+        </li>
+
+        <li>
+            <strong>نرخ نوسازی:</strong>
+            {{ object.refresh_rate_hz }} هرتز
+        </li>
+
+        <li>
+            <strong>زمان پاسخ‌گویی:</strong>
+            {{ object.response_time_ms }} میلی‌ثانیه
+        </li>
+
+        <li>
+            <strong>نوع پنل:</strong>
+            {{ object.get_panel_type_display }}
+        </li>
+
+        <li>
+            <strong>نسبت تصویر:</strong>
+            {{ object.get_aspect_ratio_display }}
+        </li>
+    </ul>
+
+    <!-- بخش کامل (مخفی) -->
+    <div id="fullTechSpecs" class="tech-specs hidden">
+
+        {% if object.brightness_nits %}
+        <li>
+            <strong>روشنایی:</strong>
+            {{ object.brightness_nits }} نیت
+        </li>
+        {% endif %}
+
+        {% if object.contrast_ratio %}
+        <li>
+            <strong>کنتراست:</strong>
+            {{ object.contrast_ratio }}
+        </li>
+        {% endif %}
+
+        {% if object.ports %}
+        <li>
+            <strong>درگاه‌ها:</strong>
+            {{ object.ports }}
+        </li>
+        {% endif %}
+
+        <li>
+            <strong>اسپیکر داخلی:</strong>
+            {% if object.has_speakers %} دارد {% else %} ندارد {% endif %}
+        </li>
+
+        {% if object.vrr_technology %}
+        <li>
+            <strong>فناوری VRR:</strong>
+            <span style="direction: ltr;text-align: left;display: inline-block;min-width: 2px;">{{ object.vrr_technology }}</span>
+        </li>
+        {% endif %}
+
+        <li>
+            <strong>گارانتی:</strong>
+            {{ object.warranty_months }} ماه
+        </li>
+    </div>
+
+    <!-- دکمه نمایش/بستن -->
+    <button id="toggleTechSpecs" class="expand-btn mt-3">
+        <i class="fas fa-chevron-down"></i> مشاهده جزئیات بیشتر
+    </button>
+</div>

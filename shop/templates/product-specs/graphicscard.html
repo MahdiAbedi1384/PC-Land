@@ -1,0 +1,39 @@
+<div class="technical-details rtl">
+    {% load product_extras %}
+    <h5 class="tech-category">مشخصات فنی </h5>
+
+    <ul class="tech-specs">
+        <li><strong>سازنده چیپست:</strong> {{ object.get_chip_manufacturer_display }}</li>
+        <li><strong>حافظه VRAM:</strong> {{ object.VRAM|floatformat:0 }} گیگابایت</li>
+        <li><strong>نوع حافظه:</strong> {{ object.get_VRAM_type_display }}</li>
+        <li><strong>رابط:</strong> {{ object.get_interface_display }}</li>
+        <li><strong>تعداد فن:</strong> {{ object.fans_count }} عدد</li>
+        <li><strong>اندازه:</strong> {{ object.size }}</li>
+        <li><strong>حداقل پاور مورد نیاز:</strong> {{ object.min_power_supply_required }} وات</li>
+        <li><strong>تعداد پورت HDMI:</strong> {{ object.HDMI_ports_count }}</li>
+        <li><strong>تعداد پورت DisplayPort:</strong> {{ object.DisplayPort_ports_count }}</li>
+    </ul>
+
+    <div id="fullTechSpecs" class="tech-specs hidden">
+        <li><strong>فرکانس مؤثر:</strong> {{ object.efficient_frequency }} مگاهرتز</li>
+        <li><strong>پهنای باند حافظه:</strong> {{ object.bus_interface }} بیت</li>
+        <li><strong>نسخه OpenGL:</strong> {{ object.openGL_version }}</li>
+        <li><strong>نسخه DirectX:</strong> {{ object.directx_version }}</li>
+        <li><strong>رزولوشن پشتیبانی:</strong> {{ object.resolution }}</li>
+        <li><strong>تعداد مانیتور پشتیبانی:</strong> {{ object.number_of_supported_monitors }}</li>
+        <li><strong>فضای نصب مورد نیاز:</strong> {{ object.required_installation_space }} اسلات</li>
+        <li><strong>کانکتور برق 6 پین:</strong> {{ object._6_pin_PCIe_power_connector_count }}</li>
+        <li><strong>کانکتور برق 8 پین:</strong> {{ object._8_pin_PCIe_power_connector_count }}</li>
+        <li><strong>کانکتور برق 16 پین:</strong> {{ object._16_pin_PCIe_power_connector_count }}</li>
+        <li><strong>ویژگی‌ها:</strong> {% for feature in object.graphics_card_features.all %}{{ feature.title }}{% if
+            not forloop.last %}، {% endif %}{% endfor %}
+        </li>
+        {% if object.extra_info %}
+        <li><strong>اطلاعات اضافی:</strong> {{ object.extra_info }}</li>
+        {% endif %}
+    </div>
+
+    <button id="toggleTechSpecs" class="expand-btn mt-3">
+        <i class="fas fa-chevron-down"></i> مشاهده جزئیات بیشتر
+    </button>
+</div>

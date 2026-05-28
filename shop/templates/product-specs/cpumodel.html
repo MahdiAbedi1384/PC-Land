@@ -1,0 +1,51 @@
+<div class="technical-details rtl">
+    {% load product_extras %}
+    <h5 class="tech-category">مشخصات فنی پردازنده</h5>
+
+    <ul class="tech-specs">
+        <li><strong>سری:</strong> {{ object.cpu_series }}</li>
+        <li><strong>نسل:</strong> {{ object.cpu_generation }}</li>
+        <li><strong>سوکت:</strong> {{ object.socket }}</li>
+        <li><strong>تعداد هسته:</strong> {{ object.cores }} هسته</li>
+        <li><strong>تعداد رشته:</strong> {{ object.threads }} رشته</li>
+        <li><strong>فرکانس پایه:</strong> {{ object.base_frequency }} مگاهرتز</li>
+        <li><strong>فرکانس بوست:</strong> {{ object.boosted_frequency }} مگاهرتز</li>
+        <li><strong>توان مصرفی پایه:</strong> {{ object.base_power_usage }} وات</li>
+        <li><strong>حداکثر توان مصرفی:</strong> {{ object.max_power_usage }} وات</li>
+        <li><strong>لیتوگرافی:</strong> {{ object.lithography }} نانومتر</li>
+        <li><strong>معماری:</strong> {{ object.cpu_architecture|default:"-" }}</li>
+        <li><strong>نوع بسته‌بندی:</strong> {{ object.get_package_type_display }}</li>
+    </ul>
+
+    <div id="fullTechSpecs" class="tech-specs hidden">
+        {% if object.performance_cores_count %}
+        <li><strong>هسته‌های Performance:</strong> {{ object.performance_cores_count }}</li>
+        {% endif %}
+        {% if object.efficient_core_count %}
+        <li><strong>هسته‌های Efficient:</strong> {{ object.efficient_core_count }}</li>
+        {% endif %}
+        <li><strong>گرافیک مجتمع (iGPU):</strong> {% if object.has_igpu %} دارد ({{ object.igpu_model }}) {% else %}
+            ندارد {% endif %}
+        </li>
+        <li><strong>حداکثر حافظه پشتیبانی:</strong> {{ object.max_memory_size_supported }} گیگابایت</li>
+        <li><strong>انواع رم پشتیبانی:</strong> {% for ram in object.ram_types_supported.all %}{{ ram.title }}{% if not
+            forloop.last %}، {% endif %}{% endfor %}
+        </li>
+        <li><strong>فرکانس رم پشتیبانی:</strong> {{ object.ram_frequency_supported }}</li>
+        <li><strong>کانال‌های رم:</strong> {{ object.ram_channels_supported }}</li>
+        <li><strong>حداکثر پهنای باند رم:</strong> {{ object.max_ram_bandwidth }} گیگابایت بر ثانیه</li>
+        <li><strong>حافظه کش L1:</strong> {{ object.cache_memory_l1 }} کیلوبایت</li>
+        <li><strong>حافظه کش L2:</strong> {{ object.cache_memory_l2 }} کیلوبایت</li>
+        {% if object.cache_memory_l3 %}
+        <li><strong>حافظه کش L3:</strong> {{ object.cache_memory_l3 }} مگابایت</li>
+        {% endif %}
+        {% if object.ai_npu %}
+        <li><strong>AI NPU:</strong> {{ object.ai_npu }}</li>
+        {% endif %}
+        <li><strong>دمای عملیاتی:</strong> {{ object.in_operation_temperature }} درجه سانتیگراد</li>
+    </div>
+
+    <button id="toggleTechSpecs" class="expand-btn mt-3">
+        <i class="fas fa-chevron-down"></i> مشاهده جزئیات بیشتر
+    </button>
+</div>

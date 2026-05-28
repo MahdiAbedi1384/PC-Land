@@ -1,0 +1,110 @@
+{% extends "_base.html" %}
+
+{% block page_title %}پرداخت ناموفق - فروشگاه لپ‌تاپ و کامپیوتر{% endblock page_title %}
+
+{% block styles %}
+.profile-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+.profile-card-header {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    color: white;
+}
+.error-icon {
+    font-size: 4rem;
+    color: white; /* رنگ را سفید کردم تا روی پس‌زمینه قرمز هدر بهتر دیده شود */
+    margin-bottom: 20px;
+}
+.order-details {
+    background: #fff8f8;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 25px;
+    border-left: 4px solid #dc3545;
+    text-align: right;
+}
+.btn-danger {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    border: none;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s;
+    width: 100%;
+}
+.btn-danger:hover {
+    background: linear-gradient(135deg, #c82333 0%, #dc3545 100%);
+    transform: translateY(-2px);
+    color: white;
+}
+.btn-secondary {
+    background: #e9ecef;
+    border: none;
+    color: #0d6efd;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s;
+    width: 100%;
+    margin-top: 15px;
+}
+.btn-secondary:hover {
+    background: #0d6efd;
+    color: white;
+}
+{% endblock styles %}
+
+{% block content %}
+<!-- صفحه پرداخت ناموفق -->
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card profile-card">
+                    <div class="card-header profile-card-header text-center">
+                        <i class="fas fa-exclamation-triangle error-icon"></i>
+                        <h3 class="fw-bold">پرداخت ناموفق</h3>
+                    </div>
+                    <div class="card-body p-4 text-center">
+                        <p class="lead">پرداخت شما با خطا مواجه شد یا لغو گردید.</p>
+                        <p class="text-muted">لطفاً دوباره تلاش کنید یا با پشتیبانی تماس بگیرید.</p>
+
+                        <div class="order-details">
+                            <h5 class="fw-bold mb-3">جزئیات خطا</h5>
+                            
+                            {# در صورتی که کد خطا از سمت درگاه برگردد #}
+                            {% if error_code %}
+                            <p>کد خطا: <strong>{{ error_code }}</strong></p>
+                            {% endif %}
+                            
+                            <p>شرح خطا: <span class="text-danger">{{ error_message|default:"تراکنش توسط شما لغو شد یا خطای ارتباط با بانک رخ داد." }}</span></p>
+                        </div>
+
+                        <div class="mt-4">
+                            <!-- فرض شده نام url برای تلاش مجدد 'checkout' یا هر نامی که برای مرحله پرداخت دارید است -->
+                            <a href="{% url 'cart:detail' %}" class="btn btn-danger">
+                                <i class="fas fa-sync-alt me-1"></i> تلاش مجدد
+                            </a>
+                            
+                            <!-- فرض شده نام url برای سبد خرید 'cart_detail' است -->
+                            <a href="{% url 'cart:detail' %}" class="btn btn-secondary">
+                                <i class="fas fa-shopping-cart me-1"></i> بازگشت به سبد خرید
+                            </a>
+                        </div>
+
+                        <div class="mt-4">
+                            <p class="text-muted">
+                                <i class="fas fa-phone-alt me-1"></i> برای راهنمایی بیشتر با پشتیبانی تماس بگیرید: 021-12345678
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

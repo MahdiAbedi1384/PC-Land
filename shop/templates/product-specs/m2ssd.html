@@ -1,0 +1,27 @@
+<div class="technical-details rtl">
+    {% load product_extras %}
+    <h5 class="tech-category">مشخصات فنی </h5>
+
+    <ul class="tech-specs">
+        <li><strong>وزن:</strong> {{ object.weight|kg_to_g }} گرم</li>
+        <li><strong>ظرفیت:</strong> {{ object.capacity }} گیگابایت</li>
+        <li><strong>سرعت خواندن متوالی:</strong> {{ object.ordered_read_speed }} مگابایت بر ثانیه</li>
+        <li><strong>سرعت نوشتن متوالی:</strong> {{ object.ordered_write_speed }} مگابایت بر ثانیه</li>
+        <li><strong>سایز ماژول M.2:</strong> {{ object.m2_module_size|default:"-" }}</li>
+    </ul>
+
+    <div id="fullTechSpecs" class="tech-specs hidden">
+        <li><strong>سرعت خواندن تصادفی:</strong> {{ object.random_read_speed|default:"-" }} مگابایت بر ثانیه</li>
+        <li><strong>سرعت نوشتن تصادفی:</strong> {{ object.random_write_speed|default:"-" }} مگابایت بر ثانیه</li>
+        <li><strong>نوع رابط:</strong> {{ object.ssd_interface_type|default:"-" }}</li>
+        <li><strong>نوع حافظه فلش:</strong> {{ object.flash_drive_type|default:"-" }}</li>
+        <li><strong>فرم‌فکتورهای پشتیبانی:</strong> {{ object.Supported_M2_form_factors|default:"-" }}</li>
+        <li><strong>استاندارد رابط:</strong> {{ object.internal_ssd_interface_standard|default:"-" }}</li>
+        <li><strong>دمای عملیاتی:</strong> {{ object.in_operation_temperature }} درجه سانتیگراد</li>
+        <li><strong>مقاومت در برابر شوک:</strong> {{ object.max_resistance_against_shock }} G</li>
+    </div>
+
+    <button id="toggleTechSpecs" class="expand-btn mt-3">
+        <i class="fas fa-chevron-down"></i> مشاهده جزئیات بیشتر
+    </button>
+</div>

@@ -1,0 +1,27 @@
+<div class="technical-details rtl">
+    {% load product_extras %}
+    <h5 class="tech-category">مشخصات فنی </h5>
+
+    <ul class="tech-specs">
+        <li><strong>وزن:</strong> {{ object.weight|kg_to_g }} گرم</li>
+        <li><strong>ظرفیت:</strong> {{ object.capacity }}</li>
+        <li><strong>نوع اتصال:</strong> {{ object.get_connection_type_display }}</li>
+        <li><strong>گارانتی:</strong> {{ object.warranty_months }} ماه</li>
+        <li><strong>مقاوم در برابر آب:</strong> {% if object.waterproof %} بله {% else %} خیر {% endif %}</li>
+    </ul>
+
+    <div id="fullTechSpecs" class="tech-specs hidden">
+        <li><strong>ابعاد:</strong> {{ object.dimensions|default:"-" }}</li>
+        <li><strong>جنس بدنه:</strong> {{ object.materials|default:"-" }}</li>
+        <li><strong>رنگ‌ها:</strong> {% for color in object.colors.all %}{{ color.title }}{% if not forloop.last %}، {%
+            endif %}{% endfor %}
+        </li>
+        <li><strong>سیستم‌عامل‌های سازگار:</strong> {% for os in object.compatible_operation_systems.all %}{{ os.title
+            }}{% if not forloop.last %}، {% endif %}{% endfor %}
+        </li>
+    </div>
+
+    <button id="toggleTechSpecs" class="expand-btn mt-3">
+        <i class="fas fa-chevron-down"></i> مشاهده جزئیات بیشتر
+    </button>
+</div>

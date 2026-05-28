@@ -1,0 +1,36 @@
+<div class="technical-details rtl">
+    {% load product_extras %}
+    <h5 class="tech-category">مشخصات فنی </h5>
+
+    <ul class="tech-specs">
+        <li><strong>وزن:</strong> {{ object.weight|kg_to_g }} گرم</li>
+        <li><strong>اندازه:</strong> {{ object.size }}</li>
+        <li><strong>فرم فاکتور کیس:</strong> {{ object.case_form_factor }}</li>
+        <li><strong>جنس بدنه:</strong> {{ object.case_material }}</li>
+        <li><strong>حداکثر ارتفاع خنک‌کننده CPU:</strong> {{ object.max_cpu_cooler_height }} میلی‌متر</li>
+        <li><strong>حداکثر طول کارت گرافیک:</strong> {{ object.max_graphics_card_length }} میلی‌متر</li>
+        <li><strong>تعداد اسلات expansion:</strong> {{ object.number_of_expansion_slots }}</li>
+    </ul>
+
+    <div id="fullTechSpecs" class="tech-specs hidden">
+        <li><strong>محل نصب پاور:</strong> {{ object.power_supply_mounting_location }}</li>
+        <li><strong>فرم فاکتور پاور پشتیبانی:</strong> {{ object.supported_power_supply_form_factor }}</li>
+        <li><strong>محفظه 2.5 اینچی:</strong> {{ object.Number_of_2_p_5_inch_drive_bays }} عدد</li>
+        <li><strong>محفظه 3.5 اینچی:</strong> {{ object.Number_of_3_p_5_inch_drive_bays }} عدد</li>
+        <li><strong>محفظه 5.25 اینچی:</strong> {{ object.Number_of_5_p_25_inch_drive_bays }} عدد</li>
+        <li><strong>تعداد جای فن:</strong> {{ object.Total_fan_mounting_positions }}</li>
+        <li><strong>فن‌های نصب شده:</strong> {{ object.pre_installed_fans }} عدد</li>
+        <li><strong>جای فن جلو:</strong> {{ object.Front_panel_fan_mounts }}</li>
+        <li><strong>جای فن بالا:</strong> {{ object.top_panel_fan_mounts }}</li>
+        <li><strong>جای فن عقب:</strong> {{ object.rear_panel_fan_mounts }}</li>
+        <li><strong>پشتیبانی از خنک‌کننده آبی:</strong> {{ object.water_cooling_radiator_support|default:"-" }}</li>
+        <li><strong>پورت USB 2.0:</strong> {{ object.usb2_ports_count }}</li>
+        <li><strong>پورت USB 3.0:</strong> {{ object.usb3_ports_count }}</li>
+        <li><strong>پورت USB 3.1:</strong> {{ object.usb3_1_ports_count }}</li>
+        <li><strong>خروجی صدا 3.5mm:</strong> {{ object.audio_3_5_jack }}</li>
+    </div>
+
+    <button id="toggleTechSpecs" class="expand-btn mt-3">
+        <i class="fas fa-chevron-down"></i> مشاهده جزئیات بیشتر
+    </button>
+</div>

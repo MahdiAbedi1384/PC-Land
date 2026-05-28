@@ -1,0 +1,282 @@
+{# templates/search_results.html #}
+{% extends '_base.html' %}
+{% load i18n %}
+
+{% block page_title %}{% trans "Search Results" %} - {{ query }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <!-- Sidebar با فیلترها -->
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-filter me-2"></i>{% trans "Filters" %}</h5>
+                </div>
+                <div class="card-body">
+                    <form method="get" id="filter-form">
+                        <input type="hidden" name="q" value="{{ query }}">
+                        <input type="hidden" name="category" value="{{ category }}">
+
+                        <!-- محدوده قیمت -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">{% trans "Price Range" %}</label>
+                            <div class="d-flex gap-2">
+                                <input type="number" class="form-control" name="min_price"
+                                       placeholder="{% trans 'Min' %}" value="{{ min_price }}">
+                                <input type="number" class="form-control" name="max_price"
+                                       placeholder="{% trans 'Max' %}" value="{{ max_price }}">
+                            </div>
+                        </div>
+
+                        <!-- مرتب‌سازی -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">{% trans "Sort By" %}</label>
+                            <select class="form-select" name="sort">
+                                <option value="relevance" {% if sort_by == 'relevance' %}selected{% endif %}>
+                                {% trans "Relevance" %}
+                                </option>
+                                <option value="price_asc" {% if sort_by == 'price_asc' %}selected{% endif %}>
+                                {% trans "Price: Low to High" %}
+                                </option>
+                                <option value="price_desc" {% if sort_by == 'price_desc' %}selected{% endif %}>
+                                {% trans "Price: High to Low" %}
+                                </option>
+                                <option value="newest" {% if sort_by == 'newest' %}selected{% endif %}>
+                                {% trans "Newest First" %}
+                                </option>
+                                <option value="name_asc" {% if sort_by == 'name_asc' %}selected{% endif %}>
+                                {% trans "Name: A to Z" %}
+                                </option>
+                            </select>
+                        </div>
+
+                        <!-- برندها (از facets) -->
+                        {% if search_results.facets.brands %}
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">{% trans "Brands" %}</label>
+                            {% for brand in search_results.facets.brands %}
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="brands"
+                                       value="{{ brand.key }}" id="brand_{{ forloop.counter }}"
+                                       {% if brand.key in request.GET.brands %}checked{% endif %}>
+                                <label class="form-check-label" for="brand_{{ forloop.counter }}">
+                                    {{ brand.key }} ({{ brand.count }})
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <!-- فیلترهای اختصاصی لپ‌تاپ -->
+                        {% if category == 'laptops' %}
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">{% trans "RAM Capacity (GB)" %}</label>
+                            {% for ram in search_results.facets.ram_options %}
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="ram"
+                                       value="{{ ram }}" id="ram_{{ ram }}">
+                                <label class="form-check-label" for="ram_{{ ram }}">{{ ram }} GB</label>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">{% trans "Features" %}</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="touchscreen"
+                                       value="true" id="touchscreen">
+                                <label class="form-check-label" for="touchscreen">
+                                    {% trans "Touchscreen" %}
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="backlit"
+                                       value="true" id="backlit">
+                                <label class="form-check-label" for="backlit">
+                                    {% trans "Backlit Keyboard" %}
+                                </label>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <!-- فیلترهای اختصاصی CPU -->
+                        {% if category == 'cpus' %}
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">{% trans "Socket Type" %}</label>
+                            <select class="form-select" name="socket">
+                                <option value="">{% trans "All" %}</option>
+                                {% for socket in search_results.facets.socket_types %}
+                                <option value="{{ socket }}">{{ socket }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">{% trans "Minimum Cores" %}</label>
+                            <select class="form-select" name="min_cores">
+                                <option value="">{% trans "All" %}</option>
+                                <option value="4">4+</option>
+                                <option value="6">6+</option>
+                                <option value="8">8+</option>
+                                <option value="12">12+</option>
+                            </select>
+                        </div>
+                        {% endif %}
+
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-search me-2"></i>{% trans "Apply Filters" %}
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- نتایج جستجو -->
+        <div class="col-md-9">
+            <!-- هدر نتایج -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4>
+                    {% blocktrans count counter=search_results.total_count %}
+                    {{ counter }} result for "{{ query }}"
+                    {% plural %}
+                    {{ counter }} results for "{{ query }}"
+                    {% endblocktrans %}
+                </h4>
+
+                {% if search_results.suggestions %}
+                <div class="alert alert-info py-2">
+                    <i class="fas fa-lightbulb me-2"></i>
+                    {% trans "Did you mean:" %}
+                    {% for suggestion in search_results.suggestions %}
+                    <a href="?q={{ suggestion }}&category={{ category }}" class="alert-link">
+                        {{ suggestion }}
+                    </a>{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="alert alert-info">
+                <i class="fas fa-folder-open me-2"></i>
+                دسته‌بندی فعلی:
+                <strong id="current-category-label">
+                    {% if category == 'all' %}همه محصولات
+                    {% elif category == 'laptops' %}لپ‌تاپ‌ها
+                    {% elif category == 'monitors' %}مانیتورها
+                    {% elif category == 'keyboards' %}کیبوردها
+                    {% elif category == 'mice' %}ماوس‌ها
+                    {% elif category == 'cpus' %}پردازنده‌ها
+                    {% elif category == 'graphics_cards' %}کارت‌های گرافیک
+                    {% else %}{{ category }}{% endif %}
+                </strong>
+                {% if query %}
+                - جستجو: "{{ query }}"
+                {% endif %}
+            </div>
+            <!-- نمایش نتایج -->
+            {% if search_results.results %}
+            <div class="row g-4">
+                {% for item in search_results.results %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm hover-shadow">
+                        {% if item.main_image %}
+                        <img src="{{ item.main_image.url }}" class="card-img-top" alt="{{ item.name }}"
+                             style="height: 200px; object-fit: cover;">
+                        {% else %}
+                        <div class="bg-light text-center py-5">
+                            <i class="fas fa-image fa-3x text-muted"></i>
+                        </div>
+                        {% endif %}
+
+                        <div class="card-body">
+                            <span class="badge bg-secondary mb-2">{{ item.category }}</span>
+                            <h5 class="card-title">{{ item.name }}</h5>
+                            <p class="card-text text-muted small">{{ item.brand }} - {{ item.model }}</p>
+
+                            {% if item.screen_size %}
+                            <div class="small text-muted">
+                                <i class="fas fa-tv me-1"></i> {{ item.screen_size }}"
+                                {% if item.resolution %}- {{ item.resolution }}{% endif %}
+                            </div>
+                            {% endif %}
+
+                            {% if item.ram_capacity %}
+                            <div class="small text-muted">
+                                <i class="fas fa-microchip me-1"></i> {{ item.ram_capacity }}GB RAM
+                            </div>
+                            {% endif %}
+
+                            <div class="mt-3">
+                                <span class="h5 text-primary">{{ item.price|floatformat:0 }} تومان</span>
+                            </div>
+                        </div>
+
+                        <div class="card-footer bg-white border-top-0">
+                            <a href="{{ item.get_absolute_url }}" class="btn btn-outline-primary w-100">
+                                <i class="fas fa-eye me-2"></i>{% trans "View Details" %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- صفحه‌بندی -->
+            {% if search_results.total_pages > 1 %}
+            <nav aria-label="Page navigation" class="mt-5">
+                <ul class="pagination justify-content-center">
+                    {% if search_results.page > 1 %}
+                    <li class="page-item">
+                        <a class="page-link" href="?q={{ query }}&page={{ search_results.page|add:'-1' }}&category={{ category }}&sort={{ sort_by }}">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+
+                    {% for num in search_results.total_pages|make_list %}
+                    {% with forloop.counter as page_num %}
+                    <li class="page-item {% if page_num == search_results.page %}active{% endif %}">
+                        <a class="page-link" href="?q={{ query }}&page={{ page_num }}&category={{ category }}&sort={{ sort_by }}">
+                            {{ page_num }}
+                        </a>
+                    </li>
+                    {% endwith %}
+                    {% endfor %}
+
+                    {% if search_results.page < search_results.total_pages %}
+                    <li class="page-item">
+                        <a class="page-link" href="?q={{ query }}&page={{ search_results.page|add:'1' }}&category={{ category }}&sort={{ sort_by }}">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+
+            {% else %}
+            <div class="text-center py-5">
+                <i class="fas fa-search fa-4x text-muted mb-3"></i>
+                <h4>{% trans "No results found" %}</h4>
+                <p class="text-muted">
+                    {% trans "Try different keywords or remove some filters" %}
+                </p>
+                <a href="{% url 'home' %}" class="btn btn-primary">
+                    <i class="fas fa-home me-2"></i>{% trans "Back to Home" %}
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .hover-shadow {
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .hover-shadow:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,869 @@
+{% extends "_base.html" %}
+{% load madval_persian_translation %}
+{% load madval_make_for_loop %}
+{% load jformat %}
+{% load contenttypes %}
+{% load product_extras %}
+
+
+
+
+    {% block page_title %}{{ object.name|add:object.brand }}{% endblock page_title %}
+    {% block styles %}
+        .product-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        .product-img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            transition: all 0.3s;
+        }
+        .product-img:hover {
+            transform: scale(1.05);
+        }
+        .wishlist-btn {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 6px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+            transition: all 0.3s;
+        }
+        .wishlist-btn:hover {
+            background: linear-gradient(135deg, #c82333 0%, #dc3545 100%);
+            transform: translateY(-2px);
+        }
+        .product-name {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1.5rem;
+        }
+        .product-price {
+            font-weight: 700;
+            color: #dc3545;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+        .add-to-cart-btn {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 15px;
+        }
+        .add-to-cart-btn:hover {
+            background: linear-gradient(135deg, #0b5ed7 0%, #0d6efd 100%);
+            transform: translateY(-2px);
+        }
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #dc3545;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .product-badge.sale {
+            background: #28a745;
+        }
+        .product-specs {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 25px;
+        }
+        .spec-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #0d6efd;
+        }
+        .spec-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .spec-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .spec-list li:last-child {
+            border-bottom: none;
+        }
+        .comment-section {
+            margin-top: 40px;
+        }
+        .comment-form {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        .comment-form-title {
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #0d6efd;
+        }
+        .comment-list {
+            margin-top: 30px;
+        }
+        .comment-item {
+            border-bottom: 1px solid #e9ecef;
+            padding: 20px 0;
+        }
+        .comment-item:last-child {
+            border-bottom: none;
+        }
+        .comment-user {
+            font-weight: 600;
+            color: #0d6efd;
+            margin-bottom: 5px;
+        }
+        .comment-date {
+            color: #6c757d;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+        }
+        .comment-text {
+            line-height: 1.6;
+        }
+        .rating {
+            color: #ffc107;
+            margin-bottom: 10px;
+        }
+        .rating-stars-container {
+            display: inline-flex;
+            gap: 5px;
+            margin-right: 10px;
+        }
+        .star {
+            cursor: pointer;
+            color: #adb5bd;
+            font-size: 1.2rem;
+        }
+        .star.active {
+            color: #ffc107;
+        }
+        .rating-count {
+            font-weight: 500;
+            color: #6c757d;
+        }
+        .technical-details {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 25px;
+        }
+        .tech-category {
+            font-weight: 600;
+            color: #0d6efd;
+            margin-bottom: 10px;
+        }
+        .tech-specs {
+            list-style: none;
+            padding-left: 0;
+        }
+        .tech-specs li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .tech-specs li:last-child {
+            border-bottom: none;
+        }
+        .expand-btn {
+            background: none;
+            border: none;
+            color: #0d6efd;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 5px 0;
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .expand-btn:hover {
+            text-decoration: underline;
+        }
+        .hidden {
+            display: none;
+        }
+        
+    {% endblock styles %}
+{% block content %}
+{% get_specs_template object as specs_template %}
+<!-- صفحه جزئیات محصول -->
+<section class="py-5" style="direction: rtl">
+    <div class="container">
+        <div class="row">
+            <!-- سمت چپ: جزئیات محصول -->
+            <div class="col-md-8">
+                <div class="card product-card">
+                    <div class="position-relative">
+                        <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+
+                        <!-- اسلایدها -->
+                        <div class="carousel-inner">
+
+                            <!-- عکس اصلی به عنوان اسلاید اول (Active) -->
+                            <div class="carousel-item active">
+                                <img src="{{ object.main_image.url }}"
+                                    class="d-block w-100"
+                                    style="height: 450px; object-fit: cover;"
+                                    alt="{{ object.name }}">
+                            </div>
+
+                            <!-- عکس‌های گالری -->
+                            {% for img in gallery_images %}
+                            <div class="carousel-item">
+                                <img src="{{ img.image.url }}"
+                                    class="d-block w-100"
+                                    style="height: 450px; object-fit: cover;"
+                                    alt="{{ object.name }}">
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- دکمه‌های قبلی / بعدی -->
+                        <button class="carousel-control-prev" type="button"
+                                data-bs-target="#productCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </button>
+
+                        <button class="carousel-control-next" type="button"
+                                data-bs-target="#productCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </button>
+                    </div>
+                    <div class="d-flex mt-3 gap-2" style="overflow-x: auto; padding-bottom: 10px;">
+
+                        <!-- بندانگشتی عکس اصلی -->
+                        <img src="{{ object.main_image.url }}"
+                            class="border rounded"
+                            style="width: 80px; height: 80px; object-fit: cover; cursor: pointer;"
+                            onclick="jumpToSlide(0)">
+
+                        {% for img in gallery_images %}
+                        <img src="{{ img.image.url }}"
+                            class="border rounded"
+                            style="width: 80px; height: 80px; object-fit: cover; cursor: pointer;"
+                            onclick="jumpToSlide({{ forloop.counter }})">
+                        {% endfor %}
+                    </div>
+                        <span class="product-badge sale">تخفیف 20%</span>
+                        <button class="wishlist-btn"
+                                data-content-type="{{ object|content_type_id }}"
+                                data-object-id="{{ object.id }}">
+                                    <i class="{% if is_favorited %}far{% else %}fas{% endif %} fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="card-body p-4">
+                        <h1 class="product-name">{{ object.name|add:object.brand|add:object.model }}</h1>
+                        <p class="product-price">{{ object.price|cspn }} تومان</p>
+
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="rating-stars-container">
+                                <span class="star active" data-value="1" onclick="sendRating(1)">★</span>
+                                <span class="star active" data-value="2" onclick="sendRating(2)">★</span>
+                                <span class="star active" data-value="3" onclick="sendRating(3)">★</span>
+                                <span class="star active" data-value="4" onclick="sendRating(4)">★</span>
+                                <span class="star active" data-value="5" onclick="sendRating(5)">★</span>
+                            </div>
+                            <span class="ms-2 text-muted rating-count">{{ average_rating|floatformat:1 }} ({{ ratings.count }} نظر)</span>
+                        </div>
+
+                        <p class="mb-4" style="direction: rtl">{{ object.summary }}</p>
+
+                        {% include specs_template %}
+
+
+                       <form action="{% url 'cart:add' app_label="shop" model_name=object|get_model object_id=object.id %}" id="add_to_cart_form"
+                        method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="quantity" value="1">
+                            <input type="hidden" name="replace" value="False">
+                            <button class="add-to-cart-btn">
+                                <i class="fas fa-shopping-cart me-1"></i> افزودن به سبد خرید
+                            </button>
+                        </form>
+
+                    </div>
+                </div>
+
+                <!-- توضیحات محصول -->
+                <div class="card product-card mt-4">
+                    <div class="card-header bg-white">
+                        <h4 class="fw-bold" style="direction: rtl">توضیحات محصول</h4>
+                    </div>
+                    <div class="card-body p-4" style="direction: rtl">
+                        {{ object.description }}
+                    </div>
+                </div>
+
+                <!-- نظرات کاربران -->
+<div class="comment-section">
+    <h3 class="fw-bold mb-4">نظرات کاربران</h3>
+
+    <!-- فرم ارسال نظر -->
+    <div class="comment-form">
+        <h4 class="comment-form-title">ارسال نظر</h4>
+
+        <form id="commentForm">
+            {% csrf_token %}
+            <input type="hidden" id="content_type" value="{{ content_type_id }}">
+            <input type="hidden" id="object_id" value="{{ object_id }}">
+
+            <div class="mb-3">
+                <label for="commentText" class="form-label">دیدگاه شما</label>
+                <textarea class="form-control"
+                          id="commentText"
+                          rows="4"
+                          placeholder="دیدگاه خود را وارد کنید..."
+                          required></textarea>
+            </div>
+
+            <button type="submit"
+                    class="btn btn-primary"
+                    onclick="sendComment(); return false;">
+                ارسال نظر
+            </button>
+        </form>
+    </div>
+
+    <!-- لیست نظرات -->
+    <div class="comment-list mt-4">
+
+        {% for c in comments_page.object_list %}
+        <div class="comment-item mb-4" id="commentsList" >
+            <div class="d-flex align-items-center mb-2">
+
+                <div class="comment-user fw-bold">
+                    {{ c.user.get_full_name|default:c.user.username }}
+                </div>
+
+                <div class="rating ms-3">
+                    {% for i in user_rating.score|times %}
+                        <i class="fas fa-star rating-stars"
+                           style="color: #FBC02D;"></i>
+                    {% endfor %}
+                </div>
+
+            </div>
+
+            <div class="comment-date text-muted small">
+                {{ c.created_at|jformat:" %Y/%m/%d "|pn}}
+            </div>
+
+            <p class="comment-text mt-2">
+                {{ c.text }}
+            </p>
+        </div>
+        {% empty %}
+        <p class="text-muted">نظری ثبت نشده است.</p>
+        {% endfor %}
+
+        <!-- دکمه نمایش بیشتر -->
+        {% if has_more %}
+            <button id="load_more_comments_btn" 
+                    data-offset="0"
+                    class="btn btn-secondary mt-3">
+                نمایش بیشتر
+            </button>
+        {% endif %}
+    </div>
+</div>
+
+            </div>
+
+            <!-- سمت راست: اطلاعات جانبی -->
+            <div class="col-md-4" >
+                <div class="card product-card">
+                    <div class="card-header bg-white">
+                        <h4 class="fw-bold">مشخصات اصلی</h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>برند</span>
+                                <span class="fw-bold">{{ object.brand }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>مدل</span>
+                                <span class="fw-bold">{{ object.model }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>وضعیت</span>
+                                {% if object.sku > 0 %}<span class="fw-bold text-success">موجود</span>{% else %}<span class="fw-bold text-danger">ناموجود</span>{% endif %}
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>تضمین اصالت</span>
+                                <span class="fw-bold text-success">دارد</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>گارانتی</span>
+                                <span class="fw-bold">2 سال</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>ارسال</span>
+                                <span class="fw-bold">رایگان</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card product-card mt-4">
+                    <div class="card-header bg-white">
+                        <h4 class="fw-bold">مشتریان این محصول را خریده‌اند</h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://i.imgur.com/5XJzZ9l.png" alt="لپ‌تاپ Dell XPS 15" class="product-img" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+                            <div class="ms-3">
+                                <h6 class="mb-0">لپ‌تاپ Dell XPS 15</h6>
+                                <p class="text-muted mb-0">25,000,000 تومان</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://i.imgur.com/5XJzZ9l.png" alt="کیس کامپیوتر Cooler Master" class="product-img" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+                            <div class="ms-3">
+                                <h6 class="mb-0">کیس کامپیوتر Cooler Master</h6>
+                                <p class="text-muted mb-0">850,000 تومان</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <img src="https://i.imgur.com/5XJzZ9l.png" alt="مانیتور LG UltraGear 27\"" class="product-img" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+                            <div class="ms-3">
+                                <h6 class="mb-0">مانیتور LG UltraGear 27"</h6>
+                                <p class="text-muted mb-0">12,500,000 تومان</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+{% block scripts %}
+document.querySelectorAll('.wishlist-btn').forEach(button => {
+    button.addEventListener('click', function() {
+        const icon = this.querySelector('svg');
+        if (!icon) return;
+
+        // heart-o → heart
+        if (icon.classList.contains('fa-heart-o')) {
+            icon.classList.remove('fa-heart-o');
+            icon.classList.add('fa-heart');
+        }
+        // heart → heart-o
+        else {
+            icon.classList.remove('fa-heart');
+            icon.classList.add('fa-heart-o');
+        }
+    });
+});
+
+const loadMoreBtn = document.getElementById("loadMoreBtn");
+
+if (loadMoreBtn) {
+    loadMoreBtn.addEventListener("click", function() {
+        const offset = parseInt(this.dataset.offset);
+        loadMoreComments(offset);
+    });
+}
+
+    // فرض می‌کنیم csrftoken و content_type_id, object_id در دسترس هستند
+
+    // متغیر سراسری برای نگهداری offset
+    let currentCommentOffset = 0;
+    const commentsLimit = 5; // تعداد کامنت در هر بار بارگذاری (باید با view یکی باشد)
+
+    // تابع برای اضافه کردن کامنت‌ها به DOM
+function appendCommentToList(c) {
+    const container = document.getElementById("commentsList");
+
+    const div = document.createElement("div");
+    div.classList.add("comment-item", "mb-4");
+
+    div.innerHTML = `
+        <div class="d-flex align-items-center mb-2">
+            <div class="comment-user fw-bold">
+                ${c.user}
+            </div>
+
+            <div class="rating ms-3">
+                ${[1,2,3,4,5].map(i => `
+                    <i class="fas fa-star rating-stars"
+                        style="color:${i <= c.rating ? "#FBC02D" : "#ccc"}"></i>
+                `).join("")}
+            </div>
+        </div>
+
+        <div class="comment-date text-muted small">
+            ${c.created_at}
+        </div>
+
+        <p class="comment-text mt-2">${c.text}</p>
+    `;
+
+    container.appendChild(div);
+}
+
+        {% comment %} comments.forEach(comment => {
+            const commentHtml = `
+            <p><b>${comment.user}</b>: ${comment.text} <small>(${comment.created_at})</small></p>
+        `;
+            // اضافه کردن کامنت جدید به بالای لیست (یا انتهای لیست، بسته به نیاز)
+            // برای load more بهتر است به انتها اضافه شود تا ترتیب حفظ شود
+            // اگر میخواهید جدیدترین ها اول نمایش داده شوند، از insertAdjacentHTML('afterbegin', ...) استفاده کنید
+            // اما برای load more معمولا به ترتیب نمایش داده می شوند
+            commentsList.insertAdjacentHTML('beforeend', commentHtml);
+        }); {% endcomment %}
+    
+
+    // تابع برای بارگذاری کامنت‌های بیشتر
+    function loadMoreComments(offset) {
+    fetch("/api/comments/load_more/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": document.querySelector("[name=csrfmiddlewaretoken]").value
+        },
+        body: JSON.stringify({
+            content_type: document.getElementById("content_type").value,
+            object_id: document.getElementById("object_id").value,
+            offset: offset,
+            limit: 5
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log("DATA:", data);
+
+        if (!data.success) return;
+
+        data.comments.forEach(c => {
+            appendCommentToList(c);
+        });
+
+        if (data.has_more) {
+            loadMoreBtn.dataset.offset = data.next_offset;
+        } else {
+            loadMoreBtn.style.display = "none";
+        }
+    })
+    .catch(err => console.error(err));
+}
+
+
+    // مقدار اولیه currentCommentOffset را بر اساس تعداد کامنت‌های نمایش داده شده در رندر اولیه تنظیم کنید.
+    // فرض کنید در رندر اول، 10 کامنت نمایش داده شده است.
+    // این مقدار باید با تعداد کامنت‌هایی که در تمپلیت اصلی نمایش داده می‌شوند، مطابقت داشته باشد.
+    // اگر کامنت‌ها در تمپلیت اصلی نمایش داده نمی‌شوند، این مقدار 0 است.
+    // در مثال بالا، ما کامنت‌ها را در تمپلیت اصلی نمایش ندادیم و صفر در نظر گرفتیم:
+    // currentCommentOffset = 0; // یا تعداد کامنت‌های نمایش داده شده در رندر اولیه
+
+    // اطمینان حاصل کنید که این کد بعد از بارگذاری اولیه صفحه و تعریف csrftoken اجرا شود.
+    // همچنین، باید در ابتدای بارگذاری صفحه، تعداد کامنت‌های موجود را بررسی کرده و در صورت نیاز دکمه "نمایش بیشتر" را فعال کنید.
+    // به عنوان مثال، اگر بیش از 'commentsLimit' کامنت وجود دارد، دکمه را نشان بده.
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        // مقدار اولیه offset را بر اساس کامنت‌های موجود در صفحه تنظیم کنید
+        // اگر کامنت‌ها در تمپلیت اولیه نمایش داده شده‌اند، تعدادشان را بشمارید
+        const initialComments = document.querySelectorAll('#comments_list p').length;
+        currentCommentOffset = initialComments;
+
+        const loadMoreButton = document.getElementById("load_more_comments_btn");
+        if (loadMoreButton && initialComments < commentsLimit) { // اگر تعداد کامنت‌های اولیه کمتر از حد مجاز بود، دکمه را مخفی کن
+            loadMoreButton.style.display = 'none';
+        } else if (loadMoreButton) {
+            // اضافه کردن event listener به دکمه
+            loadMoreButton.addEventListener('click', loadMoreComments);
+        }
+
+        // --- همچنین باید تابع sendComment را طوری تغییر دهید که کامنت جدید را به انتهای لیست اضافه کند ---
+        // به جای insertAdjacentHTML("afterbegin", ...) از insertAdjacentHTML("beforeend", ...) استفاده کنید
+        // تا ترتیب نمایش کامنت‌ها با load more هماهنگ باشد.
+        // تابع sendComment را که قبلا تغییر دادیم، ویرایش کنید:
+
+        /*
+        // ... (داخل تابع sendComment)
+                const commentsList = document.getElementById("comments_list");
+                const new_comment_html = `
+                    <p><b>${data.comment.user}</b>: ${data.comment.text} <small>(${data.comment.created_at})</small></p>
+                `;
+                // تغییر از afterbegin به beforeend
+                commentsList.insertAdjacentHTML("beforeend", new_comment_html);
+                currentCommentOffset++; // با اضافه شدن یک کامنت جدید، offset را هم آپدیت می‌کنیم
+
+                // اگر تعداد کامنت‌ها از حد مجاز بیشتر شد، دکمه نمایش بیشتر را نشان بده
+                const loadMoreButton = document.getElementById("load_more_comments_btn");
+                if (loadMoreButton && currentCommentOffset >= commentsLimit && loadMoreButton.style.display === 'none') {
+                     loadMoreButton.style.display = 'block'; // یا 'flex' بسته به CSS
+                }
+        // ...
+        */
+
+    });
+
+
+    // اگر از تابع sendComment قبلی استفاده می‌کنید، لطفاً آن را ویرایش کنید تا کامنت جدید را به end اضافه کند
+    // و currentCommentOffset را نیز آپدیت نماید.
+    const csrftoken = '{{ csrf_token }}';
+    function sendRating(score) {
+        const content_type = document.getElementById("content_type").value;
+        const object_id = document.getElementById("object_id").value;
+
+        const formData = new FormData();
+        formData.append("content_type", content_type);
+        formData.append("object_id", object_id);
+        formData.append("score", score);
+
+        fetch("/api/rate/", {
+            method: "POST",
+            headers: { "X-CSRFToken": csrftoken },
+            body: formData
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById("average_rating").innerText = data.average.toFixed(1);
+                    // نمایش پیام موفقیت با Toastify
+                    Toastify({
+                        text: "امتیاز شما با موفقیت ثبت شد!",
+                        duration: 3000, // نمایش به مدت ۳ ثانیه
+                        gravity: "bottom", // نمایش در پایین صفحه
+                        position: "center", // موقعیت افقی (center, left, right)
+                        stopOnFocus: true, // توقف هنگام فوکوس روی پیام
+                        style: {
+                            background: "linear-gradient(to right, #00b09b, #96c93d)", // رنگ پس‌زمینه
+                        },
+                    }).showToast();
+                } else {
+                    // نمایش پیام خطا با Toastify
+                    Toastify({
+                        text: `خطا: ${data.error}`,
+                        duration: 5000,
+                        gravity: "bottom",
+                        position: "center",
+                        stopOnFocus: true,
+                        style: {
+                            background: "linear-gradient(to right, #ff5f6d, #ffc371)", // رنگ پس‌زمینه خطا
+                        },
+                    }).showToast();
+                }
+            })
+            .catch(error => {
+                // نمایش خطای کلی شبکه
+                Toastify({
+                    text: "خطای شبکه. لطفا دوباره تلاش کنید.",
+                    duration: 5000,
+                    gravity: "bottom",
+                    position: "center",
+                    stopOnFocus: true,
+                    style: {
+                        background: "linear-gradient(to right, #ff5f6d, #ffc371)",
+                    },
+                }).showToast();
+                console.error("Error:", error);
+            });
+    }
+function sendComment() {
+    const content_type = document.getElementById("content_type").value;
+    const object_id = document.getElementById("object_id").value;
+    const text = document.getElementById("commentText").value;
+
+    if (!text.trim()) {
+        Toastify({
+            text: "متن دیدگاه نمی‌تواند خالی باشد",
+            duration: 3000,
+            gravity: "top",
+            position: "left",
+            backgroundColor: "#e74c3c",
+        }).showToast();
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("content_type", content_type);
+    formData.append("object_id", object_id);
+    formData.append("text", text);
+
+    fetch(window.location.origin + "/api/comment/", {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": document.querySelector("[name=csrfmiddlewaretoken]").value
+        },
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+
+        if (data.error === "login_required") {
+            Toastify({
+                text: "برای ارسال نظر باید وارد حساب شوید",
+                duration: 3500,
+                gravity: "top",
+                position: "left",
+                backgroundColor: "#f39c12",
+            }).showToast();
+            return;
+        }
+
+        if (data.error === "empty_comment") {
+            Toastify({
+                text: "متن نظر نمی‌تواند خالی باشد",
+                duration: 3000,
+                gravity: "top",
+                position: "left",
+                backgroundColor: "#e74c3c",
+            }).showToast();
+            return;
+        }
+
+        if (data.error) {
+            Toastify({
+                text: "خطا: " + data.error,
+                duration: 3000,
+                gravity: "top",
+                position: "left",
+                backgroundColor: "#c0392b",
+            }).showToast();
+            return;
+        }
+
+        if (data.success) {
+            Toastify({
+                text: "نظر شما با موفقیت ثبت شد",
+                duration: 3000,
+                gravity: "top",
+                position: "left",
+                backgroundColor: "#27ae60",
+            }).showToast();
+
+            document.getElementById("commentText").value = "";
+        }
+    })
+    .catch(err => {
+        Toastify({
+            text: "خطای ارتباط با سرور",
+            duration: 3000,
+            gravity: "top",
+            position: "left",
+            backgroundColor: "#c0392b",
+        }).showToast();
+        console.error(err);
+    });
+}
+
+    // افزودن اثرات به کارت‌ها
+    document.querySelectorAll('.product-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px)';
+        });
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+
+    // افزودن به علاقه‌مندی
+document.querySelectorAll(".wishlist-btn").forEach(button => {
+    button.addEventListener("click", function () {
+
+        const contentType = this.dataset.contentType;
+        const objectId = this.dataset.objectId;
+
+        // Send AJAX to Django
+        fetch("/toggle-favorite/", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": document.querySelector("[name=csrfmiddlewaretoken]").value,
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: `content_type=${contentType}&object_id=${objectId}`
+        })
+        .then(res => res.json())
+        .then(data => {
+
+            if (data.favorited === true || data.status === "added") {
+                this.innerHTML = `<i class="fas fa-heart"></i>`;
+                this.style.background = 'linear-gradient(135deg, #dc3545 0%, #c82333 100%)';
+
+            } else {
+                this.innerHTML = `<i class="fas fa-heart-crack"></i>`;
+                this.style.background = 'linear-gradient(135deg, #6c757d 0%, #5a6268 100%)';
+            }
+        })
+        .catch(err => console.error("Favorite toggle error:", err));
+    });
+});
+
+
+document.getElementById("add_to_cart_form").addEventListener("submit", function () {
+    const button = this.querySelector(".add-to-cart-btn");
+
+    button.innerHTML = '<i class="fas fa-check me-1"></i> افزوده شد';
+    button.style.background = 'linear-gradient(135deg, #28a745 0%, #218838 100%)';
+    button.disabled = true;
+});
+
+
+    // ارسال نظر
+ 
+
+    // ستاره‌های امتیاز
+    document.querySelectorAll('.star').forEach(star => {
+        star.addEventListener('click', function() {
+            const rating = this.dataset.value;
+
+            // به‌روزرسانی ستاره‌ها
+            document.querySelectorAll('.star').forEach(s => {
+                if (s.dataset.value <= rating) {
+                    s.classList.add('active');
+                } else {
+                    s.classList.remove('active');
+                }
+            });
+
+            // به‌روزرسانی تعداد نظرات
+            const currentCount = document.querySelector('.rating-count').textContent;
+            const newCount = currentCount.replace(/\d+/, (match) => parseInt(match) + 1);
+            document.querySelector('.rating-count').textContent = newCount;
+
+            alert('امتیاز شما ثبت شد!');
+        });
+    });
+
+    // تغییر جزئیات فنی
+    document.getElementById('toggleTechSpecs').addEventListener('click', function() {
+        const fullSpecs = document.getElementById('fullTechSpecs');
+        const toggleBtn = document.getElementById('toggleTechSpecs');
+
+        if (fullSpecs.classList.contains('hidden')) {
+            fullSpecs.classList.remove('hidden');
+            toggleBtn.innerHTML = '<i class="fas fa-chevron-up"></i> مشاهده کمتر';
+        } else {
+            fullSpecs.classList.add('hidden');
+            toggleBtn.innerHTML = '<i class="fas fa-chevron-down"></i> مشاهده جزئیات بیشتر';
+        }
+    });
+
+{% endblock scripts %}

@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جزئیات محصول - فروشگاه لپ‌تاپ و کامپیوتر</title>
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://lib.arvancloud.ir/font-awesome/6.3.0/css/all.min.css">
+    <style>
+        .product-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        .product-img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            transition: all 0.3s;
+        }
+        .product-img:hover {
+            transform: scale(1.05);
+        }
+        .wishlist-btn {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 6px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+            transition: all 0.3s;
+        }
+        .wishlist-btn:hover {
+            background: linear-gradient(135deg, #c82333 0%, #dc3545 100%);
+            transform: translateY(-2px);
+        }
+        .product-name {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1.5rem;
+        }
+        .product-price {
+            font-weight: 700;
+            color: #dc3545;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+        .add-to-cart-btn {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 15px;
+        }
+        .add-to-cart-btn:hover {
+            background: linear-gradient(135deg, #0b5ed7 0%, #0d6efd 100%);
+            transform: translateY(-2px);
+        }
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #dc3545;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .product-badge.sale {
+            background: #28a745;
+        }
+        .product-specs {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 25px;
+        }
+        .spec-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #0d6efd;
+        }
+        .spec-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .spec-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .spec-list li:last-child {
+            border-bottom: none;
+        }
+        .comment-section {
+            margin-top: 40px;
+        }
+        .comment-form {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        .comment-form-title {
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #0d6efd;
+        }
+        .comment-list {
+            margin-top: 30px;
+        }
+        .comment-item {
+            border-bottom: 1px solid #e9ecef;
+            padding: 20px 0;
+        }
+        .comment-item:last-child {
+            border-bottom: none;
+        }
+        .comment-user {
+            font-weight: 600;
+            color: #0d6efd;
+            margin-bottom: 5px;
+        }
+        .comment-date {
+            color: #6c757d;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+        }
+        .comment-text {
+            line-height: 1.6;
+        }
+        .rating {
+            color: #ffc107;
+            margin-bottom: 10px;
+        }
+        .rating-stars-container {
+            display: inline-flex;
+            gap: 5px;
+            margin-right: 10px;
+        }
+        .star {
+            cursor: pointer;
+            color: #adb5bd;
+            font-size: 1.2rem;
+        }
+        .star.active {
+            color: #ffc107;
+        }
+        .rating-count {
+            font-weight: 500;
+            color: #6c757d;
+        }
+        .technical-details {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 25px;
+        }
+        .tech-category {
+            font-weight: 600;
+            color: #0d6efd;
+            margin-bottom: 10px;
+        }
+        .tech-specs {
+            list-style: none;
+            padding-left: 0;
+        }
+        .tech-specs li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .tech-specs li:last-child {
+            border-bottom: none;
+        }
+        .expand-btn {
+            background: none;
+            border: none;
+            color: #0d6efd;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 5px 0;
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .expand-btn:hover {
+            text-decoration: underline;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<!-- تاپ بار (همان کد قبلی) -->
+<div class="top-bar">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center py-1">
+            <div>
+                <i class="fas fa-phone-alt me-2"></i> تماس: 021-12345678 |
+                <i class="fas fa-envelope-alt mx-2"></i> info@laptopstore.ir
+            </div>
+            <div>
+                <a href="#" class="text-white mx-2"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="text-white mx-2"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="text-white mx-2"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- نوار ناوبری (همان کد قبلی) -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#">
+            <i class="fas fa-laptop me-2 text-primary"></i>
+            LaptopStore
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#"><i class="fas fa-home me-1"></i> خانه</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="categoryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-list me-1"></i> دسته‌بندی‌ها
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#">لپ‌تاپ‌ها</a></li>
+                        <li><a class="dropdown-item" href="#">کامپیوترهای ایستاده</a></li>
+                        <li><a class="dropdown-item" href="#">قطعات کامپیوتر</a></li>
+                        <li><a class="dropdown-item" href="#">کیس</a></li>
+                        <li><a class="dropdown-item" href="#">مانیتور</a></li>
+                        <li><a class="dropdown-item" href="#">اکسسوری‌ها</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-headset me-1"></i> پشتیبانی</a>
+                </li>
+            </ul>
+            <!-- جستجو و سبد خرید -->
+            <form class="d-flex me-3">
+                <input class="form-control me-2" type="search" placeholder="جستجو..." aria-label="Search">
+                <button class="btn btn-outline-primary" type="submit">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+            <div class="d-flex align-items-center">
+                <a href="#" class="text-dark me-3 position-relative cart-icon">
+                    <i class="fas fa-shopping-cart fs-5"></i>
+                    <span class="cart-count">0</span>
+                </a>
+                <a href="#" class="text-dark">
+                    <i class="fas fa-user fs-5"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+<!-- صفحه جزئیات محصول -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <!-- سمت چپ: جزئیات محصول -->
+            <div class="col-md-8">
+                <div class="card product-card">
+                    <div class="position-relative">
+                        <img src="https://i.imgur.com/5XJzZ9l.png" alt="لپ‌تاپ Dell XPS 15" class="product-img">
+                        <span class="product-badge sale">تخفیف 20%</span>
+                        <button class="wishlist-btn">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="card-body p-4">
+                        <h1 class="product-name">لپ‌تاپ Dell XPS 15</h1>
+                        <p class="product-price">25,000,000 تومان</p>
+
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="rating-stars-container">
+                                <span class="star active" data-value="1" onclick="sendRating(1)">★</span>
+                                <span class="star active" data-value="2" onclick="sendRating(2)">★</span>
+                                <span class="star active" data-value="3" onclick="sendRating(3)">★</span>
+                                <span class="star active" data-value="4" onclick="sendRating(4)">★</span>
+                                <span class="star active" data-value="5" onclick="sendRating(5)">★</span>
+                            </div>
+                            <span class="ms-2 text-muted rating-count">4.5 (128 نظر)</span>
+                        </div>
+
+                        <p class="mb-4">لپ‌تاپ Dell XPS 15 با پردازنده Intel Core i7 و 16 گیگابایت رم، این لپ‌تاپ برای کارهای گرافیکی و برنامه‌نویسی مناسب است.</p>
+
+                        <div class="technical-details">
+                            <h5 class="tech-category">جزئیات فنی</h5>
+                            <ul class="tech-specs">
+                                <li><strong>پردازنده:</strong> Intel Core i7-11800H</li>
+                                <li><strong>رم:</strong> 16 گیگابایت DDR4</li>
+                                <li><strong>حافظه داخلی:</strong> 512 گیگابایت SSD</li>
+                                <li><strong>صفحه نمایش:</strong> 15.6 اینچ FHD (1920x1080)</li>
+                                <li><strong>گرافیک:</strong> NVIDIA GeForce RTX 3060</li>
+                            </ul>
+                            <div id="fullTechSpecs" class="tech-specs hidden">
+                                <li><strong>سیستم عامل:</strong> Windows 11 Pro</li>
+                                <li><strong>درگاه‌ها:</strong> 2x USB-C, 2x USB-A, HDMI, SD Card Reader</li>
+                                <li><strong>باتری:</strong> 8 ساعت استفاده</li>
+                                <li><strong>وزن:</strong> 2.1 کیلوگرم</li>
+                                <li><strong>ابعاد:</strong> 35.5 x 24.5 x 1.9 cm</li>
+                            </div>
+                            <button id="toggleTechSpecs" class="expand-btn">
+                                <i class="fas fa-chevron-down"></i> مشاهده جزئیات بیشتر
+                            </button>
+                        </div>
+
+                        <button class="add-to-cart-btn">
+                            <i class="fas fa-shopping-cart me-1"></i> افزودن به سبد خرید
+                        </button>
+                    </div>
+                </div>
+
+                <!-- توضیحات محصول -->
+                <div class="card product-card mt-4">
+                    <div class="card-header bg-white">
+                        <h4 class="fw-bold">توضیحات محصول</h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <p>لپ‌تاپ Dell XPS 15 یکی از بهترین لپ‌تاپ‌های گرافیکی و کاربردی در بازار است. این محصول با طراحی جذاب و قدرتمند، برای کاربران حرفه‌ای و علاقه‌مندان به گرافیک و برنامه‌نویسی طراحی شده است.</p>
+                        <p>صفحه نمایش 15.6 اینچی با کیفیت FHD و پردازنده Intel Core i7-11800H، امکان اجرای برنامه‌های سنگین را فراهم می‌کند. همچنین با گرافیک NVIDIA GeForce RTX 3060، این لپ‌تاپ برای بازی‌های گرافیکی پیشرفته نیز مناسب است.</p>
+                        <p>باتری این لپ‌تاپ تا 8 ساعت استفاده می‌کند و با طراحی سبک (2.1 کیلوگرم)، حمل و نقل آن آسان است.</p>
+                    </div>
+                </div>
+
+                <!-- نظرات کاربران -->
+                <div class="comment-section">
+    <h3 class="fw-bold mb-4">نظرات کاربران</h3>
+
+    <!-- فرم ارسال نظر -->
+    <div class="comment-form">
+        <h4 class="comment-form-title">ارسال نظر</h4>
+
+        <form id="commentForm">
+            <input type="hidden" id="content_type" value="{{ content_type_id }}">
+            <input type="hidden" id="object_id" value="{{ object_id }}">
+
+            <div class="mb-3">
+                <label for="commentText" class="form-label">دیدگاه شما</label>
+                <textarea class="form-control"
+                          id="commentText"
+                          rows="4"
+                          placeholder="دیدگاه خود را وارد کنید..."
+                          required></textarea>
+            </div>
+
+            <button type="submit"
+                    class="btn btn-primary"
+                    onclick="sendComment(); return false;">
+                ارسال نظر
+            </button>
+        </form>
+    </div>
+
+    <!-- لیست نظرات -->
+    <div class="comment-list mt-4">
+
+        {% for c in comments %}
+        <div class="comment-item mb-4">
+            <div class="d-flex align-items-center mb-2">
+
+                <div class="comment-user fw-bold">
+                    {{ c.user.get_full_name|default:c.user.username }}
+                </div>
+
+                <div class="rating ms-3">
+                    {% for i in "12345" %}
+                        <i class="fas fa-star rating-stars"
+                           style="color: {% if i <= c.rating|stringformat:'i' %}#FBC02D{% else %}#ccc{% endif %}"></i>
+                    {% endfor %}
+                </div>
+
+            </div>
+
+            <div class="comment-date text-muted small">
+                {{ c.created_at|date:"j F Y" }}
+            </div>
+
+            <p class="comment-text mt-2">
+                {{ c.text }}
+            </p>
+        </div>
+        {% empty %}
+        <p class="text-muted">نظری ثبت نشده است.</p>
+        {% endfor %}
+
+        <!-- دکمه نمایش بیشتر -->
+        {% if has_more %}
+            <button id="load_more_comments_btn"
+                    class="btn btn-secondary mt-3"
+                    onclick="loadMoreComments()">
+                نمایش بیشتر
+            </button>
+        {% endif %}
+    </div>
+</div>
+
+
+            <!-- سمت راست: اطلاعات جانبی -->
+            <div class="col-md-4">
+                <div class="card product-card">
+                    <div class="card-header bg-white">
+                        <h4 class="fw-bold">مشخصات اصلی</h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>برند</span>
+                                <span class="fw-bold">Dell</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>مدل</span>
+                                <span class="fw-bold">XPS 15</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>وضعیت</span>
+                                <span class="fw-bold text-success">موجود</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>تضمین اصالت</span>
+                                <span class="fw-bold text-success">دارد</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>گارانتی</span>
+                                <span class="fw-bold">2 سال</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>ارسال</span>
+                                <span class="fw-bold">رایگان</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card product-card mt-4">
+                    <div class="card-header bg-white">
+                        <h4 class="fw-bold">مشتریان این محصول را خریده‌اند</h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://i.imgur.com/5XJzZ9l.png" alt="لپ‌تاپ Dell XPS 15" class="product-img" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+                            <div class="ms-3">
+                                <h6 class="mb-0">لپ‌تاپ Dell XPS 15</h6>
+                                <p class="text-muted mb-0">25,000,000 تومان</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://i.imgur.com/5XJzZ9l.png" alt="کیس کامپیوتر Cooler Master" class="product-img" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+                            <div class="ms-3">
+                                <h6 class="mb-0">کیس کامپیوتر Cooler Master</h6>
+                                <p class="text-muted mb-0">850,000 تومان</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <img src="https://i.imgur.com/5XJzZ9l.png" alt="مانیتور LG UltraGear 27\"" class="product-img" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+                            <div class="ms-3">
+                                <h6 class="mb-0">مانیتور LG UltraGear 27"</h6>
+                                <p class="text-muted mb-0">12,500,000 تومان</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- فوتر (همان کد قبلی) -->
+<footer class="bg-primary text-white py-5">
+    <div class="container">
+        <div class="row">
+            <!-- بخش درباره ما -->
+            <div class="col-md-3 mb-4">
+                <h5 class="fw-bold mb-4">درباره ما</h5>
+                <p class="mb-3">
+                    فروشگاه لپ‌تاپ و کامپیوتر <strong>LaptopStore</strong> با بیش از 10 سال تجربه، بهترین محصولات را با قیمت مناسب و گارانتی اصلی ارائه می‌دهد.
+                </p>
+                <div class="d-flex gap-3">
+                    <a href="#" class="text-white fs-4"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-white fs-4"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-white fs-4"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <!-- لینک‌های سریع -->
+            <div class="col-md-3 mb-4">
+                <h5 class="fw-bold mb-4">لینک‌های سریع</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">خانه</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">لپ‌تاپ‌ها</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">کامپیوترهای ایستاده</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">اکسسوری‌ها</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">پشتیبانی</a></li>
+                </ul>
+            </div>
+            <!-- اطلاعات تماس -->
+            <div class="col-md-3 mb-4">
+                <h5 class="fw-bold mb-4">اطلاعات تماس</h5>
+                <ul class="list-unstyled">
+                    <li class="d-flex align-items-start mb-2">
+                        <i class="fas fa-map-marker-alt me-2 mt-1"></i>
+                        <span>تهران، خیابان شهید بهشتی، پلاک 123</span>
+                    </li>
+                    <li class="d-flex align-items-start mb-2">
+                        <i class="fas fa-phone-alt me-2 mt-1"></i>
+                        <span>021-12345678</span>
+                    </li>
+                    <li class="d-flex align-items-start mb-2">
+                        <i class="fas fa-envelope me-2 mt-1"></i>
+                        <span>info@laptopstore.ir</span>
+                    </li>
+                    <li class="d-flex align-items-start mb-2">
+                        <i class="fas fa-clock me-2 mt-1"></i>
+                        <span>شنبه تا چهارشنبه: 9 صبح تا 9 شب</span>
+                    </li>
+                </ul>
+            </div>
+            <!-- خبرنامه -->
+            <div class="col-md-3 mb-4">
+                <h5 class="fw-bold mb-4">عضویت در خبرنامه</h5>
+                <p class="mb-3">برای دریافت تخفیف‌های ویژه و اخبار جدید، ایمیل خود را وارد کنید:</p>
+                <form class="d-flex">
+                    <input type="email" class="form-control me-2" placeholder="ایمیل شما" required>
+                    <button type="submit" class="btn btn-light">عضویت</button>
+                </form>
+                <div class="mt-4">
+                    <h6 class="mb-2">پرداخت امن</h6>
+                    <div class="d-flex gap-2">
+                        <img src="https://i.imgur.com/5XJzZ9l.png" alt="پرداخت امن" width="40">
+                        <img src="https://i.imgur.com/5XJzZ9l.png" alt="پرداخت امن" width="40">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- خط جداکننده و کپی‌رایت -->
+        <hr class="bg-light my-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <p class="mb-3 mb-md-0">&copy; 2024 LaptopStore. تمامی حقوق محفوظ است.</p>
+            <div>
+                <a href="about.html" class="text-white mx-2 text-decoration-none">درباره ما</a>
+                <a href="privacy.html" class="text-white mx-2 text-decoration-none">حریم خصوصی</a>
+                <a href="terms.html" class="text-white mx-2 text-decoration-none">شرایط استفاده</a>
+            </div>
+        </div>
+    </div>
+</footer>
+<script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://lib.arvancloud.ir/font-awesome/6.3.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    // فرض می‌کنیم csrftoken و content_type_id, object_id در دسترس هستند
+
+    // متغیر سراسری برای نگهداری offset
+    let currentCommentOffset = 0;
+    const commentsLimit = 5; // تعداد کامنت در هر بار بارگذاری (باید با view یکی باشد)
+
+    // تابع برای اضافه کردن کامنت‌ها به DOM
+    function appendCommentsToPage(comments) {
+        const commentsList = document.getElementById("comments_list");
+        if (!commentsList) {
+            console.error("Element with id 'comments_list' not found.");
+            return;
+        }
+
+        comments.forEach(comment => {
+            const commentHtml = `
+            <p><b>${comment.user}</b>: ${comment.text} <small>(${comment.created_at})</small></p>
+        `;
+            // اضافه کردن کامنت جدید به بالای لیست (یا انتهای لیست، بسته به نیاز)
+            // برای load more بهتر است به انتها اضافه شود تا ترتیب حفظ شود
+            // اگر میخواهید جدیدترین ها اول نمایش داده شوند، از insertAdjacentHTML('afterbegin', ...) استفاده کنید
+            // اما برای load more معمولا به ترتیب نمایش داده می شوند
+            commentsList.insertAdjacentHTML('beforeend', commentHtml);
+        });
+    }
+
+    // تابع برای بارگذاری کامنت‌های بیشتر
+    function loadMoreComments() {
+        const content_type = document.getElementById("content_type").value;
+        const object_id = document.getElementById("object_id").value;
+        const loadMoreButton = document.getElementById("load_more_comments_btn");
+
+        if (!loadMoreButton || loadMoreButton.style.display === 'none') {
+            return; // اگر دکمه وجود ندارد یا مخفی است، کاری انجام نده
+        }
+
+        // آماده‌سازی داده‌ها برای ارسال
+        const payload = {
+            content_type: content_type,
+            object_id: object_id,
+            offset: currentCommentOffset,
+            limit: commentsLimit
+        };
+
+        fetch("/api/comments/load_more/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrftoken // اطمینان حاصل کنید که csrftoken در دسترس است
+            },
+            body: JSON.stringify(payload)
+        })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                return res.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    if (data.comments && data.comments.length > 0) {
+                        appendCommentsToPage(data.comments);
+                        currentCommentOffset = data.next_offset; // آپدیت offset
+
+                        // اگر کامنت بیشتری وجود ندارد، دکمه را مخفی کن
+                        if (!data.has_more) {
+                            loadMoreButton.style.display = 'none';
+                            // می‌توانید یک پیام "پایان نظرات" هم اضافه کنید
+                            // const endMessage = document.createElement('p');
+                            // endMessage.innerText = "پایان نظرات";
+                            // loadMoreButton.parentNode.insertBefore(endMessage, loadMoreButton);
+                        }
+                    } else {
+                        // اگر پاسخی با کامنت خالی برگشت (یا اینکه has_more اشتباه بود)
+                        loadMoreButton.style.display = 'none';
+                    }
+                } else {
+                    // نمایش خطا در صورت بروز مشکل در بک‌اند
+                    Toastify({
+                        text: `خطا در بارگذاری نظرات: ${data.error}`,
+                        duration: 5000,
+                        gravity: "bottom",
+                        position: "center",
+                        style: { background: "linear-gradient(to right, #ff5f6d, #ffc371)" },
+                    }).showToast();
+                    console.error("Error loading more comments:", data.error);
+                }
+            })
+            .catch(error => {
+                // نمایش خطای شبکه
+                Toastify({
+                    text: "خطای شبکه. لطفا دوباره تلاش کنید.",
+                    duration: 5000,
+                    gravity: "bottom",
+                    position: "center",
+                    style: { background: "linear-gradient(to right, #ff5f6d, #ffc371)" },
+                }).showToast();
+                console.error("Network error loading more comments:", error);
+            });
+    }
+
+    // مقدار اولیه currentCommentOffset را بر اساس تعداد کامنت‌های نمایش داده شده در رندر اولیه تنظیم کنید.
+    // فرض کنید در رندر اول، 10 کامنت نمایش داده شده است.
+    // این مقدار باید با تعداد کامنت‌هایی که در تمپلیت اصلی نمایش داده می‌شوند، مطابقت داشته باشد.
+    // اگر کامنت‌ها در تمپلیت اصلی نمایش داده نمی‌شوند، این مقدار 0 است.
+    // در مثال بالا، ما کامنت‌ها را در تمپلیت اصلی نمایش ندادیم و صفر در نظر گرفتیم:
+    // currentCommentOffset = 0; // یا تعداد کامنت‌های نمایش داده شده در رندر اولیه
+
+    // اطمینان حاصل کنید که این کد بعد از بارگذاری اولیه صفحه و تعریف csrftoken اجرا شود.
+    // همچنین، باید در ابتدای بارگذاری صفحه، تعداد کامنت‌های موجود را بررسی کرده و در صورت نیاز دکمه "نمایش بیشتر" را فعال کنید.
+    // به عنوان مثال، اگر بیش از 'commentsLimit' کامنت وجود دارد، دکمه را نشان بده.
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        // مقدار اولیه offset را بر اساس کامنت‌های موجود در صفحه تنظیم کنید
+        // اگر کامنت‌ها در تمپلیت اولیه نمایش داده شده‌اند، تعدادشان را بشمارید
+        const initialComments = document.querySelectorAll('#comments_list p').length;
+        currentCommentOffset = initialComments;
+
+        const loadMoreButton = document.getElementById("load_more_comments_btn");
+        if (loadMoreButton && initialComments < commentsLimit) { // اگر تعداد کامنت‌های اولیه کمتر از حد مجاز بود، دکمه را مخفی کن
+            loadMoreButton.style.display = 'none';
+        } else if (loadMoreButton) {
+            // اضافه کردن event listener به دکمه
+            loadMoreButton.addEventListener('click', loadMoreComments);
+        }
+
+        // --- همچنین باید تابع sendComment را طوری تغییر دهید که کامنت جدید را به انتهای لیست اضافه کند ---
+        // به جای insertAdjacentHTML("afterbegin", ...) از insertAdjacentHTML("beforeend", ...) استفاده کنید
+        // تا ترتیب نمایش کامنت‌ها با load more هماهنگ باشد.
+        // تابع sendComment را که قبلا تغییر دادیم، ویرایش کنید:
+
+        /*
+        // ... (داخل تابع sendComment)
+                const commentsList = document.getElementById("comments_list");
+                const new_comment_html = `
+                    <p><b>${data.comment.user}</b>: ${data.comment.text} <small>(${data.comment.created_at})</small></p>
+                `;
+                // تغییر از afterbegin به beforeend
+                commentsList.insertAdjacentHTML("beforeend", new_comment_html);
+                currentCommentOffset++; // با اضافه شدن یک کامنت جدید، offset را هم آپدیت می‌کنیم
+
+                // اگر تعداد کامنت‌ها از حد مجاز بیشتر شد، دکمه نمایش بیشتر را نشان بده
+                const loadMoreButton = document.getElementById("load_more_comments_btn");
+                if (loadMoreButton && currentCommentOffset >= commentsLimit && loadMoreButton.style.display === 'none') {
+                     loadMoreButton.style.display = 'block'; // یا 'flex' بسته به CSS
+                }
+        // ...
+        */
+
+    });
+
+
+    // اگر از تابع sendComment قبلی استفاده می‌کنید، لطفاً آن را ویرایش کنید تا کامنت جدید را به end اضافه کند
+    // و currentCommentOffset را نیز آپدیت نماید.
+    const csrftoken = '{{ csrf_token }}';
+    function sendRating(score) {
+        const content_type = document.getElementById("content_type").value;
+        const object_id = document.getElementById("object_id").value;
+
+        const formData = new FormData();
+        formData.append("content_type", content_type);
+        formData.append("object_id", object_id);
+        formData.append("score", score);
+
+        fetch("/api/rate/", {
+            method: "POST",
+            headers: { "X-CSRFToken": csrftoken },
+            body: formData
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById("average_rating").innerText = data.average.toFixed(1);
+                    // نمایش پیام موفقیت با Toastify
+                    Toastify({
+                        text: "امتیاز شما با موفقیت ثبت شد!",
+                        duration: 3000, // نمایش به مدت ۳ ثانیه
+                        gravity: "bottom", // نمایش در پایین صفحه
+                        position: "center", // موقعیت افقی (center, left, right)
+                        stopOnFocus: true, // توقف هنگام فوکوس روی پیام
+                        style: {
+                            background: "linear-gradient(to right, #00b09b, #96c93d)", // رنگ پس‌زمینه
+                        },
+                    }).showToast();
+                } else {
+                    // نمایش پیام خطا با Toastify
+                    Toastify({
+                        text: `خطا: ${data.error}`,
+                        duration: 5000,
+                        gravity: "bottom",
+                        position: "center",
+                        stopOnFocus: true,
+                        style: {
+                            background: "linear-gradient(to right, #ff5f6d, #ffc371)", // رنگ پس‌زمینه خطا
+                        },
+                    }).showToast();
+                }
+            })
+            .catch(error => {
+                // نمایش خطای کلی شبکه
+                Toastify({
+                    text: "خطای شبکه. لطفا دوباره تلاش کنید.",
+                    duration: 5000,
+                    gravity: "bottom",
+                    position: "center",
+                    stopOnFocus: true,
+                    style: {
+                        background: "linear-gradient(to right, #ff5f6d, #ffc371)",
+                    },
+                }).showToast();
+                console.error("Error:", error);
+            });
+    }
+    function sendComment() {
+        const content_type = document.getElementById("content_type").value;
+        const object_id = document.getElementById("object_id").value;
+        const text_element = document.getElementById("comment_text");
+        const text = text_element.value;
+
+        const formData = new FormData();
+        formData.append("content_type", content_type);
+        formData.append("object_id", object_id);
+        formData.append("text", text);
+
+        fetch("/api/comment/", {
+            method: "POST",
+            headers: { "X-CSRFToken": csrftoken },
+            body: formData
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    // اضافه کردن کامنت جدید به لیست
+                    const comments_list = document.getElementById("comments_list");
+                    const new_comment_html = `
+                <p><b>${data.comment.user}</b>: ${data.comment.text} <small>(${data.comment.created_at})</small></p>
+            `;
+                    comments_list.insertAdjacentHTML("afterbegin", new_comment_html);
+                    text_element.value = ""; // پاک کردن فیلد متن
+
+                    // نمایش پیام موفقیت با Toastify
+                    Toastify({
+                        text: "نظر شما با موفقیت ثبت شد!",
+                        duration: 3000,
+                        gravity: "bottom",
+                        position: "center",
+                        stopOnFocus: true,
+                        style: {
+                            background: "linear-gradient(to right, #00b09b, #96c93d)",
+                        },
+                    }).showToast();
+                } else {
+                    // نمایش پیام خطا با Toastify
+                    Toastify({
+                        text: `خطا: ${data.error}`,
+                        duration: 5000,
+                        gravity: "bottom",
+                        position: "center",
+                        stopOnFocus: true,
+                        style: {
+                            background: "linear-gradient(to right, #ff5f6d, #ffc371)",
+                        },
+                    }).showToast();
+                }
+            })
+            .catch(error => {
+                // نمایش خطای کلی شبکه
+                Toastify({
+                    text: "خطای شبکه. لطفا دوباره تلاش کنید.",
+                    duration: 5000,
+                    gravity: "bottom",
+                    position: "center",
+                    stopOnFocus: true,
+                    style: {
+                        background: "linear-gradient(to right, #ff5f6d, #ffc371)",
+                    },
+                }).showToast();
+                console.error("Error:", error);
+            });
+    }
+    // افزودن اثرات به کارت‌ها
+    document.querySelectorAll('.product-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px)';
+        });
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+
+    // افزودن به علاقه‌مندی
+    document.querySelectorAll('.wishlist-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const icon = this.querySelector('i');
+            if (icon.classList.contains('fa-heart')) {
+                icon.classList.remove('fa-heart');
+                icon.classList.add('fa-heart-crack');
+                this.style.background = 'linear-gradient(135deg, #6c757d 0%, #5a6268 100%)';
+                this.innerHTML = '<i class="fas fa-heart-crack"></i>';
+                alert('محصول به لیست علاقه‌مندی‌ها اضافه شد!');
+            } else {
+                icon.classList.remove('fa-heart-crack');
+                icon.classList.add('fa-heart');
+                this.style.background = 'linear-gradient(135deg, #dc3545 0%, #c82333 100%)';
+                this.innerHTML = '<i class="fas fa-heart"></i>';
+                alert('محصول از لیست علاقه‌مندی‌ها حذف شد!');
+            }
+        });
+    });
+
+    // افزودن به سبد خرید
+    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            alert('محصول به سبد خرید اضافه شد!');
+            this.innerHTML = '<i class="fas fa-check me-1"></i> افزوده شد';
+            this.style.background = 'linear-gradient(135deg, #28a745 0%, #218838 100%)';
+            this.style.transform = 'none';
+            this.disabled = true;
+
+            setTimeout(() => {
+                this.innerHTML = '<i class="fas fa-shopping-cart me-1"></i> افزودن به سبد خرید';
+                this.style.background = 'linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%)';
+                this.disabled = false;
+            }, 3000);
+        });
+    });
+
+    // ارسال نظر
+    document.getElementById('commentForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const commentText = document.getElementById('commentText').value;
+
+        if (commentText.trim() === '') {
+            alert('لطفاً دیدگاه خود را وارد کنید.');
+            return;
+        }
+
+        // ایجاد نظر جدید
+        const commentItem = document.createElement('div');
+        commentItem.className = 'comment-item';
+        commentItem.innerHTML = `
+            <div class="d-flex align-items-center mb-2">
+                <div class="comment-user">کاربر جدید</div>
+                <div class="rating ms-3">
+                    <i class="fas fa-star rating-stars"></i>
+                    <i class="fas fa-star rating-stars"></i>
+                    <i class="fas fa-star rating-stars"></i>
+                    <i class="fas fa-star rating-stars"></i>
+                    <i class="fas fa-star rating-stars"></i>
+                </div>
+            </div>
+            <div class="comment-date">${new Date().toLocaleDateString('fa-IR')}</div>
+            <p class="comment-text">${commentText}</p>
+        `;
+
+        // اضافه کردن نظر به لیست
+        document.querySelector('.comment-list').prepend(commentItem);
+
+        // پاک کردن فرم
+        document.getElementById('commentText').value = '';
+
+        alert('دیدگاه شما با موفقیت ارسال شد!');
+    });
+
+    // ستاره‌های امتیاز
+    document.querySelectorAll('.star').forEach(star => {
+        star.addEventListener('click', function() {
+            const rating = this.dataset.value;
+
+            // به‌روزرسانی ستاره‌ها
+            document.querySelectorAll('.star').forEach(s => {
+                if (s.dataset.value <= rating) {
+                    s.classList.add('active');
+                } else {
+                    s.classList.remove('active');
+                }
+            });
+
+            // به‌روزرسانی تعداد نظرات
+            const currentCount = document.querySelector('.rating-count').textContent;
+            const newCount = currentCount.replace(/\d+/, (match) => parseInt(match) + 1);
+            document.querySelector('.rating-count').textContent = newCount;
+
+            alert('امتیاز شما ثبت شد!');
+        });
+    });
+
+    // تغییر جزئیات فنی
+    document.getElementById('toggleTechSpecs').addEventListener('click', function() {
+        const fullSpecs = document.getElementById('fullTechSpecs');
+        const toggleBtn = document.getElementById('toggleTechSpecs');
+
+        if (fullSpecs.classList.contains('hidden')) {
+            fullSpecs.classList.remove('hidden');
+            toggleBtn.innerHTML = '<i class="fas fa-chevron-up"></i> مشاهده کمتر';
+        } else {
+            fullSpecs.classList.add('hidden');
+            toggleBtn.innerHTML = '<i class="fas fa-chevron-down"></i> مشاهده جزئیات بیشتر';
+        }
+    });
+</script>
+</body>
+</html>

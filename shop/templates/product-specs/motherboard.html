@@ -1,0 +1,46 @@
+<div class="technical-details rtl">
+    {% load product_extras %}
+    <h5 class="tech-category">مشخصات فنی </h5>
+
+    <ul class="tech-specs">
+        <li><strong>سوکت پردازنده:</strong> {{ object.cpu_socket_type }}</li>
+        <li><strong>چیپست:</strong> {{ object.chipset }}</li>
+        <li><strong>فرم فاکتور:</strong> {{ object.form_factor }}</li>
+        <li><strong>تعداد اسلات رم:</strong> {{ object.memory_slots }}</li>
+        <li><strong>حداکثر رم پشتیبانی:</strong> {{ object.max_memory_supported }} گیگابایت</li>
+        <li><strong>اسلات‌های PCIe x16:</strong> {{ object.PCI_express_x16_slots_count }}</li>
+        <li><strong>اسلات‌های PCIe x1:</strong> {{ object.PCI_express_x1_slots_count }}</li>
+        <li><strong>کانکتورهای SATA 3.0:</strong> {{ object.sata_3_connectors_count }}</li>
+    </ul>
+
+    <div id="fullTechSpecs" class="tech-specs hidden">
+        <li><strong>انواع رم پشتیبانی:</strong> {% for ram in object.memory_types_supported.all %}{{ ram.title }}{% if
+            not forloop.last %}، {% endif %}{% endfor %}
+        </li>
+        <li><strong>استانداردهای رم:</strong> {{ object.memory_standards }}</li>
+        <li><strong>پیکربندی رم:</strong> {{ object.memory_configuration }}</li>
+        <li><strong>تعداد کانکتور M.2:</strong> {{ object.m2_connectors_count }}</li>
+        <li><strong>نوع اسلات M.2:</strong> {{ object.m2_slot_type }}</li>
+        <li><strong>انواع RAID پشتیبانی:</strong> {% for raid in object.raid_types_supported.all %}{{ raid.title }}{% if
+            not forloop.last %}، {% endif %}{% endfor %}
+        </li>
+        <li><strong>کارت شبکه:</strong> {{ object.lan_card }}</li>
+        <li><strong>کارت صدا:</strong> {{ object.sound_card }}</li>
+        <li><strong>کانال‌های صدا:</strong> {{ object.sound_channels }}</li>
+        <li><strong>پورت USB 2.0:</strong> {{ object.usb_2_prots_count }}</li>
+        <li><strong>پورت USB 3.2 Gen1:</strong> {{ object.usb_3_p_2_gen1_prots_count }}</li>
+        <li><strong>پورت USB 3.2 Gen2:</strong> {{ object.usb_3_p_2_gen2_prots_count }}</li>
+        <li><strong>پورت USB Type-C:</strong> {{ object.usb_type_c_prots_count }}</li>
+        <li><strong>پورت HDMI:</strong> {% if object.hdmi_ports_count > 0 %} دارد ({{ object.hdmi_ports_count }}) {%
+            else %} ندارد {% endif %}
+        </li>
+        <li><strong>پورت LAN:</strong> {{ object.lan_ports_count }}</li>
+        <li><strong>سیستم‌عامل‌های پشتیبانی:</strong> {% for os in object.operations_systems_supported.all %}{{ os.title
+            }}{% if not forloop.last %}، {% endif %}{% endfor %}
+        </li>
+    </div>
+
+    <button id="toggleTechSpecs" class="expand-btn mt-3">
+        <i class="fas fa-chevron-down"></i> مشاهده جزئیات بیشتر
+    </button>
+</div>

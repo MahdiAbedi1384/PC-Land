@@ -1,0 +1,263 @@
+{% extends "_base.html" %}
+{% load static i18n %} {# فرض می‌کنیم از i18n استفاده می‌کنید #}
+
+{% block page_title %}آدرس ها - {{ user.get_full_name }}{% endblock page_title %}
+
+{% block styles %}
+        /* استایل‌های شما از قبل اینجا قرار می‌گیرند */
+        .profile-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .profile-card-header {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            color: white;
+        }
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .edit-btn {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .edit-btn:hover {
+            background: linear-gradient(135deg, #0b5ed7 0%, #0d6efd 100%);
+            transform: translateY(-2px);
+        }
+        .form-control {
+            border-radius: 8px;
+            padding: 10px 15px;
+            border: 1px solid #ced4da;
+        }
+        .form-control:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+        .order-card {
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+        .order-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        .order-status {
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+        .status-processing {
+            background: #fff8e6;
+            color: #ffc107;
+        }
+        .status-delivered {
+            background: #e6f7e6;
+            color: #28a745;
+        }
+        .address-card {
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            border: 1px solid #e9ecef;
+            height: 100%; /* اطمینان از هم‌ارتفاع بودن کارت‌ها */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .address-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            border-color: #0d6efd;
+        }
+        .address-actions {
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .address-btn {
+            padding: 5px 10px;
+            border-radius: 6px;
+            transition: all 0.3s;
+            margin-left: 5px; /* فاصله بین دکمه‌ها */
+        }
+        .address-btn:hover {
+            transform: translateY(-2px);
+        }
+        .add-address-btn {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .add-address-btn:hover {
+            background: linear-gradient(135deg, #0b5ed7 0%, #0d6efd 100%);
+            transform: translateY(-2px);
+        }
+        /* استایل برای نمایش پیش‌فرض */
+        .address-default-badge {
+            background: #28a745;
+            color: white;
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-weight: 500;
+        }
+        /* استایل برای modal */
+        .modal-header {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            color: white;
+        }
+        .modal-title {
+            font-weight: bold;
+        }
+        .btn-close {
+            background: white;
+            opacity: 0.8;
+        }
+        .modal-footer .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        .modal-footer .btn-primary {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border: none;
+        }
+        .modal-footer .btn-primary:hover {
+            background: linear-gradient(135deg, #0b5ed7 0%, #0d6efd 100%);
+        }
+
+{% endblock styles %}
+
+{% block content %}
+<!-- صفحه آدرس‌ها -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <!-- سمت چپ: اطلاعات کاربری -->
+            <div class="col-md-4 mb-4">
+                <div class="card profile-card">
+                    <div class="card-header profile-card-header text-center">
+                <img src="{% static 'imgs/user.webp' %}" 
+                     alt="avatar"
+                     class="rounded-circle mx-auto d-block mb-3"
+                     style="width: 90px; height: 90px; object-fit: cover;">
+
+                <h5 class="fw-bold">{{ user.first_name }} {{ user.last_name }}</h5>
+
+                <p class="text-muted small">{{ user.email }}</p>
+                </div>
+                    <div class="card-body p-4 rtl">
+                        <div class="list-group">
+                            <a href="{% url "profile" %}" class="list-group-item list-group-item-action">
+                                <i class="fas fa-user fs-5"></i> پروفایل
+                            </a>
+                            <a href="{% url "orders:order_history" %}" class="list-group-item list-group-item-action">
+                                <i class="fas fa-history me-2"></i> تاریخچه خرید
+                            </a>
+                            <a href="{% url 'favorites' %}" class="list-group-item list-group-item-action ">
+                                <i class="fas fa-heart me-2"></i> علاقه‌مندی‌ها
+                            </a>
+                            <a href="{% url "manage_addresses" %}" class="list-group-item list-group-item-action active">
+                                <i class="fas fa-map-marker-alt me-2"></i> آدرس‌ها
+                            </a>
+                            <a href="{% url "account_settings" %}" class="list-group-item list-group-item-action">
+                                <i class="fas fa-cog me-2"></i> تنظیمات
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- سمت راست: آدرس‌ها -->
+            <div class="col-md-8">
+                <div class="card profile-card">
+                    <div class="card-header profile-card-header d-flex justify-content-between align-items-center">
+                        <h3 class="fw-bold">آدرس های شما</h3>
+                        <button type="button" class="add-address-btn" id="open-add-address-modal">
+                            <i class="fas fa-plus me-1"></i> افزودن آدرس جدید
+                        </button>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row" id="addresses-list">
+                            {% include "includes/address_list.html" %} {# Partial template for addresses #}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# Modal for adding/editing addresses #}
+<div class="modal fade" id="addressModal" tabindex="-1" aria-labelledby="addressModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addressModalLabel">افزودن آدرس جدید</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-close"></i></button>
+            </div>
+            <div class="modal-body">
+                {# The form will be loaded here via AJAX #}
+                <div id="address-modal-form-container">
+                    <p>در حال بارگذاری ...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block scripts %}
+        $(document).ready(function() {
+            // باز کردن مودال برای افزودن آدرس جدید
+            $('#open-add-address-modal').on('click', function() {
+                $('#addressModalLabel').text("{% trans "Add New Address" %}");
+                loadAddressForm("{{ request.user.pk }}"); // Function defined in address_management.js
+                $('#addressModal').modal('show');
+            });
+
+            // مدیریت نمایش آدرس پیش‌فرض (اگر در مدل باشد)
+            // مثال: نمایش آدرس پیش‌فرض با یک badge
+            // این قسمت بیشتر استایل‌دهی است و در HTML مدیریت شده
+            $('.address-card').each(function() {
+                if ($(this).data('is-default') === true) {
+                    $(this).find('.address-actions').prepend('<span class="address-default-badge me-2">{% trans "Default" %}</span>');
+                }
+            });
+
+            // دکمه‌های ویرایش آدرس (event delegation)
+            $('#addresses-list').on('click', '.edit-address-btn', function() {
+                const addressId = $(this).data('address-id');
+                $('#addressModalLabel').text("{% trans "Edit Address" %}");
+                loadAddressForm("{{ request.user.pk }}", addressId); // Function defined in address_management.js
+                $('#addressModal').modal('show');
+            });
+
+            // دکمه‌های حذف آدرس (event delegation)
+            $('#addresses-list').on('click', '.delete-address-btn', function() {
+                const addressId = $(this).data('address-id');
+                if (confirm("{% trans "Are you sure you want to delete this address?" %}")) {
+                    deleteAddress(addressId); // Function defined in address_management.js
+                }
+            });
+
+            // بارگذاری اولیه لیست آدرس‌ها (اگر نیاز به refresh باشد)
+            // loadAddresses(); // Function defined in address_management.js
+        });
+{% endblock scripts %}

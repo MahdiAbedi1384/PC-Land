@@ -1,0 +1,170 @@
+{% extends "_base.html" %}
+{% block page_title %}{{ page_name }}{% endblock page_title %}
+{% block styles %} 
+.hero-section {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+        }
+        .feature-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        .team-card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            height: 100%;
+        }
+        .team-card img {
+            height: 250px;
+            object-fit: cover;
+        }
+        .section-title {
+            position: relative;
+            margin-bottom: 50px;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: #0d6efd;
+            border-radius: 2px;
+        }
+{% endblock styles %}
+{% block content %}
+<!-- صفحه درباره ما -->
+<section class="hero-section">
+    <div class="container">
+        <h1 class="display-4 fw-bold mb-3">درباره ما</h1>
+        <p class="lead">با بیش از 10 سال تجربه، بهترین محصولات لپ‌تاپ و کامپیوتر را با قیمت مناسب و گارانتی اصلی ارائه می‌دهیم</p>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="section-title">
+            <h2 class="text-center">ماموریت و چشم‌انداز ما</h2>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card feature-card p-4">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-bullseye fa-3x text-primary"></i>
+                    </div>
+                    <h3 class="text-center mb-3">ماموریت</h3>
+                    <p class="text-center">ارائه بهترین محصولات لپ‌تاپ و کامپیوتر با قیمت مناسب و گارانتی اصلی به مشتریان عزیز</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-4">
+                <div class="card feature-card p-4">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-star fa-3x text-primary"></i>
+                    </div>
+                    <h3 class="text-center mb-3">چشم‌انداز</h3>
+                    <p class="text-center">تبدیل شدن به پرطرفدارترین فروشگاه لپ‌تاپ و کامپیوتر در ایران با خدمات بی‌نظیر</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="section-title">
+            <h2 class="text-center">تیم ما</h2>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 mb-4">
+                <div class="card team-card">
+                    <img src="https://boom-zrbn.mohtava.cloud/thumbs/api/v1/image/dfcee62c-c8da-30f1-9bad-7943a1b2457d?zb_svc=fajr-im-prod&zb_dmn=ipm&zb_type=internal&zb_pl=0&zb_referer=zarebin.ir" class="card-img-top" alt="علی احمدی">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">علی احمدی</h5>
+                        <p class="card-text text-primary">مدیر فروش</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="card team-card">
+                    <img src="https://boom-zrbn.mohtava.cloud/thumbs/api/v1/image/14ae2161-0a7f-3688-9ac2-55a1a583c7c8?zb_svc=fajr-im-prod&zb_dmn=ipm&zb_type=internal&zb_pl=0&zb_referer=zarebin.ir" class="card-img-top" alt="سید محمد">
+                    <div class="card-body text-center">
+                        <h5 class="card-title"> سید محمد موسوی</h5>
+                        <p class="card-text text-primary">متخصص فنی</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="card team-card">
+                    <img src="https://boom-zrbn.mohtava.cloud/thumbs/api/v1/image/e7a2312c-5b6d-3d39-8766-1b09e217c392?zb_svc=fajr-im-prod&zb_dmn=ipm&zb_type=internal&zb_pl=0&zb_referer=zarebin.ir" class="card-img-top" alt="فاطمه رضایی">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">فاطمه رضایی</h5>
+                        <p class="card-text text-primary">مدیر بازاریابی</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="card team-card">
+                    <img src="https://boom-zrbn.mohtava.cloud/thumbs/api/v1/image/6968a042-f8cb-3633-8c62-3c62d9dfc1c6?zb_svc=fajr-im-prod&zb_dmn=ipm&zb_type=internal&zb_pl=0&zb_referer=zarebin.ir" class="card-img-top" alt="حسین نجفی">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">حسین نجفی</h5>
+                        <p class="card-text text-primary">پشتیبانی فنی</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="section-title">
+            <h2 class="text-center">چرا ما؟</h2>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card feature-card p-4 text-center">
+                    <i class="fas fa-shield-alt fa-3x mb-3 text-primary"></i>
+                    <h3>گارانتی اصلی</h3>
+                    <p>همه محصولات با گارانتی اصلی عرضه می‌شوند و گارانتی‌های اصلی را ارائه می‌دهیم</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="card feature-card p-4 text-center">
+                    <i class="fas fa-truck fa-3x mb-3 text-primary"></i>
+                    <h3>ارسال سریع</h3>
+                    <p>ارسال رایگان در تهران و ارسال سریع در سراسر کشور با پیک‌های معتبر</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="card feature-card p-4 text-center">
+                    <i class="fas fa-headset fa-3x mb-3 text-primary"></i>
+                    <h3>پشتیبانی 24/7</h3>
+                    <p>پشتیبانی فنی و فروش 24 ساعته با تیم متخصص و پاسخگو</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

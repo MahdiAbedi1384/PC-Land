@@ -1,0 +1,451 @@
+{% extends "_base.html" %}
+{% load static %}
+{% load madval_persian_translation %}
+{% block page_title %}{{ page_name }}{% endblock page_title %}
+{% block styles %}
+/* فقط برای سکشن‌هایی که فارسیه */
+.rtl {
+    direction: rtl;
+    text-align: right;
+}
+body{
+    font-family: sans-serif;
+}
+.product-card img {
+    height: 160px;
+    object-fit: contain;
+}
+
+.product-card {
+    border-radius: 14px;
+    box-shadow: 0 4px 10px rgba(25,118,210,.12);
+    padding: 12px;
+    background: #fff;
+}
+
+{% endblock styles %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <!-- Hero Banner -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <img src="https://dkstatics-public.digikala.com/digikala-admin-landing/a35962cfed735b8e1a36a29bef6f0682570cb96e_1746623486.jpg?x-oss-process=image/format,webp" class="img-fluid rounded-4 shadow">
+        </div>
+    </div>
+
+    <!-- Two Banner -->
+    <div class="row g-3 my-4">
+        <div class="col-md-6">
+            <img src="https://dkstatics-public.digikala.com/digikala-admin-landing/4214486fe0821220d8d246cd59d90fee8051cbb8_1747056011.jpg?x-oss-process=image/format,webp" class="img-fluid rounded-4 shadow">
+        </div>
+        <div class="col-md-6">
+            <img src="https://dkstatics-public.digikala.com/digikala-admin-landing/e8a861ca4ab72600d5d3d00e579593fbea2752dd_1746617796.jpg?x-oss-process=image/format,webp" class="img-fluid rounded-4 shadow">
+        </div>
+    </div>
+
+    <!-- Slider Banner -->
+    <div class="row my-4">
+        <div class="col-12">
+            <div class="d-flex overflow-auto gap-3 pb-2">
+                <img src="https://www.bprshop.com/uploads/myblocks/microsft_final.jpg" class="rounded-4 shadow" height="150">
+                <img src="https://www.bprshop.com/uploads/myblocks/appleadvert.jpg" class="rounded-4 shadow" height="150">
+                <a href="{% url "model-loader" model="AllinOnePC" %}"> <img src="https://www.bprshop.com/uploads/top_sponsor/backup/0f7c13875a47cdd5c3a12eec4a76857a-All.jpg" class="rounded-4 shadow" height="150"> 
+                <a href="{% url "model-loader" model="Monitor" %}"><img src="https://www.shahrsakhtafzar.com/fa/images/1405/11/01/271QPHW-1.jpg" class="rounded-4 shadow" height="150"></a>
+                <img src="https://www.shahrsakhtafzar.com/fa/images/1405/10/01/Nova-Lake-HX-1.jpg" class="rounded-4 shadow" height="150">
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="row my-5 rtl">
+        <div class="col-12">
+            <div class="p-4 text-white rounded-4 shadow" style="background: linear-gradient(45deg,#1976d2,#0d47a1)">
+                <h3 class="mb-1">بهترین لپ تاپ های بازار</h3>
+                <p class="mb-0">با قیمتی استثنایی</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Section -->
+    <div class="my-4 p-4 rounded-4 shadow bg-white rtl">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="text-primary m-0" style="font-weight: bold">لپ‌تاپ‌ها</h4>
+            <a href="{% url "model-loader" model="Laptop" %}" class="btn btn-primary">مشاهده بیشتر</a>
+        </div>
+
+        <div id="carousel1" class="carousel slide" data-bs-ride="carousel">
+
+            <!-- 4 محصول اول ثابت -->
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row g-3">
+                        {% for laptop in Laptops %}
+                        <div class="col-3">
+                            <div class="product-card text-center">
+                                <a href="{{ laptop.get_absolute_url }}"><img src="{{ laptop.main_image.url }}" class="w-100 mb-2"></a>
+                                <h6>{{ laptop.name|add:laptop.brand|add:laptop.model }}</h6>
+                                <p class="text-primary fw-bold">{{ laptop.price|cspn }} تومان</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        
+                    
+                        
+                    </div>
+                </div>
+
+                
+                </div>
+
+            </div>
+
+            <!-- کنترل‌ها -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#carousel1" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carousel1" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+
+        </div>
+<!-- CTA -->
+    <div class="row my-5 rtl">
+        <div class="col-12">
+            <div class="p-4 text-white rounded-4 shadow" style="background: linear-gradient(45deg,#1976d2,#0d47a1)">
+                <h3 class="mb-1">برترین مانیتور ها</h3>
+                <p class="mb-0">کف قیمت بازار</p>
+            </div>
+        </div>
+    </div>
+    <!-- Product Section -->
+    <div class="my-4 p-4 rounded-4 shadow bg-white rtl">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="text-primary m-0" style="font-weight: bold">مانیتور ها</h4>
+            <a href="{% url "model-loader" model="Monitor" %}" class="btn btn-primary">مشاهده بیشتر</a>
+        </div>
+
+        <div id="carousel1" class="carousel slide" data-bs-ride="carousel">
+
+            <!-- 4 محصول اول ثابت -->
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row g-3">
+                        {% for item in monitors %}
+                        <div class="col-3">
+                            <div class="product-card text-center">
+                                <a href="{{ item.get_absolute_url }}"><img src="{{ item.main_image.url }}" class="w-100 mb-2"></a>
+                                <h6>{{ item.name|add:item.brand|add:item.model }}</h6>
+                                <p class="text-primary fw-bold">{{ item.price|cspn }} تومان</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        
+                    
+                        
+                    </div>
+                </div>
+
+                
+                </div>
+
+            </div>
+
+            <!-- کنترل‌ها -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#carousel1" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carousel1" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+
+        </div>
+    <!-- CTA -->
+    <div class="row my-5 rtl">
+        <div class="col-12">
+            <div class="p-4 text-white rounded-4 shadow" style="background: linear-gradient(45deg,#1976d2,#0d47a1)">
+                <h3 class="mb-1" >همه چیز باهم درall in one</h3>
+                <p class="mb-0">کف قیمت بازار</p>
+            </div>
+        </div>
+    </div>
+    <!-- Product Section -->
+    <div class="my-4 p-4 rounded-4 shadow bg-white rtl">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="text-primary m-0" style="font-weight: bold;">کامپیوتر های all in one</h4>
+            <a href="{% url "model-loader" model="AllinOnePC" %}" class="btn btn-primary">مشاهده بیشتر</a>
+        </div>
+
+        <div id="carousel1" class="carousel slide" data-bs-ride="carousel">
+
+            <!-- 4 محصول اول ثابت -->
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row g-3">
+                        {% for item in all_in_one_pcs %}
+                        <div class="col-3">
+                            <div class="product-card text-center">
+                                <a href="{{ item.get_absolute_url }}"><img src="{{ item.main_image.url }}" class="w-100 mb-2"></a>
+                                <h6>{{ item.name|add:item.brand|add:item.model }}</h6>
+                                <p class="text-primary fw-bold">{{ item.price|cspn }} تومان</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        
+                    
+                        
+                    </div>
+                </div>
+
+                
+                </div>
+
+            </div>
+
+            <!-- کنترل‌ها -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#carousel1" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carousel1" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+
+        </div>
+    <!-- CTA -->
+    <div class="row my-5 rtl">
+        <div class="col-12">
+            <div class="p-4 text-white rounded-4 shadow" style="background: linear-gradient(45deg,#1976d2,#0d47a1)">
+                <h3 class="mb-1" >برای ذخیره اطلاعات همیشه به یک چیز دم دستت نیاز داری</h3>
+                <p class="mb-0">بادوام ترین تجهیزات ذخیره سازی</p>
+            </div>
+        </div>
+    </div>
+    <!-- Product Section -->
+    <div class="my-4 p-4 rounded-4 shadow bg-white rtl">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="text-primary m-0" style="font-weight: bold;">SSD اکسترنال</h4>
+            <a href="{% url "model-loader" model="ExternalSSD" %}" class="btn btn-primary">مشاهده بیشتر</a>
+        </div>
+
+        <div id="carousel1" class="carousel slide" data-bs-ride="carousel">
+
+            <!-- 4 محصول اول ثابت -->
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row g-3">
+                        {% for item in external_ssds %}
+                        <div class="col-3">
+                            <div class="product-card text-center">
+                                <a href="{{ item.get_absolute_url }}"><img src="{{ item.main_image.url }}" class="w-100 mb-2"></a>
+                                <h6>{{ item.name|add:item.brand|add:item.model }}</h6>
+                                <p class="text-primary fw-bold">{{ item.price|cspn }} تومان</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        
+                    
+                        
+                    </div>
+                </div>
+
+                
+                </div>
+
+            </div>
+
+            <!-- کنترل‌ها -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#carousel1" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carousel1" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+
+        </div>
+<!-- CTA -->
+    <div class="row my-5 rtl">
+        <div class="col-12">
+            <div class="p-4 text-white rounded-4 shadow" style="background: linear-gradient(45deg,#1976d2,#0d47a1)">
+                <h3 class="mb-1" >هر کسی به یدونه از اینا نیاز داره</h3>
+                <p class="mb-0">فلش درایو اورجینال</p>
+            </div>
+        </div>
+    </div>
+    <!-- Product Section -->
+    <div class="my-4 p-4 rounded-4 shadow bg-white rtl">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="text-primary m-0" style="font-weight: bold;">فلش مموری ها</h4>
+            <a href="{% url "model-loader" model="FlashDrive" %}" class="btn btn-primary">مشاهده بیشتر</a>
+        </div>
+
+        <div id="carousel1" class="carousel slide" data-bs-ride="carousel">
+
+            <!-- 4 محصول اول ثابت -->
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row g-3">
+                        {% for item in flash_drive %}
+                        <div class="col-3">
+                            <div class="product-card text-center">
+                                <a href="{{ item.get_absolute_url }}"><img src="{{ item.main_image.url }}" class="w-100 mb-2"></a>
+                                <h6>{{ item.name|add:item.brand|add:item.model }}</h6>
+                                <p class="text-primary fw-bold">{{ item.price|cspn }} تومان</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        
+                    
+                        
+                    </div>
+                </div>
+
+                
+                </div>
+
+            </div>
+
+            <!-- کنترل‌ها -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#carousel1" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carousel1" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+
+        </div>
+        <!-- CTA -->
+    <div class="row my-5 rtl">
+        <div class="col-12">
+            <div class="p-4 text-white rounded-4 shadow" style="background: linear-gradient(45deg,#1976d2,#0d47a1)">
+                <h3 class="mb-1" >کیبورد بادوام و مطمئن</h3>
+                <p class="mb-0">بهترین قیمت بازار</p>
+            </div>
+        </div>
+    </div>
+    <!-- Product Section -->
+    <div class="my-4 p-4 rounded-4 shadow bg-white rtl">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="text-primary m-0" style="font-weight: bold;">کیبورد ها</h4>
+            <a href="{% url "model-loader" model="Keyboard" %}" class="btn btn-primary">مشاهده بیشتر</a>
+        </div>
+
+        <div id="carousel1" class="carousel slide" data-bs-ride="carousel">
+
+            <!-- 4 محصول اول ثابت -->
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row g-3">
+                        {% for item in keyboards %}
+                        <div class="col-3">
+                            <div class="product-card text-center">
+                                <a href="{{ item.get_absolute_url }}"><img src="{{ item.main_image.url }}" class="w-100 mb-2"></a>
+                                <h6>{{ item.name|add:item.brand|add:item.model }}</h6>
+                                <p class="text-primary fw-bold">{{ item.price|cspn }} تومان</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        
+                    
+                        
+                    </div>
+                </div>
+
+                
+                </div>
+
+            </div>
+
+            <!-- کنترل‌ها -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#carousel1" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carousel1" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+
+        </div>
+               <!-- CTA -->
+    <div class="row my-5 rtl">
+        <div class="col-12">
+            <div class="p-4 text-white rounded-4 shadow" style="background: linear-gradient(45deg,#1976d2,#0d47a1)">
+                <h3 class="mb-1" >ماوس بادوام و مطمئن</h3>
+                <p class="mb-0">بهترین قیمت بازار</p>
+            </div>
+        </div>
+    </div>
+    <!-- Product Section -->
+    <div class="my-4 p-4 rounded-4 shadow bg-white rtl">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="text-primary m-0" style="font-weight: bold;">ماوس ها</h4>
+            <a href="{% url "model-loader" model="Mouse" %}" class="btn btn-primary">مشاهده بیشتر</a>
+        </div>
+
+        <div id="carousel1" class="carousel slide" data-bs-ride="carousel">
+
+            <!-- 4 محصول اول ثابت -->
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row g-3">
+                        {% for item in mouses %}
+                        <div class="col-3">
+                            <div class="product-card text-center">
+                                <a href="{{ item.get_absolute_url }}"><img src="{{ item.main_image.url }}" class="w-100 mb-2"></a>
+                                <h6>{{ item.name|add:item.brand|add:item.model }}</h6>
+                                <p class="text-primary fw-bold">{{ item.price|cspn }} تومان</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        
+                    
+                        
+                    </div>
+                </div>
+
+                
+                </div>
+
+            </div>
+
+            <!-- کنترل‌ها -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#carousel1" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carousel1" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+
+        </div>
+    </div>
+    </div>
+
+    </div>
+</div>
+    
+</div>
+
+{% endblock content %}
+
+{% block scripts %}
+
+document.querySelectorAll('.wishlist-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const icon = this.querySelector("i");
+        if (icon.classList.contains("far")) {
+            icon.classList.remove("far");
+            icon.classList.add("fas");
+        } else {
+            icon.classList.remove("fas");
+            icon.classList.add("far");
+        }
+    });
+});
+
+{% endblock scripts %}
