@@ -1,7 +1,6 @@
 from uuid import uuid4
 
 from axes.handlers.proxy import AxesProxyHandler
-from axes.utils import reset_request
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import get_user_model, update_session_auth_hash
@@ -191,7 +190,7 @@ class VerifyOTPView(generic.TemplateView):
             user.save()
 
         # پاکسازی Axes (خیلی مهم)
-        reset_request(request)
+        # reset_request(request)
 
         user.backend = "accounts.auth_backends.OTPBackend"
         login(request, user)

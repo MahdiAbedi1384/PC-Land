@@ -1,4 +1,3 @@
-from axes.utils import reset_request
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import ModelBackend
@@ -26,9 +25,9 @@ class EmailOrPhoneBackend(ModelBackend):
         if not user.check_password(password):
             return None
 
-        # پسورد صحیح → ریست تلاش‌های Axes
-        if request:
-            reset_request(request)
+        # # پسورد صحیح → ریست تلاش‌های Axes
+        # if request:
+        #     reset_request(request)
 
         return user
 
@@ -55,8 +54,8 @@ class OTPBackend(ModelBackend):
         except User.DoesNotExist:
             return None
 
-        # OTP صحیح → ریست Axes
-        if request:
-            reset_request(request)
+        # # OTP صحیح → ریست Axes
+        # if request:
+        #     reset_request(request)
 
         return user

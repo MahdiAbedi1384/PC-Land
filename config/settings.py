@@ -287,7 +287,7 @@ OTP_RATE_LIMIT_SECONDS = 60  # محدودیت ارسال مجدد
 # ================ Django-axes config ================
 
 AXES_FAILURE_LIMIT = 5
-AXES_COOLOFF_TIME = timedelta(minutes=30)
+# AXES_COOLOFF_TIME = timedelta(minutes=30)
 AXES_LOCK_OUT_AT_FAILURE = True
 AXES_LOCKOUT_CALLABLE = "accounts.utils.lockout_response"
 AXES_LOCKOUT_PARAMETERS = ["username", "ip_address"]
