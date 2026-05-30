@@ -313,9 +313,9 @@ ZARINPAL_MERCHANT_ID = os.getenv("ZARINPAL_MERCHANT_ID")
 # تنظیمات Elasticsearch بدون Docker
 ELASTICSEARCH_DSL = {
     "default": {
-        "hosts": os.getenv("ELASTICSEARCH_DSL_HOST"),  # اضافه کردن http://
-        "timeout": 30,
-    },
+        "hosts": "https://elastic:PASSWORD@localhost:9200",
+        "verify_certs": False,
+    }
 }
 
 # اگر Elasticsearch روی پورت دیگری است:
