@@ -4,290 +4,320 @@
 {% load jformat %}{# اضافه کردن تگ‌های جلالی #}
 
 {% block page_title %}
-جزئیات سفارش - فروشگاه لپ‌تاپ و کامپیوتر
+    جزئیات سفارش - فروشگاه لپ‌تاپ و کامپیوتر
 {% endblock page_title %}
 
 {% block styles %}
-/* استایل‌ها بدون تغییر باقی می‌مانند */
-.profile-card {
+    /* استایل‌ها بدون تغییر باقی می‌مانند */
+    .profile-card {
     border: none;
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     overflow: hidden;
-}
-.profile-card-header {
+    }
+    .profile-card-header {
     background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
     color: white;
-}
-.profile-img {
+    }
+    .profile-img {
     width: 120px;
     height: 120px;
     object-fit: cover;
     border-radius: 50%;
     border: 3px solid white;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-.order-card {
+    }
+    .order-card {
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     transition: all 0.3s;
-}
-.order-card:hover {
+    }
+    .order-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-}
-.order-status {
+    }
+    .order-status {
     font-weight: 600;
     padding: 3px 10px;
     border-radius: 20px;
     font-size: 0.85rem;
-}
-.status-processing {
+    }
+    .status-processing {
     background: #fff8e6;
     color: #ffc107;
-}
-.status-delivered {
+    }
+    .status-delivered {
     background: #e6f7e6;
     color: #28a745;
-}
-.status-cancelled {
+    }
+    .status-cancelled {
     background: #ffebee;
     color: #dc3545;
-}
-.order-summary {
+    }
+    .order-summary {
     border: 1px solid #e9ecef;
     border-radius: 10px;
     padding: 20px;
     background: #f8f9fa;
     height: 100%;
-}
-.order-item-img {
+    }
+    .order-item-img {
     width: 80px;
     height: 80px;
     object-fit: cover;
     border-radius: 8px;
-}
-.order-actions {
+    }
+    .order-actions {
     margin-top: 30px;
-}
-.action-btn {
+    }
+    .action-btn {
     padding: 10px 20px;
     border-radius: 8px;
     transition: all 0.3s;
-}
-.action-btn:hover {
+    }
+    .action-btn:hover {
     transform: translateY(-2px);
-}
+    }
 {% endblock styles %}
 
 {% block content %}
-<!-- صفحه جزئیات سفارش -->
-<section class="py-5">
-    <div class="container">
-        <div class="row">
-            <!-- سمت چپ: اطلاعات کاربری -->
-            <div class="col-md-4">
-                <div class="card profile-card">
-                    <div class="card-header profile-card-header text-center">
-                        <img src="{% static 'imgs/user.webp' %}" 
-                             alt="avatar"
-                             class="rounded-circle mx-auto d-block mb-3"
-                             style="width: 90px; height: 90px; object-fit: cover;">
-                        <h5 class="fw-bold">{{ user.first_name }} {{ user.last_name }}</h5>
-                        <p class="text-white-50 small mb-0">{{ user.email }}</p>
-                    </div>
+    <!-- صفحه جزئیات سفارش -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <!-- سمت چپ: اطلاعات کاربری -->
+                <div class="col-md-4">
+                    <div class="card profile-card">
+                        <div class="card-header profile-card-header text-center">
+                            <img src="{% static 'imgs/user.webp' %}"
+                                 alt="avatar"
+                                 class="rounded-circle mx-auto d-block mb-3"
+                                 style="width: 90px; height: 90px; object-fit: cover;">
+                            <h5 class="fw-bold">{{ user.first_name }} {{ user.last_name }}</h5>
+                            <p class="text-white-50 small mb-0">{{ user.email }}</p>
+                        </div>
 
-                    <div class="card-body p-4 rtl">
-                        <div class="list-group">
-                            <a href="{% url 'profile' %}" class="list-group-item list-group-item-action">
-                                <i class="fas fa-user fs-5 me-2"></i> پروفایل
-                            </a>
-                            <a href="{% url 'orders:order_history' %}" class="list-group-item list-group-item-action active">
-                                <i class="fas fa-history me-2"></i> تاریخچه خرید
-                            </a>
-                            <a href="{% url 'favorites' %}" class="list-group-item list-group-item-action">
-                                <i class="fas fa-heart me-2"></i> علاقه‌مندی‌ها
-                            </a>
-                            <a href="{% url 'manage_addresses' %}" class="list-group-item list-group-item-action">
-                                <i class="fas fa-map-marker-alt me-2"></i> آدرس‌ها
-                            </a>
-                            <a href="{% url 'account_settings' %}" class="list-group-item list-group-item-action">
-                                <i class="fas fa-cog me-2"></i> تنظیمات
-                            </a>
+                        <div class="card-body p-4 rtl">
+                            <div class="list-group">
+                                <a href="{% url 'profile' %}" class="list-group-item list-group-item-action">
+                                    <i class="fas fa-user fs-5 me-2"></i> پروفایل
+                                </a>
+                                <a href="{% url 'orders:order_history' %}"
+                                   class="list-group-item list-group-item-action active">
+                                    <i class="fas fa-history me-2"></i> تاریخچه خرید
+                                </a>
+                                <a href="{% url 'favorites' %}" class="list-group-item list-group-item-action">
+                                    <i class="fas fa-heart me-2"></i> علاقه‌مندی‌ها
+                                </a>
+                                <a href="{% url 'manage_addresses' %}" class="list-group-item list-group-item-action">
+                                    <i class="fas fa-map-marker-alt me-2"></i> آدرس‌ها
+                                </a>
+                                <a href="{% url 'account_settings' %}" class="list-group-item list-group-item-action">
+                                    <i class="fas fa-cog me-2"></i> تنظیمات
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- سمت راست: جزئیات سفارش -->
-            <div class="col-md-8">
-                <div class="card profile-card">
-                    <div class="card-header profile-card-header d-flex justify-content-between align-items-center">
-                        <h3 class="fw-bold m-0">جزئیات سفارش</h3>
-                        <a href="{% url 'orders:order_history' %}" class="btn btn-outline-light btn-sm">
-                            <i class="fas fa-arrow-right me-1"></i> بازگشت
-                        </a>
-                    </div>
-                    <div class="card-body p-4 rtl">
-                        <div class="row mb-4">
-                            <div class="col-md-6 mb-3 mb-md-0">
-                                <div class="order-summary">
-                                    <h5 class="fw-bold mb-3">خلاصه سفارش</h5>
-                                    <p><strong>شماره سفارش:</strong> #{{ order.id }}</p>
-                                    
-                                    <!-- تغییر به تاریخ شمسی با پکیج django-jalali -->
-                                    <p><strong>تاریخ ثبت:</strong> {{ order.created|jformat:'%Y/%m/%d'|pn }}</p>
-                                    
-                                    <p><strong>وضعیت پرداخت: </strong> 
-                                        {% if order.status == 'paid' %}
-                                            <span class="order-status status-delivered badge bg-success text-dark">{{ order.get_status_display }}</span>
-                                            
-                                        {% elif order.status == 'refunded' %}
-                                            <span class="order-status status-processing badge bg-info text-dark">{{ order.get_status_display }}</span>
-                                            
-                                        {% elif order.status == 'cancelled' %}
-                                            <span class="order-status status-cancelled badge bg-danger text-dark">{{ order.get_status_display }}</span>
-                                            
-                                        {% elif order.status == 'pending' %}
-                                            <!-- وضعیت در انتظار پرداخت + دکمه پرداخت مجدد -->
-                                            <span class="order-status status-pending badge bg-warning text-dark">{{ order.get_status_display }}</span>
-                                            <div class="mt-2">
-                                                <a href="{% url 'payment:payment_process_sandbox_retry' order.id %}" class="btn btn-sm btn-success">
-                                                    پرداخت این سفارش
-                                                </a>
-                                            </div>
-                                            
-                                        {% else %}
-                                            <span class="order-status badge bg-light text-dark">{{ order.get_status_display }}</span>
-                                        {% endif %}
-                                    </p>
-
-                                    <p><strong>وضعیت ارسال: </strong>
-                                        {% if order.delivery_status == 'delivered' %}
-                                            <span class="order-status status-delivered badge bg-success text-dark">{{ order.get_delivery_status_display }}</span>
-                                            
-                                        {% elif order.delivery_status == 'shipped' %}
-                                            <span class="order-status status-processing badge bg-info text-dark">{{ order.get_delivery_status_display }}</span>
-                                            
-                                        {% elif order.delivery_status == 'returned' %}
-                                            <span class="order-status status-cancelled badge bg-danger text-dark">{{ order.get_delivery_status_display }}</span>
-                                            
-                                        {% elif order.delivery_status == 'preparing' %}
-                                            <!-- وضعیت در انتظار پرداخت + دکمه پرداخت مجدد -->
-                                            <span class="order-status status-pending badge bg-warning text-dark">{{ order.get_delivery_status_display }}</span>
-                                        {% else %}
-                                            <span class="order-status badge bg-light text-dark">{{ order.get_delivery_status_display }}</span>
-                                        {% endif %}
-                                    </p>
-
-
-                                    <p><strong>روش پرداخت:</strong> پرداخت آنلاین</p> 
-                                </div>
-                            </div>
-                            <div class="col-md-6 text-md-end">
-                                <div class="order-summary d-flex flex-column justify-content-center h-100">
-                                    <h5 class="fw-bold mb-3 text-md-end">جمع کل پرداختی</h5>
-                                    <p class="display-6 fw-bold text-success">{{ order.paid_amount|cspn }} تومان</p>
-                                    <p class="text-muted text-md-end mb-0">{% if order.discount %}شامل تخفیف اعمال شده{% else %}بدون تخفیف{% endif %}</p>
-                                </div>
-                            </div>
+                <!-- سمت راست: جزئیات سفارش -->
+                <div class="col-md-8">
+                    <div class="card profile-card">
+                        <div class="card-header profile-card-header d-flex justify-content-between align-items-center">
+                            <h3 class="fw-bold m-0">جزئیات سفارش</h3>
+                            <a href="{% url 'orders:order_history' %}" class="btn btn-outline-light btn-sm">
+                                <i class="fas fa-arrow-right me-1"></i> بازگشت
+                            </a>
                         </div>
+                        <div class="card-body p-4 rtl">
+                            <div class="row mb-4">
+                                <div class="col-md-6 mb-3 mb-md-0">
+                                    <div class="order-summary">
+                                        <h5 class="fw-bold mb-3">خلاصه سفارش</h5>
+                                        <p><strong>شماره سفارش:</strong> #{{ order.id }}</p>
 
-                        <!-- محصولات سفارش -->
-                        <div class="mb-4 rtl">
-                            <h5 class="fw-bold mb-3">محصولات سفارش</h5>
-                            <div class="table-responsive">
-                                <table class="table table-hover align-middle">
-                                    <thead class="table-light">
-                                    <tr>
-                                        <th>عکس</th>
-                                        <th>نام محصول</th>
-                                        <th class="text-center">تعداد</th>
-                                        <th>قیمت واحد</th>
-                                        <th>قیمت کل</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for item in order.items.all %}
-                                    <tr>
-                                        <td>
-                                            {% if item.product.main_image %}
-                                                <img src="{{ item.product.main_image.url }}" alt="{{ item.product.title|default:item.product.name }}" class="order-item-img">
+                                        <!-- تغییر به تاریخ شمسی با پکیج django-jalali -->
+                                        <p><strong>تاریخ ثبت:</strong> {{ order.created|jformat:'%Y/%m/%d'|pn }}</p>
+
+                                        <p><strong>وضعیت پرداخت: </strong>
+                                            {% if order.status == 'paid' %}
+                                                <span class="order-status status-delivered badge bg-success text-dark">{{ order.get_status_display }}</span>
+
+                                            {% elif order.status == 'refunded' %}
+                                                <span class="order-status status-processing badge bg-info text-dark">{{ order.get_status_display }}</span>
+
+                                            {% elif order.status == 'cancelled' %}
+                                                <span class="order-status status-cancelled badge bg-danger text-dark">{{ order.get_status_display }}</span>
+
+                                            {% elif order.status == 'pending' %}
+                                                <!-- وضعیت در انتظار پرداخت + دکمه پرداخت مجدد -->
+                                                <span class="order-status status-pending badge bg-warning text-dark">{{ order.get_status_display }}</span>
+                                                <div class="mt-2">
+                                                    <a href="{% url 'payment:payment_process_sandbox_retry' order.id %}"
+                                                       class="btn btn-sm btn-success">
+                                                        پرداخت این سفارش
+                                                    </a>
+                                                </div>
+
                                             {% else %}
-                                                <img src="https://i.imgur.com/5XJzZ9l.png" alt="بدون تصویر" class="order-item-img">
+                                                <span class="order-status badge bg-light text-dark">{{ order.get_status_display }}</span>
                                             {% endif %}
-                                        </td>
-                                        <td>{{ item.product.title|default:item.product.name }}</td>
-                                        <td class="text-center">{{ item.quantity }}</td>
-                                        <td>{{ item.price|cspn }} تومان</td>
-                                        <td>{{ item.item_total|cspn }} تومان</td>
-                                    </tr>
-                                    {% endfor %}
-                                    <tr>
-                                        <td colspan="4" class="text-end fw-bold">جمع کل فاکتور:</td>
-                                        <td class="fw-bold text-primary">{{ order.paid_amount|cspn }} تومان</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                                        </p>
 
-                        <!-- آدرس ارسال -->
-                        <div class="mb-4 rtl">
-                            <h5 class="fw-bold mb-3">آدرس ارسال</h5>
-                            <div class="card p-3 bg-light border-0">
-                                <p class="mb-2"><i class="fas fa-user text-muted me-2"></i> <strong>{{ order.address.full_name }}</strong></p>
-                                <p class="mb-2"><i class="fas fa-map-marker-alt text-muted me-2"></i> {{ order.address.province }}، {{ order.address.city }}، {{ order.address.full_address }}</p>
-                                <p class="mb-2"><i class="fas fa-envelope text-muted me-2"></i> کد پستی: {{ order.address.postal_code }}</p>
-                                <p class="mb-0"><i class="fas fa-phone text-muted me-2"></i> {{ order.address.user.phone_number|default:"-" }}</p>
-                            </div>
-                        </div>
+                                        <p><strong>وضعیت ارسال: </strong>
+                                            {% if order.delivery_status == 'delivered' %}
+                                                <span class="order-status status-delivered badge bg-success text-dark">{{ order.get_delivery_status_display }}</span>
 
-                        <!-- اقدامات -->
-                        <div class="order-actions">
-                            <h5 class="fw-bold mb-3">اقدامات</h5>
-                            <div class="d-flex flex-wrap gap-2">
-                                <!-- چاپ فاکتور -->
-                                <a href="#" class="action-btn btn btn-primary">
-                                    <i class="fas fa-print me-1"></i> چاپ فاکتور
-                                </a>
-                                
-                                <!-- سفارش مجدد -->
-                                <form action="{% url 'orders:reorder' order.id %}" method="POST" class="m-0">
-                                    {% csrf_token %}
-                                    <button type="submit" class="action-btn btn btn-outline-success">
-                                        <i class="fas fa-redo me-1"></i> سفارش مجدد
+                                            {% elif order.delivery_status == 'shipped' %}
+                                                <span class="order-status status-processing badge bg-info text-dark">{{ order.get_delivery_status_display }}</span>
+
+                                            {% elif order.delivery_status == 'returned' %}
+                                                <span class="order-status status-cancelled badge bg-danger text-dark">{{ order.get_delivery_status_display }}</span>
+
+                                            {% elif order.delivery_status == 'preparing' %}
+                                                <!-- وضعیت در انتظار پرداخت + دکمه پرداخت مجدد -->
+                                                <span class="order-status status-pending badge bg-warning text-dark">{{ order.get_delivery_status_display }}</span>
+                                            {% else %}
+                                                <span class="order-status badge bg-light text-dark">{{ order.get_delivery_status_display }}</span>
+                                            {% endif %}
+                                        </p>
+
+
+                                        <p><strong>روش پرداخت:</strong> پرداخت آنلاین</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 text-md-end">
+                                    <div class="order-summary d-flex flex-column justify-content-center h-100">
+                                        <h5 class="fw-bold mb-3 text-md-end">جمع کل پرداختی</h5>
+                                        <p class="display-6 fw-bold text-success">{{ order.paid_amount|cspn }} تومان</p>
+                                        <p class="text-muted text-md-end mb-0">{% if order.discount %}شامل تخفیف اعمال
+                                            شده{% else %}بدون تخفیف{% endif %}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- محصولات سفارش -->
+                            <div class="mb-4 rtl" id="invoice-content">
+                                <h5 class="fw-bold mb-3">محصولات سفارش</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-hover align-middle">
+                                        <thead class="table-light">
+                                        <tr>
+                                            <th>عکس</th>
+                                            <th>نام محصول</th>
+                                            <th class="text-center">تعداد</th>
+                                            <th>قیمت واحد</th>
+                                            <th>قیمت کل</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for item in order.items.all %}
+                                            <tr>
+                                                <td>
+                                                    {% if item.product.main_image %}
+                                                        <img src="{{ item.product.main_image.url }}"
+                                                             alt="{{ item.product.title|default:item.product.name }}"
+                                                             class="order-item-img">
+                                                    {% else %}
+                                                        <img src="https://i.imgur.com/5XJzZ9l.png" alt="بدون تصویر"
+                                                             class="order-item-img">
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{ item.product.title|default:item.product.name }}</td>
+                                                <td class="text-center">{{ item.quantity }}</td>
+                                                <td>{{ item.price|cspn }} تومان</td>
+                                                <td>{{ item.item_total|cspn }} تومان</td>
+                                            </tr>
+                                        {% endfor %}
+                                        <tr>
+                                            <td colspan="4" class="text-end fw-bold">جمع کل فاکتور:</td>
+                                            <td class="fw-bold text-primary">{{ order.paid_amount|cspn }} تومان</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- آدرس ارسال -->
+                            <div class="mb-4 rtl">
+                                <h5 class="fw-bold mb-3">آدرس ارسال</h5>
+                                <div class="card p-3 bg-light border-0">
+                                    <p class="mb-2"><i class="fas fa-user text-muted me-2"></i>
+                                        <strong>{{ order.address.full_name }}</strong></p>
+                                    <p class="mb-2"><i
+                                            class="fas fa-map-marker-alt text-muted me-2"></i> {{ order.address.province }}، {{ order.address.city }}، {{ order.address.full_address }}
+                                    </p>
+                                    <p class="mb-2"><i class="fas fa-envelope text-muted me-2"></i> کد
+                                        پستی: {{ order.address.postal_code }}</p>
+                                    <p class="mb-0"><i
+                                            class="fas fa-phone text-muted me-2"></i> {{ order.address.user.phone_number|default:"-" }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- اقدامات -->
+                            <div class="order-actions">
+                                <h5 class="fw-bold mb-3">اقدامات</h5>
+                                <div class="d-flex flex-wrap gap-2">
+                                    <!-- چاپ فاکتور -->
+                                    <button class="action-btn btn btn-primary" id="download-pdf">
+                                        <i class="fas fa-print me-1"></i> چاپ فاکتور
                                     </button>
-                                </form>
 
-                                <!-- مرجوع کردن سفارش -->
-                                <!-- معمولا مرجوعی فقط زمانی مجاز است که سفارش "تحویل داده شده" باشد -->
-                                {% if order.delivery_status == 'delivered' %}
-                                    <a href="{% url 'orders:order_return' order.id %}" class="action-btn btn btn-outline-danger">
-                                        <i class="fas fa-undo me-1"></i> مرجوع کردن سفارش
-                                    </a>
-                                {% endif %}
+                                    <!-- سفارش مجدد -->
+                                    <form action="{% url 'orders:reorder' order.id %}" method="POST" class="m-0">
+                                        {% csrf_token %}
+                                        <button type="submit" class="action-btn btn btn-outline-success">
+                                            <i class="fas fa-redo me-1"></i> سفارش مجدد
+                                        </button>
+                                    </form>
 
+                                    <!-- مرجوع کردن سفارش -->
+                                    <!-- معمولا مرجوعی فقط زمانی مجاز است که سفارش "تحویل داده شده" باشد -->
+                                    {% if order.delivery_status == 'delivered' %}
+                                        <a href="{% url 'orders:order_return' order.id %}"
+                                           class="action-btn btn btn-outline-danger">
+                                            <i class="fas fa-undo me-1"></i> مرجوع کردن سفارش
+                                        </a>
+                                    {% endif %}
+
+                                </div>
                             </div>
-                        </div>
 
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 {% endblock content %}
 
 {% block scripts %}
 
     document.querySelectorAll('.action-btn').forEach(button => {
-        button.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-2px)';
-        });
-        button.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
-        });
+    button.addEventListener('mouseenter', function() {
+    this.style.transform = 'translateY(-2px)';
     });
+    button.addEventListener('mouseleave', function() {
+    this.style.transform = 'translateY(0)';
+    });
+    });
+    document.getElementById('download-pdf').addEventListener('click', () => {
+    const element = document.getElementById('invoice-content');
 
+    html2pdf()
+    .set({
+    margin: 10,
+    filename: 'invoice-{{ order.id }}.pdf',
+    image: { type: 'jpeg', quality: 1 },
+    html2canvas: { scale: 2 },
+    jsPDF: {
+    unit: 'mm',
+    format: 'a4',
+    orientation: 'portrait'
+    }
+    })
+    .from(element)
+    .save();
+    });
 {% endblock scripts %}

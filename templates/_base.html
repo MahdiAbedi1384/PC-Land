@@ -20,8 +20,16 @@
     <link rel="icon" href="{% static "icons/favicon-64.icon" %}">
     <link rel="stylesheet" href="https://c.vazirweb.ir/cdn/vazirmatn/vazirmatn.css">
     <style>
-        .rtl { direction: rtl; text-align: right; }
-        .ltr { direction: ltr; text-align: left; }
+        .rtl {
+            direction: rtl;
+            text-align: right;
+        }
+
+        .ltr {
+            direction: ltr;
+            text-align: left;
+        }
+
         body {
             font-family: 'Vazirmatn', sans-serif !important;
         }
@@ -31,16 +39,20 @@
             color: white;
             font-size: 0.85rem;
         }
+
         .navbar {
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
+
         .nav-link {
             font-weight: 500;
             margin: 0 5px;
         }
+
         .cart-icon {
             position: relative;
         }
+
         .cart-count {
             position: absolute;
             top: -5px;
@@ -55,145 +67,149 @@
             align-items: center;
             justify-content: center;
         }
+
         @keyframes blink {
-    0%{
-        opacity: 1;
-    }
-    50%{
-        opacity: 0.1;
-    }
-    100%{
-        opacity: 1;
-    }
-}
-
-@keyframes move-messages-to-corner {
-    0%{
-        right: 2vw;
-    }
-    10%{
-        right: 0vw;
-    }
-    12%{
-        right: 12vw;
-    }
-    30%{
-        right: 8vw;
-    }
-    32%{
-        right: 18vw;
-    }
-    50%{
-        right: 14vw;
-    }
-    52%{
-        right: 24vw;
-    }
-    99%{
-        right: 5vw;
-    }
-    100%{
-        right: 100vw;
-    }
-}
-
-.madval-messages{
-    display: inline-block;
-    position: fixed;
-    bottom: 0;
-    right: 2vw;
-    width: 75vw;
-    left: unset;
-    overflow: auto;
-    direction: rtl;
-    font-family: Calibri;
-    font-size: 1.1em;
-    z-index: 10000 !important;
-    animation: blink 3 1.5s;
-}
-.move-to-corner{
-    display: inline-block;
-    position: fixed;
-    bottom: 0;
-    right: 2vw;
-    width: 75vw;
-    left: unset;
-    overflow: auto;
-    direction: rtl;
-    font-family: Calibri;
-    font-size: 1.1em;
-    z-index: 10000 !important;
-    animation: move-messages-to-corner 10s forwards;
-}
-
-@media (min-width: 992px) {
-    @keyframes blink {
-        0%{
-            opacity: 1;
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.1;
+            }
+            100% {
+                opacity: 1;
+            }
         }
-        50%{
-            opacity: 0.1;
-        }
-        100%{
-            opacity: 1;
-        }
-    }
 
-    @keyframes move-messages-to-corner {
-        0%{
+        @keyframes move-messages-to-corner {
+            0% {
+                right: 2vw;
+            }
+            10% {
+                right: 0vw;
+            }
+            12% {
+                right: 12vw;
+            }
+            30% {
+                right: 8vw;
+            }
+            32% {
+                right: 18vw;
+            }
+            50% {
+                right: 14vw;
+            }
+            52% {
+                right: 24vw;
+            }
+            99% {
+                right: 5vw;
+            }
+            100% {
+                right: 100vw;
+            }
+        }
+
+        .madval-messages {
+            display: inline-block;
+            position: fixed;
+            bottom: 0;
             right: 2vw;
+            width: 75vw;
+            left: unset;
+            overflow: auto;
+            direction: rtl;
+            font-family: Calibri;
+            font-size: 1.1em;
+            z-index: 10000 !important;
+            animation: blink 3 1.5s;
         }
-        8%{
-            right: 10vw;
-        }
-        28%{
-            right: 5vw;
-        }
-        29%{
-            right: 50vw;
-        }
-        95%{
-            right: 50vw;
-        }
-        100%{
-            right: 100vw;
-        }
-    }
 
-    .madval-messages{
-        display: inline-block;
-        position: fixed;
-        bottom: 0;
-        right: 2vw;
-        width: 48vw;
-        left: unset;
-        overflow: auto;
-        direction: rtl;
-        font-family: Calibri;
-        font-size: 1.4em;
-        z-index: 10000 !important;
-        animation: blink 3 1.5s;
-    }
-    .move-to-corner{
-        display: inline-block;
-        position: fixed;
-        bottom: 0;
-        right: 2vw;
-        width: 48vw;
-        left: unset;
-        overflow: auto;
-        direction: rtl;
-        font-family: Calibri;
-        font-size: 1.4em;
-        z-index: 10000 !important;
-        animation: move-messages-to-corner 10s forwards;
-    }
-}
-.search-container {
+        .move-to-corner {
+            display: inline-block;
+            position: fixed;
+            bottom: 0;
+            right: 2vw;
+            width: 75vw;
+            left: unset;
+            overflow: auto;
+            direction: rtl;
+            font-family: Calibri;
+            font-size: 1.1em;
+            z-index: 10000 !important;
+            animation: move-messages-to-corner 10s forwards;
+        }
+
+        @media (min-width: 992px) {
+            @keyframes blink {
+                0% {
+                    opacity: 1;
+                }
+                50% {
+                    opacity: 0.1;
+                }
+                100% {
+                    opacity: 1;
+                }
+            }
+
+            @keyframes move-messages-to-corner {
+                0% {
+                    right: 2vw;
+                }
+                8% {
+                    right: 10vw;
+                }
+                28% {
+                    right: 5vw;
+                }
+                29% {
+                    right: 50vw;
+                }
+                95% {
+                    right: 50vw;
+                }
+                100% {
+                    right: 100vw;
+                }
+            }
+
+            .madval-messages {
+                display: inline-block;
+                position: fixed;
+                bottom: 0;
+                right: 2vw;
+                width: 48vw;
+                left: unset;
+                overflow: auto;
+                direction: rtl;
+                font-family: Calibri;
+                font-size: 1.4em;
+                z-index: 10000 !important;
+                animation: blink 3 1.5s;
+            }
+
+            .move-to-corner {
+                display: inline-block;
+                position: fixed;
+                bottom: 0;
+                right: 2vw;
+                width: 48vw;
+                left: unset;
+                overflow: auto;
+                direction: rtl;
+                font-family: Calibri;
+                font-size: 1.4em;
+                z-index: 10000 !important;
+                animation: move-messages-to-corner 10s forwards;
+            }
+        }
+
+        .search-container {
             position: relative;
             min-width: 300px;
         }
-        
+
         .autocomplete-results {
             position: absolute;
             top: 100%;
@@ -202,40 +218,40 @@
             background: white;
             border: 1px solid #ddd;
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             z-index: 1000;
             max-height: 400px;
             overflow-y: auto;
             display: none;
         }
-        
+
         .autocomplete-item {
             padding: 12px 15px;
             border-bottom: 1px solid #f0f0f0;
             cursor: pointer;
             transition: background 0.2s;
         }
-        
+
         .autocomplete-item:hover {
             background-color: #f8f9fa;
         }
-        
+
         .autocomplete-item .product-name {
             font-weight: 500;
             color: #333;
         }
-        
+
         .autocomplete-item .product-brand {
             font-size: 0.8rem;
             color: #6c757d;
         }
-        
+
         .autocomplete-item .product-price {
             font-size: 0.85rem;
             color: #0d6efd;
             font-weight: 600;
         }
-        
+
         .search-loading {
             position: absolute;
             right: 10px;
@@ -243,11 +259,17 @@
             transform: translateY(-50%);
             display: none;
         }
-        
+
         @keyframes blink {
-            0% { opacity: 1; }
-            50% { opacity: 0.1; }
-            100% { opacity: 1; }
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.1;
+            }
+            100% {
+                opacity: 1;
+            }
         }
 
         {% block styles %}{% endblock styles %}
@@ -255,14 +277,14 @@
 
 </head>
 <body class="d-flex flex-column min-vh-100">
-    {% if messages %}
+{% if messages %}
     <div id="madval-messages" class="madval-messages">
         <i class="fa fa-window-close mx-2" aria-hidden="true" onclick="close_messages()"></i>
         {% for message in messages %}
-            <div class="alert alert-{{message.tags}}">{{ message }}</div>
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
         {% endfor %}
     </div>
-    {% endif %}
+{% endif %}
 <!-- تاپ بار (Top Bar) -->
 <div class="top-bar">
     <div class="container">
@@ -299,17 +321,26 @@
 
                 <!-- منوی دسته‌بندی (Dropdown) -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="categoryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="categoryDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-list me-1"></i> دسته‌بندی‌ها
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="{% url 'model-loader' model='Laptop' %}"><i class="fas fa-laptop me-2"></i> لپ‌تاپ‌ها</a></li>
-                        <li><a class="dropdown-item" href="{% url 'model-loader' model='AllinOnePC' %}"><i class="fas fa-desktop me-2"></i> <span style="direction:ltr;">all in oneکامپیوترهای </span></a></li>
-                        <li><a class="dropdown-item" href="{% url 'computer_parts' %}"><i class="fas fa-cogs me-2"></i> قطعات کامپیوتر</a></li>
-                        <li><a class="dropdown-item" href="{% url 'model-loader' model='ComputerCase' %}"><i class="fas fa-box me-2"></i> کیس</a></li>
-                        <li><a class="dropdown-item" href="{% url 'model-loader' model='PreBuiltPC' %}"><i class="fas fa-box me-2"></i> کیس های آماده</a></li>
-                        <li><a class="dropdown-item" href="{% url 'model-loader' model='Monitor' %}"><i class="fas fa-tv me-2"></i> مانیتور</a></li>
-                        <li><a class="dropdown-item" href="{% url 'accessories' %}"><i class="fas fa-mouse me-2"></i> اکسسوری‌ها</a></li>
+                        <li><a class="dropdown-item" href="{% url 'model-loader' model='Laptop' %}"><i
+                                class="fas fa-laptop me-2"></i> لپ‌تاپ‌ها</a></li>
+                        <li><a class="dropdown-item" href="{% url 'model-loader' model='AllinOnePC' %}"><i
+                                class="fas fa-desktop me-2"></i> <span
+                                style="direction:ltr;">all in oneکامپیوترهای </span></a></li>
+                        <li><a class="dropdown-item" href="{% url 'computer_parts' %}"><i class="fas fa-cogs me-2"></i>
+                            قطعات کامپیوتر</a></li>
+                        <li><a class="dropdown-item" href="{% url 'model-loader' model='ComputerCase' %}"><i
+                                class="fas fa-box me-2"></i> کیس</a></li>
+                        <li><a class="dropdown-item" href="{% url 'model-loader' model='PreBuiltPC' %}"><i
+                                class="fas fa-box me-2"></i> کیس های آماده</a></li>
+                        <li><a class="dropdown-item" href="{% url 'model-loader' model='Monitor' %}"><i
+                                class="fas fa-tv me-2"></i> مانیتور</a></li>
+                        <li><a class="dropdown-item" href="{% url 'accessories' %}"><i class="fas fa-mouse me-2"></i>
+                            اکسسوری‌ها</a></li>
                     </ul>
                 </li>
 
@@ -320,44 +351,44 @@
 
             <!-- فرم جستجو و فیلترها (یکپارچه شده) -->
             <!-- دقت کنید که فرم اکشن باید به ویوی سرچ شما اشاره کند مثلا action=url search" -->
-             <form class="d-flex flex-column flex-md-row align-items-center gap-2 me-3" 
-                      method="get" 
-                      action="{% url 'search' %}" 
-                      id="search-form">
-                    
-                    <div class="search-container">
-                        <input type="text" 
-                               class="form-control" 
-                               name="q" 
-                               id="search-input"
-                               value="{{ request.GET.q|default:'' }}" 
-                               placeholder="جستجو در فروشگاه..." 
-                               aria-label="Search" 
-                               style="direction: rtl; min-width: 250px;"
-                               autocomplete="off">
-                        
-                        <!-- آیکون لودینگ -->
-                        <div class="search-loading" id="search-loading">
-                            <div class="spinner-border spinner-border-sm text-primary" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
+            <form class="d-flex flex-column flex-md-row align-items-center gap-2 me-3"
+                  method="get"
+                  action="{% url 'search' %}"
+                  id="search-form">
+
+                <div class="search-container">
+                    <input type="text"
+                           class="form-control"
+                           name="q"
+                           id="search-input"
+                           value="{{ request.GET.q|default:'' }}"
+                           placeholder="جستجو در فروشگاه..."
+                           aria-label="Search"
+                           style="direction: rtl; min-width: 250px;"
+                           autocomplete="off">
+
+                    <!-- آیکون لودینگ -->
+                    <div class="search-loading" id="search-loading">
+                        <div class="spinner-border spinner-border-sm text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
                         </div>
-                        
-                        <!-- نتایج Autocomplete -->
-                        <div class="autocomplete-results" id="autocomplete-results"></div>
                     </div>
-                    
-                    <!-- دکمه فیلترها (برای باز کردن مودال) -->
-                    <button type="button" class="btn btn-outline-secondary d-flex align-items-center"
-                            data-bs-toggle="modal" data-bs-target="#filterModal">
-                        <i class="fas fa-filter me-1"></i> فیلترها
-                    </button>
-                    
-                    <!-- دکمه جستجو -->
-                    <button type="submit" class="btn btn-primary d-flex align-items-center">
-                        <i class="fas fa-search me-1"></i> جستجو
-                    </button>
-                </form>
+
+                    <!-- نتایج Autocomplete -->
+                    <div class="autocomplete-results" id="autocomplete-results"></div>
+                </div>
+
+                <!-- دکمه فیلترها (برای باز کردن مودال) -->
+                <button type="button" class="btn btn-outline-secondary d-flex align-items-center"
+                        data-bs-toggle="modal" data-bs-target="#filterModal">
+                    <i class="fas fa-filter me-1"></i> فیلترها
+                </button>
+
+                <!-- دکمه جستجو -->
+                <button type="submit" class="btn btn-primary d-flex align-items-center">
+                    <i class="fas fa-search me-1"></i> جستجو
+                </button>
+            </form>
 
             <div class="d-flex align-items-center ms-3">
                 <a href="{% url 'cart:detail' %}" class="text-dark me-3 position-relative cart-icon">
@@ -365,7 +396,8 @@
                     <span class="cart-count">{{ cart|length|pn }}</span>
                 </a>
 
-                <a href="{% if user.is_authenticated %}{% url 'profile' %}{% else %}{% url 'login' %}{% endif %}" class="text-dark">
+                <a href="{% if user.is_authenticated %}{% url 'profile' %}{% else %}{% url 'login' %}{% endif %}"
+                   class="text-dark">
                     <i class="fas fa-user fs-5"></i>
                 </a>
             </div>
@@ -379,7 +411,8 @@
                 <h5 class="modal-title" id="filterModalLabel">
                     <i class="fas fa-filter me-2"></i>فیلترهای پیشرفته
                 </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div id="filter-content">
@@ -399,7 +432,7 @@
                             <option value="cases">کیس‌ها</option>
                         </select>
                     </div>
-                    
+
                     <!-- بخش بارگذاری فیلترها (برندها و سایر فیلترها) -->
                     <div id="dynamic-filters">
                         <div class="text-center py-4">
@@ -422,8 +455,8 @@
 </div>
 
 
-    {% block content %}
-    {% endblock content %}
+{% block content %}
+{% endblock content %}
 
 <!-- فوتر (Footer) -->
 <footer class="bg-primary text-white py-5" style="direction: rtl;">
@@ -433,7 +466,8 @@
             <div class="col-md-3 mb-4">
                 <h5 class="fw-bold mb-4">درباره ما</h5>
                 <p class="mb-3">
-                    فروشگاه لپ‌تاپ و کامپیوتر <strong>LaptopStore</strong> با بیش از 10 سال تجربه، بهترین محصولات را با قیمت مناسب و گارانتی اصلی ارائه می‌دهد.
+                    فروشگاه لپ‌تاپ و کامپیوتر <strong>LaptopStore</strong> با بیش از 10 سال تجربه، بهترین محصولات را با
+                    قیمت مناسب و گارانتی اصلی ارائه می‌دهد.
                 </p>
                 <div class="d-flex gap-3">
                     <a href="#" class="text-white fs-4"><i class="fab fa-instagram"></i></a>
@@ -447,10 +481,14 @@
                 <h5 class="fw-bold mb-4">لینک‌های سریع</h5>
                 <ul class="list-unstyled">
                     <li class="mb-2"><a href="{% url "home" %}" class="text-white text-decoration-none">خانه</a></li>
-                    <li class="mb-2"><a href="{% url "model-loader" model="Laptop" %}" class="text-white text-decoration-none">لپ‌تاپ‌ها</a></li>
-                    <li class="mb-2"><a href="{% url "model-loader" model="AllinOnePC" %}" class="text-white text-decoration-none">کامپیوترهای all in one</a></li>
-                    <li class="mb-2"><a href="{% url "accessories" %}" class="text-white text-decoration-none">اکسسوری‌ها</a></li>
-                    <li class="mb-2"><a href="{% url "ticket_list" %}" class="text-white text-decoration-none">پشتیبانی</a></li>
+                    <li class="mb-2"><a href="{% url "model-loader" model="Laptop" %}"
+                                        class="text-white text-decoration-none">لپ‌تاپ‌ها</a></li>
+                    <li class="mb-2"><a href="{% url "model-loader" model="AllinOnePC" %}"
+                                        class="text-white text-decoration-none">کامپیوترهای all in one</a></li>
+                    <li class="mb-2"><a href="{% url "accessories" %}" class="text-white text-decoration-none">اکسسوری‌ها</a>
+                    </li>
+                    <li class="mb-2"><a href="{% url "ticket_list" %}"
+                                        class="text-white text-decoration-none">پشتیبانی</a></li>
                 </ul>
             </div>
 
@@ -486,10 +524,10 @@
                     <input type="hidden" name="next_page" value="{{ request.build_absolute_uri }}">
 
                     <input type="email"
-                        name="email"
-                        class="form-control me-2"
-                        placeholder="ایمیل شما"
-                        required>
+                           name="email"
+                           class="form-control me-2"
+                           placeholder="ایمیل شما"
+                           required>
 
                     <button type="submit" name="newsletter_sub" class="btn btn-light mx-1">عضویت</button>
                 </form>
@@ -516,84 +554,91 @@
     </div>
 </footer>
 <script src="https://lib.arvancloud.ir/bootstrap/5.3.0-alpha1/js/bootstrap.bundle.min.js"></script>
-<script src="https://lib.arvancloud.ir/font-awesome/6.3.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://lib.arvancloud.ir/font-awesome/6.3.0/js/all.min.js" crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
 <script type="text/javascript" src="{% static "toastify/toastify.min.js" %}"></script>
-<script src="https://lib.arvancloud.ir/jquery/3.6.0/jquery.min.js"></script> {# jQuery برای AJAX #}
-<script src="{% static 'js/address_management.js' %}"></script> {# یک فایل JS جداگانه برای مدیریت آدرس #}
+<script src="https://lib.arvancloud.ir/jquery/3.6.0/jquery.min.js"></script>
+{# jQuery برای AJAX #}
+<script src="https://lib.arvancloud.ir/html2pdf.js/0.9.3/html2pdf.bundle.js" crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
+<script src="{% static 'js/address_management.js' %}"></script>
+{# یک فایل JS جداگانه برای مدیریت آدرس #}
 <script>
     function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
 
-async function move_messages(){
-    await sleep(4.5 * 1000);
-    try{
+    async function move_messages() {
+        await sleep(4.5 * 1000);
+        try {
+            var messages_div = document.getElementById("madval-messages");
+            messages_div.classList.remove("madval-messages");
+            messages_div.classList.add("move-to-corner");
+        } catch {
+            // do nothing
+        }
+    }
+
+    function close_messages() {
         var messages_div = document.getElementById("madval-messages");
-        messages_div.classList.remove("madval-messages");
-        messages_div.classList.add("move-to-corner");
+        messages_div.style.display = 'none';
     }
-    catch{
-        // do nothing
+
+    function open_comments() {
+        document.getElementById("all_comments").style.display = "block";
     }
-}
 
-function close_messages(){
-    var messages_div = document.getElementById("madval-messages");
-    messages_div.style.display='none';
-}
-
-function open_comments(){
-    document.getElementById("all_comments").style.display="block";
-}
-function close_comments(){
-    document.getElementById("all_comments").style.display="none";
-}
-function open_anonymous_comments(){
-    document.getElementById("all_anonymous_comments").style.display="block";
-}
-function close_anonymous_comments(){
-    document.getElementById("all_anonymous_comments").style.display="none";
-}
-
-document.body.addEventListener('keydown', function(e) {
-    if (e.key == "Escape") {
-        close_comments()
-        close_anonymous_comments()
+    function close_comments() {
+        document.getElementById("all_comments").style.display = "none";
     }
-});
-move_messages();
-// ========== کدهای جستجوی پیشرفته ==========
-        
-        // Autocomplete جستجو
-        let searchTimeout;
-        const searchInput = document.getElementById('search-input');
-        const autocompleteResults = document.getElementById('autocomplete-results');
-        const searchLoading = document.getElementById('search-loading');
-        
-        if (searchInput) {
-            searchInput.addEventListener('input', function() {
-                clearTimeout(searchTimeout);
-                const query = this.value.trim();
-                
-                if (query.length < 2) {
-                    autocompleteResults.style.display = 'none';
-                    searchLoading.style.display = 'none';
-                    return;
-                }
-                
-                // نمایش لودینگ
-                searchLoading.style.display = 'block';
-                
-                searchTimeout = setTimeout(function() {
-                    fetch(`/search/autocomplete/?q=${encodeURIComponent(query)}&limit=8`)
-                        .then(response => response.json())
-                        .then(data => {
-                            searchLoading.style.display = 'none';
-                            
-                            if (data.results && data.results.length > 0) {
-                                let html = '';
-                                data.results.forEach(item => {
-                                    html += `
+
+    function open_anonymous_comments() {
+        document.getElementById("all_anonymous_comments").style.display = "block";
+    }
+
+    function close_anonymous_comments() {
+        document.getElementById("all_anonymous_comments").style.display = "none";
+    }
+
+    document.body.addEventListener('keydown', function (e) {
+        if (e.key == "Escape") {
+            close_comments()
+            close_anonymous_comments()
+        }
+    });
+    move_messages();
+    // ========== کدهای جستجوی پیشرفته ==========
+
+    // Autocomplete جستجو
+    let searchTimeout;
+    const searchInput = document.getElementById('search-input');
+    const autocompleteResults = document.getElementById('autocomplete-results');
+    const searchLoading = document.getElementById('search-loading');
+
+    if (searchInput) {
+        searchInput.addEventListener('input', function () {
+            clearTimeout(searchTimeout);
+            const query = this.value.trim();
+
+            if (query.length < 2) {
+                autocompleteResults.style.display = 'none';
+                searchLoading.style.display = 'none';
+                return;
+            }
+
+            // نمایش لودینگ
+            searchLoading.style.display = 'block';
+
+            searchTimeout = setTimeout(function () {
+                fetch(`/search/autocomplete/?q=${encodeURIComponent(query)}&limit=8`)
+                    .then(response => response.json())
+                    .then(data => {
+                        searchLoading.style.display = 'none';
+
+                        if (data.results && data.results.length > 0) {
+                            let html = '';
+                            data.results.forEach(item => {
+                                html += `
                                         <div class="autocomplete-item" onclick="window.location.href='/product/${item.category.toLowerCase()}/${item.id}/'">
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <div>
@@ -604,60 +649,60 @@ move_messages();
                                             </div>
                                         </div>
                                     `;
-                                });
-                                autocompleteResults.innerHTML = html;
-                                autocompleteResults.style.display = 'block';
-                            } else {
-                                autocompleteResults.innerHTML = '<div class="autocomplete-item text-muted text-center">نتیجه‌ای یافت نشد</div>';
-                                autocompleteResults.style.display = 'block';
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            searchLoading.style.display = 'none';
-                        });
-                }, 300);
-            });
-            
-            // مخفی کردن autocomplete هنگام کلیک خارج
-            document.addEventListener('click', function(e) {
-                if (!searchInput.contains(e.target) && !autocompleteResults.contains(e.target)) {
-                    autocompleteResults.style.display = 'none';
-                }
-            });
-        }
-        
-        // بارگذاری فیلترها در مودال
-const filterModal = document.getElementById('filterModal');
-let currentSelectedCategory = 'all';
+                            });
+                            autocompleteResults.innerHTML = html;
+                            autocompleteResults.style.display = 'block';
+                        } else {
+                            autocompleteResults.innerHTML = '<div class="autocomplete-item text-muted text-center">نتیجه‌ای یافت نشد</div>';
+                            autocompleteResults.style.display = 'block';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        searchLoading.style.display = 'none';
+                    });
+            }, 300);
+        });
 
-if (filterModal) {
-    filterModal.addEventListener('show.bs.modal', function() {
-        // دریافت دسته‌بندی جاری از URL یا انتخاب پیش‌فرض
-        const urlCategory = new URLSearchParams(window.location.search).get('category') || 'all';
-        const categorySelect = document.getElementById('filter-category');
-        if (categorySelect) {
-            categorySelect.value = urlCategory;
-            currentSelectedCategory = urlCategory;
-        }
-        loadFilters(currentSelectedCategory);
-    });
-}
+        // مخفی کردن autocomplete هنگام کلیک خارج
+        document.addEventListener('click', function (e) {
+            if (!searchInput.contains(e.target) && !autocompleteResults.contains(e.target)) {
+                autocompleteResults.style.display = 'none';
+            }
+        });
+    }
 
-//监听 دسته‌بندی تغییر کند
-const categorySelect = document.getElementById('filter-category');
-if (categorySelect) {
-    categorySelect.addEventListener('change', function() {
-        currentSelectedCategory = this.value;
-        loadFilters(currentSelectedCategory);
-    });
-}
+    // بارگذاری فیلترها در مودال
+    const filterModal = document.getElementById('filterModal');
+    let currentSelectedCategory = 'all';
 
-function loadFilters(category) {
-    const dynamicFilters = document.getElementById('dynamic-filters');
-    if (!dynamicFilters) return;
-    
-    dynamicFilters.innerHTML = `
+    if (filterModal) {
+        filterModal.addEventListener('show.bs.modal', function () {
+            // دریافت دسته‌بندی جاری از URL یا انتخاب پیش‌فرض
+            const urlCategory = new URLSearchParams(window.location.search).get('category') || 'all';
+            const categorySelect = document.getElementById('filter-category');
+            if (categorySelect) {
+                categorySelect.value = urlCategory;
+                currentSelectedCategory = urlCategory;
+            }
+            loadFilters(currentSelectedCategory);
+        });
+    }
+
+    //监听 دسته‌بندی تغییر کند
+    const categorySelect = document.getElementById('filter-category');
+    if (categorySelect) {
+        categorySelect.addEventListener('change', function () {
+            currentSelectedCategory = this.value;
+            loadFilters(currentSelectedCategory);
+        });
+    }
+
+    function loadFilters(category) {
+        const dynamicFilters = document.getElementById('dynamic-filters');
+        if (!dynamicFilters) return;
+
+        dynamicFilters.innerHTML = `
         <div class="text-center py-4">
             <div class="spinner-border text-primary" role="status">
                 <span class="visually-hidden">Loading...</span>
@@ -665,16 +710,16 @@ function loadFilters(category) {
             <p class="mt-2 text-muted">در حال بارگذاری فیلترهای ${getCategoryName(category)}...</p>
         </div>
     `;
-    
-    // دریافت فیلترها از API
-    fetch(`/search/filters/?category=${encodeURIComponent(category)}`)
-        .then(response => response.json())
-        .then(data => {
-            let html = '';
-            
-            // فیلتر برندها
-            if (data.brands && data.brands.length > 0) {
-                html += `
+
+        // دریافت فیلترها از API
+        fetch(`/search/filters/?category=${encodeURIComponent(category)}`)
+            .then(response => response.json())
+            .then(data => {
+                let html = '';
+
+                // فیلتر برندها
+                if (data.brands && data.brands.length > 0) {
+                    html += `
                     <div class="mb-4">
                         <label class="form-label fw-bold">برندها (${data.brands.length})</label>
                         <div class="filter-group" data-filter-type="brands" style="max-height: 200px; overflow-y: auto;">
@@ -690,17 +735,17 @@ function loadFilters(category) {
                         </div>
                     </div>
                 `;
-            } else {
-                html += `
+                } else {
+                    html += `
                     <div class="alert alert-info">
                         <i class="fas fa-info-circle me-2"></i>
                         هیچ برندی برای این دسته‌بندی یافت نشد.
                     </div>
                 `;
-            }
-            
-            // محدوده قیمت
-            html += `
+                }
+
+                // محدوده قیمت
+                html += `
                 <div class="mb-4">
                     <label class="form-label fw-bold">محدوده قیمت (تومان)</label>
                     <div class="row g-2">
@@ -715,144 +760,144 @@ function loadFilters(category) {
                     </div>
                 </div>
             `;
-            
-            // فیلترهای اختصاصی دسته‌بندی
-            if (data.specific_filters) {
-                html += data.specific_filters;
+
+                // فیلترهای اختصاصی دسته‌بندی
+                if (data.specific_filters) {
+                    html += data.specific_filters;
+                }
+
+                dynamicFilters.innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error loading filters:', error);
+                dynamicFilters.innerHTML = '<div class="alert alert-danger">خطا در بارگذاری فیلترها</div>';
+            });
+    }
+
+    function getCategoryName(category) {
+        const names = {
+            'all': 'همه دسته‌ها',
+            'laptops': 'لپ‌تاپ‌ها',
+            'monitors': 'مانیتورها',
+            'keyboards': 'کیبوردها',
+            'mice': 'ماوس‌ها',
+            'cpus': 'پردازنده‌ها',
+            'graphics_cards': 'کارت‌های گرافیک',
+            'motherboards': 'مادربوردها',
+            'ssds': 'SSDها',
+            'cases': 'کیس‌ها'
+        };
+        return names[category] || category;
+    }
+
+    // اعمال فیلترها
+    const applyFiltersBtn = document.getElementById('apply-filters');
+    if (applyFiltersBtn) {
+        applyFiltersBtn.addEventListener('click', function () {
+            const currentUrl = new URL(window.location.href);
+            const params = new URLSearchParams(currentUrl.search);
+
+            // دریافت دسته‌بندی انتخاب شده
+            const selectedCategory = document.getElementById('filter-category')?.value;
+            if (selectedCategory && selectedCategory !== 'all') {
+                params.set('category', selectedCategory);
+            } else {
+                params.delete('category');
             }
-            
-            dynamicFilters.innerHTML = html;
-        })
-        .catch(error => {
-            console.error('Error loading filters:', error);
-            dynamicFilters.innerHTML = '<div class="alert alert-danger">خطا در بارگذاری فیلترها</div>';
-        });
-}
 
-function getCategoryName(category) {
-    const names = {
-        'all': 'همه دسته‌ها',
-        'laptops': 'لپ‌تاپ‌ها',
-        'monitors': 'مانیتورها',
-        'keyboards': 'کیبوردها',
-        'mice': 'ماوس‌ها',
-        'cpus': 'پردازنده‌ها',
-        'graphics_cards': 'کارت‌های گرافیک',
-        'motherboards': 'مادربوردها',
-        'ssds': 'SSDها',
-        'cases': 'کیس‌ها'
-    };
-    return names[category] || category;
-}
+            // دریافت قیمت
+            const minPrice = document.getElementById('min-price')?.value;
+            const maxPrice = document.getElementById('max-price')?.value;
 
-// اعمال فیلترها
-const applyFiltersBtn = document.getElementById('apply-filters');
-if (applyFiltersBtn) {
-    applyFiltersBtn.addEventListener('click', function() {
-        const currentUrl = new URL(window.location.href);
-        const params = new URLSearchParams(currentUrl.search);
-        
-        // دریافت دسته‌بندی انتخاب شده
-        const selectedCategory = document.getElementById('filter-category')?.value;
-        if (selectedCategory && selectedCategory !== 'all') {
-            params.set('category', selectedCategory);
-        } else {
-            params.delete('category');
-        }
-        
-        // دریافت قیمت
-        const minPrice = document.getElementById('min-price')?.value;
-        const maxPrice = document.getElementById('max-price')?.value;
-        
-        if (minPrice) params.set('min_price', minPrice);
-        else params.delete('min_price');
-        
-        if (maxPrice) params.set('max_price', maxPrice);
-        else params.delete('max_price');
-        
-        // دریافت برندهای انتخاب شده
-        const selectedBrands = [];
-        document.querySelectorAll('.filter-checkbox:checked').forEach(cb => {
-            selectedBrands.push(cb.value);
+            if (minPrice) params.set('min_price', minPrice);
+            else params.delete('min_price');
+
+            if (maxPrice) params.set('max_price', maxPrice);
+            else params.delete('max_price');
+
+            // دریافت برندهای انتخاب شده
+            const selectedBrands = [];
+            document.querySelectorAll('.filter-checkbox:checked').forEach(cb => {
+                selectedBrands.push(cb.value);
+            });
+
+            if (selectedBrands.length > 0) {
+                params.delete('brands');
+                selectedBrands.forEach(brand => params.append('brands', brand));
+            } else {
+                params.delete('brands');
+            }
+
+            // بازنشانی صفحه به 1
+            params.set('page', '1');
+
+            // هدایت به آدرس جدید
+            window.location.href = `${currentUrl.pathname}?${params.toString()}`;
         });
-        
-        if (selectedBrands.length > 0) {
-            params.delete('brands');
-            selectedBrands.forEach(brand => params.append('brands', brand));
-        } else {
-            params.delete('brands');
-        }
-        
-        // بازنشانی صفحه به 1
-        params.set('page', '1');
-        
-        // هدایت به آدرس جدید
-        window.location.href = `${currentUrl.pathname}?${params.toString()}`;
-    });
-}
-        
-        // توابع کمکی
-        function escapeHtml(text) {
-            if (!text) return '';
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-        
-        function formatPrice(price) {
-            return new Intl.NumberFormat('fa-IR').format(price);
-        }
-        
-        function getUrlParam(param) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(param);
-        }
-        
-        // نمایش Toastify برای پیام‌ها
-        function showToast(message, type = 'success') {
-            Toastify({
-                text: message,
-                duration: 3000,
-                gravity: "top",
-                position: "center",
-                backgroundColor: type === 'success' ? "#28a745" : "#dc3545",
-            }).showToast();
-        }
-        
-        // ذخیره تاریخچه جستجو در localStorage (اختیاری)
-        function saveSearchHistory(query) {
-            if (!query || query.length < 2) return;
-            
-            let history = JSON.parse(localStorage.getItem('search_history') || '[]');
-            history = [query, ...history.filter(h => h !== query)].slice(0, 10);
-            localStorage.setItem('search_history', JSON.stringify(history));
-        }
-        
-        // نمایش تاریخچه جستجو در autocomplete
-        function showSearchHistory() {
-            const history = JSON.parse(localStorage.getItem('search_history') || '[]');
-            if (history.length > 0 && searchInput.value.length === 0) {
-                let html = '<div class="autocomplete-item text-muted small px-3 py-2">جستجوهای اخیر:</div>';
-                history.forEach(term => {
-                    html += `
+    }
+
+    // توابع کمکی
+    function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    function formatPrice(price) {
+        return new Intl.NumberFormat('fa-IR').format(price);
+    }
+
+    function getUrlParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+    // نمایش Toastify برای پیام‌ها
+    function showToast(message, type = 'success') {
+        Toastify({
+            text: message,
+            duration: 3000,
+            gravity: "top",
+            position: "center",
+            backgroundColor: type === 'success' ? "#28a745" : "#dc3545",
+        }).showToast();
+    }
+
+    // ذخیره تاریخچه جستجو در localStorage (اختیاری)
+    function saveSearchHistory(query) {
+        if (!query || query.length < 2) return;
+
+        let history = JSON.parse(localStorage.getItem('search_history') || '[]');
+        history = [query, ...history.filter(h => h !== query)].slice(0, 10);
+        localStorage.setItem('search_history', JSON.stringify(history));
+    }
+
+    // نمایش تاریخچه جستجو در autocomplete
+    function showSearchHistory() {
+        const history = JSON.parse(localStorage.getItem('search_history') || '[]');
+        if (history.length > 0 && searchInput.value.length === 0) {
+            let html = '<div class="autocomplete-item text-muted small px-3 py-2">جستجوهای اخیر:</div>';
+            history.forEach(term => {
+                html += `
                         <div class="autocomplete-item" onclick="document.getElementById('search-input').value='${escapeHtml(term)}'; document.getElementById('search-form').submit();">
                             <i class="fas fa-history me-2 text-muted"></i> ${escapeHtml(term)}
                         </div>
                     `;
-                });
-                autocompleteResults.innerHTML = html;
-                autocompleteResults.style.display = 'block';
-            }
-        }
-        
-        // اضافه کردن event listener برای focus روی input
-        if (searchInput) {
-            searchInput.addEventListener('focus', function() {
-                if (this.value.length === 0) {
-                    showSearchHistory();
-                }
             });
+            autocompleteResults.innerHTML = html;
+            autocompleteResults.style.display = 'block';
         }
+    }
+
+    // اضافه کردن event listener برای focus روی input
+    if (searchInput) {
+        searchInput.addEventListener('focus', function () {
+            if (this.value.length === 0) {
+                showSearchHistory();
+            }
+        });
+    }
 
     {% block scripts %}{% endblock scripts %}
 
