@@ -40,7 +40,7 @@
                                         <span class="badge bg-info">{{ ticket.get_status_display }}</span>
                                     {% endif %}
                                 </td>
-                                <td>{{ ticket.datetime_updated|jformat:'%Y/%m/%d  HH:MM'|pn }}</td>
+                                <td>{{ ticket.datetime_updated|jformat:'%Y/%m/%d  %H:%M'|pn }}</td>
                                 <td>
                                     <a href="{% url 'ticket_detail' ticket.id %}"
                                        class="btn btn-sm btn-info text-white">
